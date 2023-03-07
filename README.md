@@ -1,16 +1,31 @@
-# eqlibrum
+# Proyecto fin de ciclo DAW - App EQlibrum
 
-A new Flutter project.
 
-## Getting Started
+## Sobre el proyecto
 
-This project is a starting point for a Flutter application.
+El siguiente proyecto consiste en el desarrollo de una aplicación multiplataforma que conecte servicios profesionales de salud mental y pacientes de forma virtual.
 
-A few resources to get you started if this is your first Flutter project:
+La aplicación se desarrollara mediante el Framework Flutter y usaremos la base de datos Firebase y otros servicios como Auth Realtiem Engine.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Software utilizado a la hora de desarrollar el proyecto
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Tratamiento de las imágene
+
+## USO
+
+## Enlaces del proyecto
+
+ 1. Fase de análisis
+ 2. Fase de Diseño
+ 3. Códificación
+ 4. Pruebas
+ 
+## Licencia
+
+[Licencía MIT](https://github.com/ayosefiguera/miTFG/blob/main/LICENSE)
+
+## Autor
+ Este proyecto hia sido creado y desarrollado por Ayose Figuera Alfonso.
+ 
+
+
