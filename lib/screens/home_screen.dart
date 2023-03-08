@@ -139,9 +139,8 @@ class HomeScreen extends StatelessWidget {
                     IconButton(onPressed: () {}, icon: Icon(Icons.search))
                   ],
                 ),
-
-                //TODO: Silder de médicos.
-                //DoctorTiles()
+                //TODO Cambiar ppr un slider
+                PsychoTiles(),
               ],
             ),
           ),

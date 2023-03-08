@@ -4,12 +4,10 @@ import 'package:eqlibrum/themes/themes.dart';
 class SingFormsContainer extends StatelessWidget {
   Widget child;
   String title;
+  String? name;
 
-  SingFormsContainer({
-    super.key,
-    required this.child,
-    required this.title
-  });
+  SingFormsContainer(
+      {super.key, required this.child, required this.title, this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +26,17 @@ class SingFormsContainer extends StatelessWidget {
             this.title,
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'Nombre S. Apellido',
-                  style: TextStyle(fontSize: 18),
-                ),
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.grey,
-                )
-              ]),
+          if (name?.isNotEmpty ?? false)
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text(
+                name!,
+                style: TextStyle(fontSize: 18),
+              ),
+              CircleAvatar(
+                radius: 35,
+                backgroundColor: Colors.grey,
+              )
+            ]),
           this.child,
           const SizedBox(
             height: 50,

@@ -16,7 +16,7 @@ class BottonNavContainer extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
-              //Navigator.pushNamed(context, 'search');
+              Navigator.pushNamed(context, 'search');
               break;
             case 1:
               Navigator.pushNamed(context, 'home');

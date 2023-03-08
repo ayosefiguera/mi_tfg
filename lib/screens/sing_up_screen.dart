@@ -10,21 +10,25 @@ class SingUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-              top: 150,
-              child: SizedBox(
-                width: 200,
-                child: Image(image: AssetImage('assets/eqlibrum_logo.png')),
-              )),
-          Positioned(
-            bottom: 0,
-            child:
-                SingFormsContainer(title: 'New Account', child: _SingInForm()),
-          )
-        ],
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+                top: 150,
+                child: SizedBox(
+                  width: 200,
+                  child: Image(image: AssetImage('assets/eqlibrum_logo.png')),
+                )),
+            Positioned(
+              bottom: 0,
+              child:
+                  SingFormsContainer(title: 'New Account', child: _SingInForm()),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -93,8 +97,8 @@ class _SingInForm extends StatelessWidget {
               minWidth: double.infinity,
               color: AppTheme.primary,
               elevation: 0,
-              padding: EdgeInsets.symmetric(vertical: 10),
-              shape: StadiumBorder(),
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              shape: const StadiumBorder(),
               onPressed: () {
                 Navigator.pushNamed(context, 'home');
               },

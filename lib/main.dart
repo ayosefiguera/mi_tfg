@@ -26,7 +26,7 @@ class Eqlibrum extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Mqlibrum',
+      title: 'EQlibrum',
       initialRoute: AppRoutes.initialRoute,
       theme: AppTheme.baseTheme,
       routes: AppRoutes.appRoutes,

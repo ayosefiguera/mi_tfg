@@ -24,8 +24,11 @@ class SingInScreen extends StatelessWidget {
                 )),
             Positioned(
               bottom: 0,
-              child:
-                  SingFormsContainer(title: 'Wellcome back', child: _SingInForm()),
+              child: SingFormsContainer(
+                title: 'Wellcome back',
+                child: _SingInForm(),
+                name: 'Ursula Downs',
+              ),
             )
           ],
         ),
