@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class bottomNavigator extends StatelessWidget {
+class BottonNavContainer extends StatelessWidget {
   int currentIndex;
 
-  bottomNavigator({
+  BottonNavContainer({
     super.key,
     this.currentIndex = 1,
   });
@@ -31,7 +31,7 @@ class bottomNavigator extends StatelessWidget {
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month_outlined), label: 'schelude'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.mark_email_unread_outlined), label: 'message'),
+              icon: Icon(Icons.mark_email_unread_outlined), label: 'notify'),
         ]);
   }
 }
