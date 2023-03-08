@@ -1,4 +1,3 @@
-import 'package:eqlibrum/screens/psycho_search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/screens/screens.dart';
 
@@ -12,5 +11,8 @@ class AppRoutes {
     'home': (context) => const HomeScreen(),
     'detail': (context) => const PsychoDetailScreen(),
     'search': (context) => const SearchPsychoScreen(),
+    //'schelude': (context) => const SearchPsychoScreen(),
+    //'notify': (context) => const SearchPsychoScreen(),
+    'profile': (context) => const SettingsScreen(),
   };
 }

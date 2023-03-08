@@ -11,7 +11,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: Text('Welcome, Alberto'), actions: <Widget>[
           //TODO Create Hero profile.
-          IconButton(onPressed: () {}, icon: Icon(Icons.person))
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'profile');
+              },
+              icon: Icon(Icons.person))
         ]),
         bottomNavigationBar: BottonNavContainer(
           currentIndex: 1,
