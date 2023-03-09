@@ -41,10 +41,12 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.indigo.shade900,
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'See all',
-                      style: TextStyle(
-                          color: AppTheme.primary, fontWeight: FontWeight.bold),
+                    ElevatedButton(
+                      onPressed: () => Navigator.pushNamed(context, 'schelude'),
+                      child: Text(
+                        'See all',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     )
                   ],
                 ),

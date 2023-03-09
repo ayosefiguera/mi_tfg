@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/routers/app_router.dart';
 import 'package:eqlibrum/themes/themes.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 //import 'package:provider/provider.dart';
 
-void main() => runApp(const Eqlibrum());
+//void main() => runApp(const Eqlibrum());
+void main() {
+  initializeDateFormatting().then((_) => runApp(Eqlibrum()));
+}
 
 /**
 class AppState extends StatelessWidget {

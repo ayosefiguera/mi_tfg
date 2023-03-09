@@ -21,6 +21,12 @@ class BottonNavContainer extends StatelessWidget {
             case 1:
               Navigator.pushNamed(context, 'home');
               break;
+            case 2:
+              Navigator.pushNamed(context, 'schelude');
+              break;
+            case 3:
+              Navigator.pushNamed(context, 'notify');
+              break;
           }
         },
         type: BottomNavigationBarType.fixed, // needed for 4 or more icons

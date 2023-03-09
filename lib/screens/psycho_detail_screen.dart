@@ -6,7 +6,6 @@ class PsychoDetailScreen extends StatelessWidget {
   const PsychoDetailScreen({Key? key}) : super(key: key);
 
   @override
-  @override
   Widget build(BuildContext context) {
     //TODO theme
     return Scaffold(

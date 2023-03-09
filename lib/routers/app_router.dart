@@ -11,8 +11,8 @@ class AppRoutes {
     'home': (context) => const HomeScreen(),
     'detail': (context) => const PsychoDetailScreen(),
     'search': (context) => const SearchPsychoScreen(),
-    //'schelude': (context) => const SearchPsychoScreen(),
-    //'notify': (context) => const SearchPsychoScreen(),
+    'schelude': (context) => const ScheludeScreen(),
+    'notify': (context) => const NotifyListScreen(),
     'profile': (context) => const SettingsScreen(),
   };
 }

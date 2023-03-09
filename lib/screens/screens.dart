@@ -1,3 +1,7 @@
+export 'package:eqlibrum/screens/notify_list_screen.dart';
+
+export 'package:eqlibrum/screens/schelude_screen.dart';
+
 export 'package:eqlibrum/screens/settings_screen.dart';
 
 export 'package:eqlibrum/screens/psycho_detail_screen.dart';
