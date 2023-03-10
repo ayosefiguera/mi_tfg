@@ -2,8 +2,8 @@ import 'package:eqlibrum/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/themes/themes.dart';
 
-class PsychoDetailScreen extends StatelessWidget {
-  const PsychoDetailScreen({Key? key}) : super(key: key);
+class PsychologistDetailScreen extends StatelessWidget {
+  const PsychologistDetailScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

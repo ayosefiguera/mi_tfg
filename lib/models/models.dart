@@ -1,0 +1,1 @@
+export 'package:eqlibrum/models/psychologist_model.dart';

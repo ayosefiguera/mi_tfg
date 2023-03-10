@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/screens/screens.dart';
 
-class PsychoTiles extends StatelessWidget {
-  const PsychoTiles({super.key});
+class PsychologistTiles extends StatelessWidget {
+  const PsychologistTiles({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,8 @@ class PsychoTiles extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const PsychoDetailScreen()));
+                        builder: (context) =>
+                            const PsychologistDetailScreen()));
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 10),

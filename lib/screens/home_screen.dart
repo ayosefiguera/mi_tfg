@@ -146,7 +146,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 //TODO Cambiar ppr un slider
-                PsychoTiles(),
+                PsychologistTiles(),
               ],
             ),
           ),

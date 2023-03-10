@@ -2,8 +2,8 @@ import 'package:eqlibrum/widgets/botton_nav_container.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/widgets/widgets.dart';
 
-class SearchPsychoScreen extends StatelessWidget {
-  const SearchPsychoScreen({super.key});
+class SearchPsychologistScreen extends StatelessWidget {
+  const SearchPsychologistScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class SearchPsychoScreen extends StatelessWidget {
         bottomNavigationBar: BottonNavContainer(currentIndex: 0),
         body: Container(
           color: Color.fromARGB(255, 190, 190, 190),
-          child: const PsychoTiles(),
+          child: const PsychologistTiles(),
         ));
   }
 }
