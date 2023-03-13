@@ -8,20 +8,14 @@ class SearchPsychologistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Welcome, {UserName}'), actions: <Widget>[
-          //TODO Create Hero profile.
+        appBar: AppBar(title: const Text('Welcome, {UserName}'), actions: <Widget>[
           IconButton(onPressed: () {}, icon: Icon(Icons.person))
         ]),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            //TODO Add navigation to phone jitsi room.
-          },
+          onPressed: () {},
           child: const Icon(Icons.phone),
         ),
         bottomNavigationBar: BottonNavContainer(currentIndex: 0),
-        body: Container(
-          color: Color.fromARGB(255, 190, 190, 190),
-          child: const PsychologistTiles(),
-        ));
+        body: const PsychologistTiles());
   }
 }

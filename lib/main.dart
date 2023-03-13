@@ -1,27 +1,28 @@
+import 'package:eqlibrum/services/psychologist_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/routers/app_router.dart';
 import 'package:eqlibrum/themes/themes.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-//import 'package:provider/provider.dart';
+import 'package:provider/provider.dart';
 
 //void main() => runApp(const Eqlibrum());
 void main() {
-  initializeDateFormatting().then((_) => runApp(Eqlibrum()));
+  initializeDateFormatting().then((_) => runApp(AppState()));
 }
 
-/**
 class AppState extends StatelessWidget {
   const AppState({super.key});
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [], //Los providers o controlladores se iniciara aqui.
+      providers: [
+        ChangeNotifierProvider(create: (_) => PsychologistService())
+      ], //Los providers o controlladores se iniciara aqui.
       child: const Eqlibrum(),
     );
   }
 }
-*/
 
 class Eqlibrum extends StatelessWidget {
   const Eqlibrum({super.key});

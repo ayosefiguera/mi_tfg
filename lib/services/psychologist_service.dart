@@ -5,11 +5,18 @@ import 'package:eqlibrum/apis/api_key.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 
+/**
+ * This class is a controller of psychologist
+ * 
+ * extends from ChangeNotifier servicing all data to diferent part of
+ * the app.
+ */
+
 class PsychologistService extends ChangeNotifier {
   final String _baseUrl = FirebaseData.url;
-  final List<Psychologist> products = [];
+  final List<Psychologist> psychologists = [];
   File? newPictureFile;
-  late Psychologist selecteProduct;
+  late Psychologist selectepsychologist;
 
   bool isLoading = false;
   bool isSaving = false;
@@ -18,22 +25,27 @@ class PsychologistService extends ChangeNotifier {
     loadPsychologist();
   }
 
+  /**
+   * LoadPsycgologist loars a list of psychologist from the database.
+   * return List of psychologist
+   */
+  
   Future<List<Psychologist>> loadPsychologist() async {
     isLoading = true;
     notifyListeners();
 
     final url = Uri.https(_baseUrl, 'psychologist.json');
     final response = await http.get(url);
-    final Map<String, dynamic> productMap = json.decode(response.body);
-    productMap.forEach((key, value) {
-      final tempProduct = Psychologist.fromMap(value);
-      tempProduct.id = key;
-      products.add(tempProduct);
+    final Map<String, dynamic> psychologistMap = json.decode(response.body);
+    psychologistMap.forEach((key, value) {
+      final tempPsychologist = Psychologist.fromMap(value);
+      tempPsychologist.id = key;
+      psychologists.add(tempPsychologist);
     });
 
     isLoading = false;
     notifyListeners();
 
-    return products;
+    return psychologists;
   }
 }

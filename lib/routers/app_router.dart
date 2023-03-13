@@ -9,7 +9,6 @@ class AppRoutes {
     'singin': (context) => const SingInScreen(),
     'singup': (context) => const SingUpScreen(),
     'home': (context) => const HomeScreen(),
-    'detail': (context) => const PsychologistDetailScreen(),
     'search': (context) => const SearchPsychologistScreen(),
     'schelude': (context) => const ScheludeScreen(),
     'notify': (context) => const NotifyListScreen(),
