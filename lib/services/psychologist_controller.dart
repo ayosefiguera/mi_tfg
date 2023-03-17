@@ -11,14 +11,14 @@ import 'dart:convert' show json;
  * the app.
  */
 
-class PsychologistService extends ChangeNotifier {
+class PsychologistController extends ChangeNotifier {
   final String _baseUrl = FirebaseData.url;
   final List<Psychologist> psychologists = [];
 
   bool isLoading = false;
   bool isSaving = false;
 
-  PsychologistService() {
+  PsychologistController() {
     loadPsychologist();
   }
 

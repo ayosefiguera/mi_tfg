@@ -1,14 +1,14 @@
-import 'package:eqlibrum/services/psychologist_service.dart';
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/routers/app_router.dart';
-import 'package:eqlibrum/themes/themes.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
-//void main() => runApp(const Eqlibrum());
+import 'package:eqlibrum/routers/app_router.dart';
+import 'package:eqlibrum/services/services.dart';
+import 'package:eqlibrum/themes/themes.dart';
+
 void main() {
-  initializeDateFormatting().then((_) => runApp(AppState()));
+  initializeDateFormatting().then((_) => runApp(const AppState()));
 }
 
 class AppState extends StatelessWidget {
@@ -17,8 +17,9 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PsychologistService())
-      ], //Los providers o controlladores se iniciara aqui.
+        ChangeNotifierProvider(create: (_) => PsychologistController()),
+        ChangeNotifierProvider(create: (_) => AppointmentController()),
+      ],
       child: const Eqlibrum(),
     );
   }
