@@ -1,48 +1,67 @@
-import 'package:eqlibrum/widgets/botton_nav_container.dart';
-import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
-import 'package:eqlibrum/utils/utils.dart';
-
 import 'package:eqlibrum/themes/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart' show Provider;
+
+import 'package:eqlibrum/services/services.dart' show AppointmentController;
+import 'package:eqlibrum/models/models.dart';
+
+import 'package:table_calendar/table_calendar.dart';
+
+import 'package:eqlibrum/utils/utils.dart';
+import '../widgets/botton_nav_container.dart';
 
 class ScheludeScreen extends StatelessWidget {
-  const ScheludeScreen({Key? key}) : super(key: key);
+  const ScheludeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appointments = Provider.of<AppointmentController>(context);
+
     return Scaffold(
-      bottomNavigationBar: BottonNavContainer(currentIndex: 2),
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: TableEventsExample(),
+      appBar: AppBar(title: Text('Welcome, {user}')),
+      bottomNavigationBar: BottonNavContainer(
+        currentIndex: 2,
       ),
+      body: appointments.isLoading
+          ? const Center(
+              child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: CircularProgressIndicator(
+                    color: AppTheme.primary,
+                  )),
+            )
+          : TabletAppointment(appointments: appointments),
     );
   }
 }
 
-class TableEventsExample extends StatefulWidget {
+class TabletAppointment extends StatefulWidget {
+  TabletAppointment({super.key, required this.appointments});
+  AppointmentController appointments;
+
   @override
-  _TableEventsExampleState createState() => _TableEventsExampleState();
+  _TabletAppointmentState createState() =>
+      _TabletAppointmentState(appointments: appointments);
 }
 
-class _TableEventsExampleState extends State<TableEventsExample> {
-  late final ValueNotifier<List<Event>> _selectedEvents;
+class _TabletAppointmentState extends State<TabletAppointment> {
+  AppointmentController appointments;
+
+  _TabletAppointmentState({required this.appointments});
+
+  late ValueNotifier<List<Appointment>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  RangeSelectionMode _rangeSelectionMode = RangeSelectionMode
-      .toggledOff; // Can be toggled on/off by longpressing a date
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  DateTime? _rangeStart;
-  DateTime? _rangeEnd;
+
+  DateTime _focusedDay = kToday;
+  DateTime? _selectedDay = kToday;
 
   @override
   void initState() {
     super.initState();
-
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
+    _selectedEvents =
+        ValueNotifier(appointments.getEventsForDay(_selectedDay!));
   }
 
   @override
@@ -51,118 +70,115 @@ class _TableEventsExampleState extends State<TableEventsExample> {
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
-    return kEvents[day] ?? [];
-  }
-
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
-    final days = daysInRange(start, end);
-
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
-  }
-
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
+  void _onDaySelected(DateTime seletedDay, DateTime focusedDay) {
+    if (!isSameDay(_selectedDay, seletedDay)) {
       setState(() {
-        _selectedDay = selectedDay;
+        _selectedDay = seletedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
-        _rangeEnd = null;
-        _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
 
-      _selectedEvents.value = _getEventsForDay(selectedDay);
-    }
-  }
-
-  void _onRangeSelected(DateTime? start, DateTime? end, DateTime focusedDay) {
-    setState(() {
-      _selectedDay = null;
-      _focusedDay = focusedDay;
-      _rangeStart = start;
-      _rangeEnd = end;
-      _rangeSelectionMode = RangeSelectionMode.toggledOn;
-    });
-
-    // `start` or `end` could be null
-    if (start != null && end != null) {
-      _selectedEvents.value = _getEventsForRange(start, end);
-    } else if (start != null) {
-      _selectedEvents.value = _getEventsForDay(start);
-    } else if (end != null) {
-      _selectedEvents.value = _getEventsForDay(end);
+      _selectedEvents.value = appointments.getEventsForDay(seletedDay);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TableCalendar - Events'),
-      ),
-      body: Column(
+    return SizedBox(
+      height: double.infinity,
+      width: double.infinity,
+      child: Column(
         children: [
-          TableCalendar<Event>(
+          TableCalendar<Appointment>(
+            focusedDay: _focusedDay,
             firstDay: kFirstDay,
             lastDay: kLastDay,
-            focusedDay: _focusedDay,
-            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-            rangeStartDay: _rangeStart,
-            rangeEndDay: _rangeEnd,
             calendarFormat: _calendarFormat,
-            rangeSelectionMode: _rangeSelectionMode,
-            eventLoader: _getEventsForDay,
             startingDayOfWeek: StartingDayOfWeek.monday,
-            calendarStyle: CalendarStyle(
-              // Use `CalendarStyle` to customize the UI
-              outsideDaysVisible: false,
-            ),
+            calendarStyle: const CalendarStyle(outsideDaysVisible: false),
+            eventLoader: appointments.getEventsForDay,
+            selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: _onDaySelected,
-            onRangeSelected: _onRangeSelected,
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
+            onFormatChanged: (format) => {
+              if (_calendarFormat != format)
+                {
+                  setState(() {
+                    _calendarFormat = format;
+                  })
+                }
             },
             onPageChanged: (focusedDay) {
               _focusedDay = focusedDay;
             },
           ),
-          const SizedBox(height: 8.0),
-          Expanded(
-            child: ValueListenableBuilder<List<Event>>(
-              valueListenable: _selectedEvents,
-              builder: (context, value, _) {
-                return ListView.builder(
-                  itemCount: value.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(),
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      child: ListTile(
-                        onTap: () => print('${value[index]}'),
-                        title: Text('${value[index]}'),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
+          const SizedBox(
+            height: 12,
           ),
+          const Text(
+            "Appointments",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Expanded(
+              child: ValueListenableBuilder<List<Appointment>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return _AppointmentCard(appointment: value[index]);
+                },
+              );
+            },
+          ))
         ],
       ),
     );
+  }
+}
+
+class _AppointmentCard extends StatelessWidget {
+  const _AppointmentCard({required this.appointment});
+  final Appointment appointment;
+
+  @override
+  Widget build(BuildContext context) {
+    Color statusColor = appointment.status! ? AppTheme.primary : Colors.black54;
+
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+                color: statusColor, style: BorderStyle.solid, width: 2)),
+        child: Row(
+          children: [
+            const Icon(
+              Icons.access_time_outlined,
+              color: Colors.black54,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              "${appointment.date_Key.day}:${appointment.date_Key.minute}",
+              style: const TextStyle(color: Colors.black54),
+            ),
+            const SizedBox(
+              width: 18,
+            ),
+            Column(
+              children: [
+                Text(
+                  appointment.title,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
+          ],
+        ));
   }
 }

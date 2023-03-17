@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/models/models.dart' show Psychologist;
 import 'package:eqlibrum/apis/api_key.dart';
@@ -15,8 +14,6 @@ import 'dart:convert' show json;
 class PsychologistService extends ChangeNotifier {
   final String _baseUrl = FirebaseData.url;
   final List<Psychologist> psychologists = [];
-  File? newPictureFile;
-  late Psychologist selectepsychologist;
 
   bool isLoading = false;
   bool isSaving = false;
