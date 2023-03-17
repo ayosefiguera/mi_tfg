@@ -19,7 +19,7 @@ class LoginsScreen extends StatelessWidget {
               ),
               const SizedBox(
                 width: 200,
-                child: Image(image: AssetImage('assets/eqlibrum_logo.png')),
+                child: Image(image: AssetImage('assets/logo.png')),
               ),
               const SizedBox(
                 height: 200,

@@ -20,12 +20,12 @@ class SingUpScreen extends StatelessWidget {
                 top: 150,
                 child: SizedBox(
                   width: 200,
-                  child: Image(image: AssetImage('assets/eqlibrum_logo.png')),
+                  child: Image(image: AssetImage('assets/logoW.png')),
                 )),
             Positioned(
               bottom: 0,
-              child:
-                  SingFormsContainer(title: 'New Account', child: _SingInForm()),
+              child: SingFormsContainer(
+                  title: 'New Account', child: _SingInForm()),
             )
           ],
         ),

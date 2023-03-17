@@ -20,7 +20,7 @@ class SingInScreen extends StatelessWidget {
                 top: 200,
                 child: SizedBox(
                   width: 200,
-                  child: Image(image: AssetImage('assets/eqlibrum_logo.png')),
+                  child: Image(image: AssetImage('assets/logoW.png')),
                 )),
             Positioned(
               bottom: 0,
@@ -49,8 +49,7 @@ class _SingInForm extends StatelessWidget {
         TextFormField(
           obscureText: true,
           autocorrect: false,
-          autofocus: true,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
               prefixIconColor: AppTheme.primary,
               prefixIcon: Icon(Icons.lock_outline_sharp),
               labelText: 'Password',
