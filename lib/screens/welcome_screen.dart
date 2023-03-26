@@ -1,8 +1,8 @@
 import 'package:eqlibrum/themes/themes.dart';
 import 'package:flutter/material.dart';
 
-class LoginsScreen extends StatelessWidget {
-  const LoginsScreen({Key? key}) : super(key: key);
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class LoginsScreen extends StatelessWidget {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'singin');
+                        Navigator.pushReplacementNamed(context, 'login');
                       },
                       child: const Text('Sing in')),
                   const SizedBox(
@@ -36,7 +36,7 @@ class LoginsScreen extends StatelessWidget {
                   ),
                   OutlinedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, 'singup');
+                        Navigator.pushReplacementNamed(context, 'register');
                       },
                       child: const Text('Sing up')),
                 ],

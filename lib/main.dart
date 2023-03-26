@@ -1,7 +1,9 @@
+import 'package:eqlibrum/providers/providers.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:eqlibrum/routers/app_router.dart';
 import 'package:eqlibrum/services/services.dart';
@@ -19,6 +21,8 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => PsychologistController()),
         ChangeNotifierProvider(create: (_) => AppointmentController()),
+        ChangeNotifierProvider(create: (_)=> AuthService()),
+        ChangeNotifierProvider(create: (_)=> LoginFormProvider()),
       ],
       child: const Eqlibrum(),
     );

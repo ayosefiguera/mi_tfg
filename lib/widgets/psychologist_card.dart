@@ -43,7 +43,6 @@ class PsychologistCard extends StatelessWidget {
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  //#TODO add to models.
                   psychologist.summary ??= "",
                   style: const TextStyle(fontSize: 14),
                 ),
