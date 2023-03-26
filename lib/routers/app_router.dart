@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:eqlibrum/screens/screens.dart';
 
 class AppRoutes {
-  static const initialRoute = 'login';
+  static const initialRoute = 'welcome';
 
   static Map<String, Widget Function(BuildContext)> appRoutes = {
-    'login': (context) => const LoginsScreen(),
-    'singin': (context) => const SingInScreen(),
-    'singup': (context) => const SingUpScreen(),
+    'welcome': (context) => const WelcomeScreen(),
+    'login': (context) => const LoginScreen(),
+    'register': (context) => const RegisterScreen(),
     'home': (context) => const HomeScreen(),
     'search': (context) => const SearchPsychologistScreen(),
     'schelude': (context) => const ScheludeScreen(),
