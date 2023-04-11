@@ -1,3 +1,4 @@
+import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: SizedBox(
@@ -29,9 +32,9 @@ class LoginScreen extends StatelessWidget {
             Positioned(
               bottom: 0,
               child: SingFormsContainer(
-                title: 'Wellcome back',
-                child: _LoginForm(),
-                name: 'Ursula Downs',
+                title: 'Wellcome back, 👋',
+                child: _LoginForm(authService.email),
+                name: '${authService.name}',
               ),
             )
           ],
@@ -43,32 +46,47 @@ class LoginScreen extends StatelessWidget {
 
 // SingInForm
 class _LoginForm extends StatelessWidget {
-  const _LoginForm();
+  String email;
+
+  _LoginForm(this.email);
+
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    loginForm.email = email;
     return Form(
         key: loginForm.formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            //email
-            TextFormField(
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              validator: (value) {
-                String pattern =
-                    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                RegExp regExp = RegExp(pattern);
-                return regExp.hasMatch(value ?? '') ? null : 'Invalid Email';
-              },
-              onChanged: (value) => loginForm.email = value,
-              decoration: const InputDecoration(
-                  prefixIconColor: AppTheme.primary,
-                  prefixIcon: Icon(Icons.email),
-                  labelText: 'Email',
-                  hintText: 'example@example.com'),
-            ),
+            loginForm.formKey == ''
+                ? TextFormField(
+                    autocorrect: false,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      String pattern =
+                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                      RegExp regExp = RegExp(pattern);
+                      return regExp.hasMatch(value ?? '')
+                          ? null
+                          : NotificacionService.showSnackbar('Invalid Email');
+                    },
+                    onChanged: (value) => loginForm.email = value,
+                    decoration: InputDecoration(
+                        prefixIconColor: AppTheme.primary,
+                        prefixIcon: Icon(Icons.email),
+                        labelText: 'Email',
+                        hintText: 'example@example.com'),
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      loginForm.email,
+                      textAlign: TextAlign.left,
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
             TextFormField(
               obscureText: true,
               autocorrect: false,
@@ -114,7 +132,7 @@ class _LoginForm extends StatelessWidget {
                           if (errorMessage == null) {
                             Navigator.pushReplacementNamed(context, 'home');
                           } else {
-                            print(errorMessage);
+                            NotificacionService.showSnackbar(errorMessage);
                           }
 
                           loginForm.isLoading = false;

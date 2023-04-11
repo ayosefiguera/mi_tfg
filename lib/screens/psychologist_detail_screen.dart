@@ -1,8 +1,7 @@
+import 'package:eqlibrum/widgets/scaffold_app.dart';
 import 'package:eqlibrum/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-
 import 'package:eqlibrum/models/models.dart';
-import 'package:eqlibrum/widgets/recommendation_vote_widget.dart';
 
 class PsychologistDetailScreen extends StatelessWidget {
   PsychologistDetailScreen({Key? key, required this.psychologist})
@@ -12,14 +11,9 @@ class PsychologistDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text('Welcome, {UserName}'), actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.person))
-        ]),
-        bottomNavigationBar: BottonNavContainer(
-          currentIndex: 0,
-        ),
-        body: SafeArea(
+    return ScaffoldApp(
+        index: 0,
+        child: SafeArea(
           child: SingleChildScrollView(
             child: Stack(
                 children: [_psychologistProfile(psychologist: psychologist)]),
@@ -99,7 +93,7 @@ class _InfoProfile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RecommendationVoteWidget(vote: psychologist.vote),
+              RecommendationRatio(vote: psychologist.vote),
               const _ComunicationMethodsEnableWidget(),
             ],
           ),

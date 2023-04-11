@@ -1,4 +1,5 @@
 import 'package:eqlibrum/themes/themes.dart';
+import 'package:eqlibrum/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
 
@@ -17,12 +18,9 @@ class ScheludeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appointments = Provider.of<AppointmentController>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text('Welcome, {user}')),
-      bottomNavigationBar: BottonNavContainer(
-        currentIndex: 2,
-      ),
-      body: appointments.isLoading
+    return ScaffoldApp(
+      index: 2,
+      child: appointments.isLoading
           ? const Center(
               child: SizedBox(
                   width: 100,

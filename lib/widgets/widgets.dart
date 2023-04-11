@@ -1,3 +1,6 @@
+export 'package:eqlibrum/widgets/recommendation_vote_widget.dart';
+
+export 'package:flutter/material.dart';
 
 export 'package:eqlibrum/widgets/psychologist_card.dart';
 export 'package:eqlibrum/widgets/psychologist_tiles.dart';

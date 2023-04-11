@@ -1,5 +1,7 @@
 import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/services/auth_service.dart';
 import 'package:eqlibrum/utils/utils.dart';
+import 'package:eqlibrum/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/themes/themes.dart';
 import 'package:eqlibrum/widgets/widgets.dart';
@@ -13,20 +15,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appointments = Provider.of<AppointmentController>(context);
-
-    return Scaffold(
-        appBar: AppBar(title: Text('Welcome, Alberto'), actions: <Widget>[
-          //TODO Create Hero profile.
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'profile');
-              },
-              icon: Icon(Icons.person))
-        ]),
-        bottomNavigationBar: BottonNavContainer(
-          currentIndex: 1,
-        ),
-        body: SizedBox(
+    return ScaffoldApp(
+        index:1,
+        child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: SingleChildScrollView(
@@ -113,7 +104,7 @@ class _NextAppointment extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               color: AppTheme.primary,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
             child: Column(
               children: [
                 SizedBox(
@@ -121,7 +112,7 @@ class _NextAppointment extends StatelessWidget {
                   child: Text(
                     "Next Appointment. Day: ${appointment[0].date_Key.day} of ${appointment[0].date_Key.month}",
                     textAlign: TextAlign.left,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white70,
                         fontWeight: FontWeight.bold),

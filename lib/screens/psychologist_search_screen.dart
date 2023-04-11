@@ -1,4 +1,5 @@
 import 'package:eqlibrum/widgets/botton_nav_container.dart';
+import 'package:eqlibrum/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/widgets/widgets.dart';
 
@@ -7,15 +8,6 @@ class SearchPsychologistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Welcome, {UserName}'), actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.person))
-        ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.phone),
-        ),
-        bottomNavigationBar: BottonNavContainer(currentIndex: 0),
-        body: const PsychologistTiles());
+    return ScaffoldApp(index: 0, child: const PsychologistTiles());
   }
 }

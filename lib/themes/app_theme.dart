@@ -10,7 +10,6 @@ class AppTheme {
 
 // Creamos nuestra diseño desde una copia del modelo base.
   static final ThemeData baseTheme = ThemeData.light().copyWith(
-    
       appBarTheme: const AppBarTheme(color: primary, elevation: 0),
 
       bottomNavigationBarTheme: BottomNavigationBarThemeData(

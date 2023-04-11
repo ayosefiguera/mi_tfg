@@ -1,16 +1,18 @@
 import 'dart:collection';
 import 'dart:convert' show json;
-
+import 'package:eqlibrum/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:eqlibrum/apis/api_key.dart' show FirebaseData;
 import 'package:eqlibrum/utils/utils.dart';
 import '../models/models.dart' show Appointment;
 
 class AppointmentController extends ChangeNotifier {
   final String _baseUrl = FirebaseData.url;
+  final storage = FlutterSecureStorage();
+
   bool isLoading = false;
 
   final kAppointment = LinkedHashMap<DateTime, List<Appointment>>(
@@ -30,22 +32,29 @@ class AppointmentController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final url = Uri.https(_baseUrl, 'appointment.json');
+    final url = Uri.https(_baseUrl, 'appointment.json',
+        {'auth': await storage.read(key: 'token') ?? ''});
     final response = await http.get(url);
 
     final Map<String, dynamic> appointmentMap = json.decode(response.body);
-    appointmentMap.forEach((key, value) {
-      final tempAppointment = Appointment.fromMap(value);
 
-      tempAppointment.id = key;
+    try {
+      appointmentMap.forEach((key, value) {
+        final tempAppointment = Appointment.fromMap(value);
 
-      kAppointment.containsKey(tempAppointment.date_Key)
-          ? kAppointment.update(
-              tempAppointment.date_Key, (value) => [...value, tempAppointment])
-          : kAppointment.addAll({
-              tempAppointment.date_Key: [tempAppointment]
-            });
-    });
+        tempAppointment.id = key;
+
+        kAppointment.containsKey(tempAppointment.date_Key)
+            ? kAppointment.update(tempAppointment.date_Key,
+                (value) => [...value, tempAppointment])
+            : kAppointment.addAll({
+                tempAppointment.date_Key: [tempAppointment]
+              });
+      });
+    } catch (e) {
+      print(e);
+    }
+
     isLoading = false;
     notifyListeners();
     return kAppointment;

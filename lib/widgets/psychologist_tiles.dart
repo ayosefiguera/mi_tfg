@@ -1,4 +1,4 @@
-import 'package:eqlibrum/services/psychologist_controller.dart';
+import 'package:eqlibrum/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/screens/screens.dart';
 import 'package:provider/provider.dart' show Provider;
@@ -9,7 +9,7 @@ class PsychologistTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final psychologistService = Provider.of<PsychologistController>(context);
+    final psychologistService = Provider.of<PsychologistService>(context);
     final psychologists = psychologistService.psychologists;
 
     return ListView.builder(

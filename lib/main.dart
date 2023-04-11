@@ -1,4 +1,5 @@
 import 'package:eqlibrum/providers/providers.dart';
+import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -19,7 +20,7 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PsychologistController()),
+        ChangeNotifierProvider(create: (_) => PsychologistService()),
         ChangeNotifierProvider(create: (_) => AppointmentController()),
         ChangeNotifierProvider(create: (_)=> AuthService()),
         ChangeNotifierProvider(create: (_)=> LoginFormProvider()),
@@ -41,6 +42,7 @@ class Eqlibrum extends StatelessWidget {
       initialRoute: AppRoutes.initialRoute,
       theme: AppTheme.baseTheme,
       routes: AppRoutes.appRoutes,
+      scaffoldMessengerKey: NotificacionService.messengerKey,
     );
   }
 }

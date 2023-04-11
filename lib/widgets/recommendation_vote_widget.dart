@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../themes/app_theme.dart';
 
-class RecommendationVoteWidget extends StatelessWidget {
-  RecommendationVoteWidget({super.key, this.vote});
+class RecommendationRatio extends StatelessWidget {
+  RecommendationRatio({super.key, this.vote});
   int? vote;
 
     

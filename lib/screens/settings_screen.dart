@@ -1,11 +1,15 @@
+import 'package:eqlibrum/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthService>(context, listen: false);
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Settings'),
@@ -14,8 +18,6 @@ class SettingsScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             children: [
-//TODO: Profile card
-
               Text(
                 'Configuración de cuenta',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -49,7 +51,6 @@ class SettingsScreen extends StatelessWidget {
               SizedBox(
                 height: 24,
               ),
-
               Text(
                 'Legal',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -87,7 +88,10 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 leading: Icon(Icons.exit_to_app_outlined),
                 trailing: Icon(Icons.arrow_forward_ios),
-                onTap: () {},
+                onTap: () {
+                  authProvider.logout();
+                  Navigator.pushReplacementNamed(context, 'welcome');
+                },
               ),
             ],
           ),

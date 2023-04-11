@@ -1,4 +1,4 @@
-import 'package:eqlibrum/widgets/recommendation_vote_widget.dart';
+import 'package:eqlibrum/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 
@@ -46,7 +46,7 @@ class PsychologistCard extends StatelessWidget {
                   psychologist.summary ??= "",
                   style: const TextStyle(fontSize: 14),
                 ),
-                RecommendationVoteWidget(vote: psychologist.vote)
+                RecommendationRatio(vote: psychologist.vote)
               ],
             ),
           )

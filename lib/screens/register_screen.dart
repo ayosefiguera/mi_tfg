@@ -123,7 +123,7 @@ class _RegisterForm extends StatelessWidget {
                           loginForm.isLoading = true;
 
                           final String? errorMessage = await authService
-                              .createUser(loginForm.email, loginForm.password);
+                              .createUser(loginForm.email, loginForm.password, loginForm.name);
 
                           if (errorMessage == null) {
                             Navigator.pushReplacementNamed(context, 'home');
