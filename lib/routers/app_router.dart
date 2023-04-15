@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/screens/screens.dart';
+import 'package:eqlibrum/views/screens/screens.dart';
 
 class AppRoutes {
   static const initialRoute = 'welcome';

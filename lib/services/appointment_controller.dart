@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:convert' show json;
-import 'package:eqlibrum/screens/screens.dart';
+import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;

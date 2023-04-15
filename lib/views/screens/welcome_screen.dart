@@ -1,6 +1,6 @@
-import 'package:eqlibrum/screens/screens.dart';
-import 'package:eqlibrum/services/auth_service.dart';
-import 'package:eqlibrum/themes/app_theme.dart';
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/views/screens/screens.dart';
+import 'package:eqlibrum/views/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,11 +9,11 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
+    final defaultUserFacade = Provider.of<DefaultUserFacade>(context, listen: false);
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: FutureBuilder(
-        future: authService.getIdtoken(),
+        future: defaultUserFacade.getIdToken(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           
           if (!snapshot.hasData) {

@@ -1,6 +1,6 @@
-import 'package:eqlibrum/widgets/botton_nav_container.dart';
+import 'package:eqlibrum/views/widgets/botton_nav_container.dart';
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class NotifyListScreen extends StatelessWidget {
   const NotifyListScreen({super.key});

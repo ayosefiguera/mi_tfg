@@ -1,5 +1,6 @@
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/services/services.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ScaffoldApp extends StatelessWidget {
@@ -10,10 +11,10 @@ class ScaffoldApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+    final defaulUserFacade = Provider.of<DefaultUserFacade>(context);
     return Scaffold(
       appBar:
-          AppBar(title: Text('Welcome,${authService.name}'), actions: <Widget>[
+          AppBar(title: Text('Welcome,${defaulUserFacade.name}'), actions: <Widget>[
         IconButton(
             onPressed: () {
               Navigator.pushNamed(context, 'profile');

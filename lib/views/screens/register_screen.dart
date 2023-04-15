@@ -1,7 +1,7 @@
 import 'package:eqlibrum/providers/providers.dart';
 import 'package:eqlibrum/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import '../themes/themes.dart';
 
@@ -116,7 +116,7 @@ class _RegisterForm extends StatelessWidget {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
                           final authService =
-                              Provider.of<AuthService>(context, listen: false);
+                              Provider.of<UserService>(context, listen: false);
 
                           if (!loginForm.isValidForm()) return;
 

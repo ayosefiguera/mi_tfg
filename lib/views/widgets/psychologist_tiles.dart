@@ -1,16 +1,15 @@
-import 'package:eqlibrum/services/services.dart';
-import 'package:flutter/material.dart';
-import 'package:eqlibrum/screens/screens.dart';
+import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
+import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:provider/provider.dart' show Provider;
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class PsychologistTiles extends StatelessWidget {
   const PsychologistTiles({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final psychologistService = Provider.of<PsychologistService>(context);
-    final psychologists = psychologistService.psychologists;
+    final defaultPsychologistFacade = Provider.of<DefaultPsychologistFacade>(context);
+    final psychologists = defaultPsychologistFacade.psychologists;
 
     return ListView.builder(
         itemCount: psychologists.length,

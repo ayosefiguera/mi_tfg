@@ -1,4 +1,4 @@
-import 'package:eqlibrum/services/auth_service.dart';
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthService>(context, listen: false);
+    final defaultUserFacade = Provider.of<DefaultUserFacade>(context, listen: false);
 
     return Scaffold(
         appBar: AppBar(
@@ -89,7 +89,7 @@ class SettingsScreen extends StatelessWidget {
                 leading: Icon(Icons.exit_to_app_outlined),
                 trailing: Icon(Icons.arrow_forward_ios),
                 onTap: () {
-                  authProvider.logout();
+                  defaultUserFacade.logout();
                   Navigator.pushReplacementNamed(context, 'welcome');
                 },
               ),

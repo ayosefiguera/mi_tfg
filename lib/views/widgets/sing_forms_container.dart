@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/themes/themes.dart';
+import 'package:eqlibrum/views/themes/themes.dart';
 
 class SingFormsContainer extends StatelessWidget {
   Widget child;

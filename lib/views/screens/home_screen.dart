@@ -1,13 +1,12 @@
 import 'package:eqlibrum/models/models.dart';
-import 'package:eqlibrum/services/auth_service.dart';
 import 'package:eqlibrum/utils/utils.dart';
-import 'package:eqlibrum/widgets/scaffold_app.dart';
+import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/themes/themes.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/themes/themes.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart' show Provider;
 
-import '../services/services.dart' show AppointmentController;
+import '../../services/services.dart' show AppointmentController;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

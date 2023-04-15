@@ -1,6 +1,5 @@
-import 'package:eqlibrum/widgets/widgets.dart';
-import 'package:flutter/material.dart';
-import '../models/models.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
+import '../../models/models.dart';
 
 class PsychologistCard extends StatelessWidget {
   PsychologistCard({super.key, required this.psychologist});

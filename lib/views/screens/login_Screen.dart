@@ -1,11 +1,12 @@
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:eqlibrum/providers/login_form_provider.dart';
 
-import '../providers/providers.dart';
-import '../services/services.dart';
+import '../../providers/providers.dart';
+import '../../services/services.dart';
 import '../themes/themes.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+    final defaulUserFacade = Provider.of<DefaultUserFacade>(context);
 
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
@@ -33,8 +34,8 @@ class LoginScreen extends StatelessWidget {
               bottom: 0,
               child: SingFormsContainer(
                 title: 'Wellcome back, 👋',
-                child: _LoginForm(authService.email),
-                name: '${authService.name}',
+                child: _LoginForm(defaulUserFacade.email),
+                name: '${defaulUserFacade.name}',
               ),
             )
           ],
@@ -119,14 +120,14 @@ class _LoginForm extends StatelessWidget {
                       : () async {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
-                          final authService =
-                              Provider.of<AuthService>(context, listen: false);
+                          final defaultUserFacade =
+                              Provider.of<DefaultUserFacade>(context, listen: false);
 
                           if (!loginForm.isValidForm()) return;
 
                           loginForm.isLoading = true;
 
-                          final String? errorMessage = await authService
+                          final String? errorMessage = await defaultUserFacade
                               .loginUser(loginForm.email, loginForm.password);
 
                           if (errorMessage == null) {

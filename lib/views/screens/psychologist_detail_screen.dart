@@ -1,5 +1,5 @@
-import 'package:eqlibrum/widgets/scaffold_app.dart';
-import 'package:eqlibrum/widgets/widgets.dart';
+import 'package:eqlibrum/views/widgets/scaffold_app.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/models/models.dart';
 

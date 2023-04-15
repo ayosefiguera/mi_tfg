@@ -1,24 +1,18 @@
+import 'package:eqlibrum/daos/user_dao.dart';
 import 'dart:convert';
-
 import 'package:eqlibrum/apis/api_key.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 ///
 /// Service about auth.
 ///
-class AuthService extends ChangeNotifier {
+class DefaultUserDAO implements UserDAO {
   final String _baseUrl = Auth.baseUrl;
   final String _key = Auth.key;
   final storage = new FlutterSecureStorage();
   var name = '';
   var email = '';
-
-  AuthService() {
-    getUser();
-  }
 
   /// Create new user User.
   /// [email] The email.
@@ -87,8 +81,10 @@ class AuthService extends ChangeNotifier {
 
   /// Find the idName into Secure Storage.
   /// Return [String] the idToken or empty string.
-  Future getUser() async {
-    name = await storage.read(key: 'idName') ?? '';
-    email = await storage.read(key: 'idEmail') ?? '';
+  Future<Map>  getUser() async {
+    var user =  Map(); 
+    user['name'] = await storage.read(key: 'idName') ?? '';
+    user['email'] = await storage.read(key: 'idEmail') ?? '';
+    return user;
   }
 }
