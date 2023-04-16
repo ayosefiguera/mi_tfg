@@ -1,3 +1,4 @@
+import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaulUserFacade = Provider.of<DefaultUserFacade>(context);
-
+    UserDTO userDto = defaulUserFacade.userDTO;
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: SizedBox(
@@ -24,7 +25,7 @@ class LoginScreen extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
+            const Positioned(
                 top: 200,
                 child: SizedBox(
                   width: 200,
@@ -34,8 +35,8 @@ class LoginScreen extends StatelessWidget {
               bottom: 0,
               child: SingFormsContainer(
                 title: 'Wellcome back, 👋',
-                child: _LoginForm(defaulUserFacade.email),
-                name: '${defaulUserFacade.name}',
+                name: '${userDto.name}',
+                child: _LoginForm(userDto.email ?? ''),
               ),
             )
           ],
@@ -54,7 +55,8 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
-    loginForm.email = email;
+    UserDTO userDTO = loginForm.userDTO;
+    userDTO.email = email;
     return Form(
         key: loginForm.formKey,
         child: Column(
@@ -72,8 +74,8 @@ class _LoginForm extends StatelessWidget {
                           ? null
                           : NotificacionService.showSnackbar('Invalid Email');
                     },
-                    onChanged: (value) => loginForm.email = value,
-                    decoration: InputDecoration(
+                    onChanged: (value) => userDTO.email = value,
+                    decoration: const InputDecoration(
                         prefixIconColor: AppTheme.primary,
                         prefixIcon: Icon(Icons.email),
                         labelText: 'Email',
@@ -82,16 +84,16 @@ class _LoginForm extends StatelessWidget {
                 : SizedBox(
                     width: double.infinity,
                     child: Text(
-                      loginForm.email,
+                      userDTO.email ?? '',
                       textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
             TextFormField(
               obscureText: true,
               autocorrect: false,
-              onChanged: (value) => loginForm.password = value,
+              onChanged: (value) => userDTO.pass = value,
               decoration: const InputDecoration(
                   prefixIconColor: AppTheme.primary,
                   prefixIcon: Icon(Icons.lock_outline_sharp),
@@ -121,14 +123,15 @@ class _LoginForm extends StatelessWidget {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
                           final defaultUserFacade =
-                              Provider.of<DefaultUserFacade>(context, listen: false);
+                              Provider.of<DefaultUserFacade>(context,
+                                  listen: false);
 
                           if (!loginForm.isValidForm()) return;
 
                           loginForm.isLoading = true;
 
-                          final String? errorMessage = await defaultUserFacade
-                              .loginUser(loginForm.email, loginForm.password);
+                          final String? errorMessage =
+                              await defaultUserFacade.loginUser(userDTO);
 
                           if (errorMessage == null) {
                             Navigator.pushReplacementNamed(context, 'home');

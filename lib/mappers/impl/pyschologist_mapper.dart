@@ -4,16 +4,28 @@ import 'package:eqlibrum/models/models.dart';
 
 class PsychologistMapper
     implements EntityMapper<PsychologistDTO, Psychologist> {
-
   PsychologistDTO toDTO(Psychologist entity) {
-    // TODO: implement toDTO
     throw UnimplementedError();
   }
 
   @override
-  List<PsychologistDTO> toDTOList(List<Psychologist> entityList) {
-    // TODO: implement toDTOList
-    throw UnimplementedError();
+  List<PsychologistDTO> toDTOList(List<Psychologist> source) {
+    List<PsychologistDTO> targetList = [];
+    source.forEach((element) {
+      PsychologistDTO target = PsychologistDTO();
+      target.id = element.id;
+      target.name = element.name;
+      target.surname = element.surname;
+      target.picture = element.picture;
+      target.name = element.name;
+      target.summary = element.summary;
+      target.bio = element.bio;
+      target.vote = element.vote;
+
+      targetList.add(target);
+    });
+
+    return targetList;
   }
 
   @override
@@ -27,5 +39,4 @@ class PsychologistMapper
     // TODO: implement updateEntity
     throw UnimplementedError();
   }
-  
 }

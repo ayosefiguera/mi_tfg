@@ -1,3 +1,4 @@
+import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/services/services.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
@@ -12,9 +13,9 @@ class ScaffoldApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaulUserFacade = Provider.of<DefaultUserFacade>(context);
+    UserDTO userDto = defaulUserFacade.userDTO;
     return Scaffold(
-      appBar:
-          AppBar(title: Text('Welcome,${defaulUserFacade.name}'), actions: <Widget>[
+      appBar: AppBar(title: Text('Welcome,${userDto.name}'), actions: <Widget>[
         IconButton(
             onPressed: () {
               Navigator.pushNamed(context, 'profile');

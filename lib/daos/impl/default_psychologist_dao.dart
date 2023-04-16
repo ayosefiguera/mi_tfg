@@ -7,10 +7,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 
-class DefaultPsychologistDAO implements PychologistDao {
+/// Default implemtation to [PsychologistDao]
+class DefaultPsychologistDAO implements PsychologistDao {
+  
   final String _baseUrl = FirebaseData.url;
   final storage = FlutterSecureStorage();
 
+  /// Find all psychologist by performin a ApiRest query.
   @override
   Future<List<Psychologist>> getAllPsychologist() async {
     final List<Psychologist> psychologists = [];

@@ -1,11 +1,11 @@
+import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:flutter/material.dart';
 
 class LoginFormProvider extends ChangeNotifier {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String email = '';
   String password = '';
-  String name = '';
+  UserDTO userDTO = UserDTO();
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;

@@ -1,18 +1,20 @@
-///
-/// Service about auth.
-///
-abstract class UserService{
+import 'package:eqlibrum/models/models.dart';
 
+/// Service for managing user
+///
+///[author] Ayose Figuera Alfonso
+///[Link] ayo.afa@gmail.com
+abstract class UserService {
   /// Create new user User.
   /// [email] The email.
   /// [password] The password
   /// Only return [error]. otherwise return [null].
-  Future<String?> createUser(String email, String password, String name);
+  Future<String?> createUser(User newUSer);
 
   /// Check [email] and [password] to login
   ///
   /// Only return[message][Error] otherwise return [null].
-  Future<String?> loginUser(String email, String password);
+  Future<String?> loginUser(User User);
 
   /// When user logout delete the idToken.
   Future logout();
@@ -23,5 +25,5 @@ abstract class UserService{
 
   /// Find the idName into Secure Storage.
   /// Return [String] the idToken or empty string.
-  Future<Map<dynamic,dynamic>> getUser();
+  Future<User> getUser();
 }

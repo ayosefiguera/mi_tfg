@@ -1,11 +1,12 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/user_facade.dart';
+import 'package:eqlibrum/mappers/impl/user_mapper.dart';
 import 'package:eqlibrum/services/impl/default_user_service.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class DefaultUserFacade extends ChangeNotifier implements UserFacade {
-  var name = '';
-  var email = '';
+  UserDTO userDTO = UserDTO();
+  UserMapper mapper = UserMapper();
 
   DefaultUserFacade() {
     getUser();
@@ -14,15 +15,14 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   final DefaultUserService defaultUserService = DefaultUserService();
 
   @override
-  Future<String?> createUser(String email, String password, String name) {
-    return getUserService().createUser(email, password, name);
+  Future<String?> createUser(UserDTO newUserDTO) {
+    return getUserService().createUser(mapper.toEntity(newUserDTO));
   }
 
   @override
-  getUser() async {
-    Map map = await getUserService().getUser();
-    name = map['name'];
-    email = map['email'];
+  Future<UserDTO> getUser() async {
+    userDTO = mapper.toDTO(await getUserService().getUser());
+    return userDTO;
   }
 
   @override
@@ -31,8 +31,8 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   }
 
   @override
-  Future<String?> loginUser(String email, String password) {
-    return getUserService().loginUser(email, password);
+  Future<String?> loginUser(userDTO) {
+    return getUserService().loginUser(mapper.toEntity(userDTO));
   }
 
   DefaultUserService getUserService() {

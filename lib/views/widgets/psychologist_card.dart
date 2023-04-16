@@ -1,10 +1,11 @@
+import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import '../../models/models.dart';
 
 class PsychologistCard extends StatelessWidget {
   PsychologistCard({super.key, required this.psychologist});
 
-  Psychologist psychologist;
+  PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {

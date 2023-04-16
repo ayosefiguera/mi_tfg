@@ -1,3 +1,4 @@
+import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ class PsychologistDetailScreen extends StatelessWidget {
   PsychologistDetailScreen({Key? key, required this.psychologist})
       : super(key: key);
 
-  Psychologist psychologist;
+  PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class PsychologistDetailScreen extends StatelessWidget {
 class _psychologistProfile extends StatelessWidget {
   _psychologistProfile({super.key, required this.psychologist});
 
-  Psychologist psychologist;
+  PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _InfoProfile extends StatelessWidget {
     required this.psychologist,
   });
 
-  final Psychologist psychologist;
+  final PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {

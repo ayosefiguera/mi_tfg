@@ -9,7 +9,7 @@ class PsychologistTiles extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultPsychologistFacade = Provider.of<DefaultPsychologistFacade>(context);
-    final psychologists = defaultPsychologistFacade.psychologists;
+    final psychologists = defaultPsychologistFacade.psychologistsDTO;
 
     return ListView.builder(
         itemCount: psychologists.length,

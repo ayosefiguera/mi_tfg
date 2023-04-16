@@ -3,12 +3,14 @@ import 'package:eqlibrum/daos/psychologist_dao.dart';
 import 'package:eqlibrum/services/services.dart';
 import 'package:eqlibrum/models/models.dart' show Psychologist;
 
-/// Service of psychologist data.
+/// Default implementation of [PsychologistService]
+///
+///[author] Ayose Figuera Alfonso
+///[Link] ayo.afa@gmail.com
 class DefaultPsychologistService implements PsychologistService {
-  final PychologistDao pychologistDao = DefaultPsychologistDAO();
 
-  /// Get all psychologist..
-  /// [return] List of psychologist.
+  final PsychologistDao pychologistDao = DefaultPsychologistDAO();
+
   @override
   Future<List<Psychologist>> getAllPsychologist() async {
     List<Psychologist> psychologists = [];
@@ -16,7 +18,7 @@ class DefaultPsychologistService implements PsychologistService {
     return psychologists;
   }
 
-  PychologistDao getPsycholoistDao() {
+  PsychologistDao getPsycholoistDao() {
     return pychologistDao;
   }
 }

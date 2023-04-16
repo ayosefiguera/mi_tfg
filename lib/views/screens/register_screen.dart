@@ -1,9 +1,12 @@
+import 'package:eqlibrum/dto/user_dto.dart';
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/providers/providers.dart';
 import 'package:eqlibrum/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import '../themes/themes.dart';
+import 'dart:io';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -18,7 +21,7 @@ class RegisterScreen extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Positioned(
+            const Positioned(
                 top: 150,
                 child: SizedBox(
                   width: 200,
@@ -29,7 +32,7 @@ class RegisterScreen extends StatelessWidget {
               child: ChangeNotifierProvider(
                 create: (_) => LoginFormProvider(),
                 child: SingFormsContainer(
-                    title: 'New Account', child: _RegisterForm()),
+                    title: 'New Account', child: const _RegisterForm()),
               ),
             )
           ],
@@ -45,6 +48,7 @@ class _RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    UserDTO userDTO = loginForm.userDTO;
     return Form(
         key: loginForm.formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -61,7 +65,7 @@ class _RegisterForm extends StatelessWidget {
                 RegExp regExp = RegExp(pattern);
                 return regExp.hasMatch(value ?? '') ? null : 'Invalid Email';
               },
-              onChanged: (value) => loginForm.email = value,
+              onChanged: (value) => userDTO.email = value,
               decoration: const InputDecoration(
                   prefixIconColor: AppTheme.primary,
                   prefixIcon: Icon(Icons.email),
@@ -75,12 +79,22 @@ class _RegisterForm extends StatelessWidget {
             TextFormField(
               keyboardType: TextInputType.name,
               autocorrect: false,
-              onChanged: (value) => loginForm.name = value,
+              onChanged: (value) => userDTO.name = value,
               decoration: const InputDecoration(
                   prefixIconColor: AppTheme.primary,
                   prefixIcon: Icon(Icons.person_2_outlined),
-                  labelText: 'User Name',
+                  labelText: 'Name',
                   hintText: 'name'),
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              autocorrect: false,
+              onChanged: (value) => userDTO.surname = value,
+              decoration: const InputDecoration(
+                  prefixIconColor: AppTheme.primary,
+                  prefixIcon: Icon(Icons.person_2_outlined),
+                  labelText: 'Surname',
+                  hintText: 'Surname'),
             ),
             const SizedBox(
               height: 8,
@@ -93,7 +107,7 @@ class _RegisterForm extends StatelessWidget {
                 if (value != null && value.length >= 6) return null;
                 return 'passsword must be 6 character';
               }),
-              onChanged: (value) => loginForm.password = value,
+              onChanged: (value) => userDTO.pass = value,
               decoration: const InputDecoration(
                   prefixIconColor: AppTheme.primary,
                   prefixIcon: Icon(Icons.lock_outline_sharp),
@@ -115,20 +129,21 @@ class _RegisterForm extends StatelessWidget {
                       : () async {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
-                          final authService =
-                              Provider.of<UserService>(context, listen: false);
+                          final defaultUserFacade =
+                              Provider.of<DefaultUserFacade>(context,
+                                  listen: false);
 
                           if (!loginForm.isValidForm()) return;
 
                           loginForm.isLoading = true;
 
-                          final String? errorMessage = await authService
-                              .createUser(loginForm.email, loginForm.password, loginForm.name);
+                          final String? errorMessage =
+                              await defaultUserFacade.createUser(userDTO);
 
                           if (errorMessage == null) {
                             Navigator.pushReplacementNamed(context, 'home');
                           } else {
-                            print(errorMessage);
+                            stderr.writeln(errorMessage);
                           }
 
                           loginForm.isLoading = false;

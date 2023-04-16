@@ -1,56 +1,55 @@
 import 'package:eqlibrum/daos/user_dao.dart';
 import 'dart:convert';
 import 'package:eqlibrum/apis/api_key.dart';
+import 'package:eqlibrum/models/models.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-///
-/// Service about auth.
-///
+/// Default implementation to [UserDAO]
 class DefaultUserDAO implements UserDAO {
   final String _baseUrl = Auth.baseUrl;
   final String _key = Auth.key;
   final storage = new FlutterSecureStorage();
-  var name = '';
-  var email = '';
 
-  /// Create new user User.
-  /// [email] The email.
-  /// [password] The password
-  /// Only return [error]. otherwise return [null].
-  Future<String?> createUser(String email, String password, String name) async {
+  @override
+  Future<String?> createUser(final User newUser) async {
     const String encodePath = "/v1/accounts:signUp";
 
     final Map<String, dynamic> authData = {
-      'email': email,
-      'password': password,
+      'email': newUser.email,
+      'password': newUser.email,
       'returnSecureToken': true
     };
 
+    /// Create AuthControl Firebase
     final url = Uri.https(_baseUrl, encodePath, {'key': _key});
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
+    /// Insert Firebase dataBase
+
+    /// Save secureStorage
     if (decodeResp.containsKey('idToken')) {
-      // Store idToken in secure storage.
-      await storage.write(key: 'idToken', value: decodeResp['idToken']);
-      await storage.write(key: 'idName', value: name);
-      await storage.write(key: 'idEmail', value: email);
+      // Store userToken in secure storage.
+      await storage.write(key: 'userToken', value: decodeResp['idToken']);
+      await storage.write(key: 'userId', value: newUser.id ?? '');
+      await storage.write(key: 'userName', value: newUser.name);
+      await storage.write(key: 'userSurname', value: newUser.surname);
+      await storage.write(key: 'userEmail', value: newUser.email);
+      await storage.write(key: 'userPicture', value: newUser.picture ?? '');
       return null;
     } else {
       return decodeResp['error']['message'];
     }
   }
 
-  /// Check [email] and [password] to login
-  ///
-  /// Only return[message][Error] otherwise return [null].
-  Future<String?> loginUser(String email, String password) async {
+  @override
+  Future<String?> loginUser(final user) async {
     const String encodePath = "/v1/accounts:signInWithPassword";
 
     final Map<String, dynamic> authData = {
-      'email': email,
-      'password': password,
+      'email': user.email,
+      'password': user.pass,
       'returnSecureToken': true
     };
 
@@ -58,33 +57,33 @@ class DefaultUserDAO implements UserDAO {
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-    if (decodeResp.containsKey('idToken')) {
-      await storage.write(key: 'idToken', value: decodeResp['idToken']);
+    if (decodeResp.containsKey('userToken')) {
+      await storage.write(key: 'userToken', value: decodeResp['userToken']);
       return null;
     } else {
       return decodeResp['error']['message'];
     }
   }
 
-  /// When user logout delete the idToken.
+  @override
   Future logout() async {
-    await storage.delete(key: 'idToken');
+    await storage.delete(key: 'userToken');
     return;
   }
 
-  /// Find the idToken into Secure Storage.
-  /// Return [String] the idToken or empty string.
+  @override
   Future<String> getIdtoken() async {
-    final token = await storage.read(key: 'idToken') ?? '';
-    return '';
+    return await storage.read(key: 'userToken') ?? '';
   }
 
-  /// Find the idName into Secure Storage.
-  /// Return [String] the idToken or empty string.
-  Future<Map>  getUser() async {
-    var user =  Map(); 
-    user['name'] = await storage.read(key: 'idName') ?? '';
-    user['email'] = await storage.read(key: 'idEmail') ?? '';
+  @override
+  Future<User> getUser() async {
+    String id = await storage.read(key: 'userId') ?? '';
+    String name = await storage.read(key: 'userName') ?? '';
+    String surname = await storage.read(key: 'userSurname') ?? '';
+    String email = await storage.read(key: 'userEmail') ?? '';
+    User user = User(id: id, name: name, surname: surname, email: email);
+
     return user;
   }
 }

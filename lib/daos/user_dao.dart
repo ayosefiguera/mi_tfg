@@ -1,18 +1,22 @@
+import 'package:eqlibrum/models/models.dart';
+
+/// An interface for user DAO including operations for retrieving 
+/// persistend user model objects.
 ///
-/// Service about auth.
-///
+///[author] Ayose Figuera Alfonso
+///[Link] ayo.afa@gmail.com
 abstract class UserDAO {
   
-  /// Create new user User.
+  /// Create new User.
   /// [email] The email.
   /// [password] The password
   /// Only return [error]. otherwise return [null].
-  Future<String?> createUser(String email, String password, String name);
+  Future<String?> createUser(User newUse);
 
   /// Check [email] and [password] to login
   ///
   /// Only return[message][Error] otherwise return [null].
-  Future<String?> loginUser(String email, String password);
+  Future<String?> loginUser(User user);
 
   /// When user logout delete the idToken.
   Future logout();
@@ -21,7 +25,8 @@ abstract class UserDAO {
   /// Return [String] the idToken or empty string.
   Future<String> getIdtoken();
 
-  /// Find the idName into Secure Storage.
+  /// Get a user from secure data.
+  /// 
   /// Return [String] the idToken or empty string.
-  Future getUser();
+  Future<User> getUser();
 }
