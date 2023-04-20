@@ -9,7 +9,6 @@ import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 import 'package:provider/provider.dart';
 
 import 'package:eqlibrum/routers/app_router.dart';
-import 'package:eqlibrum/services/appointment_controller.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 
 void main() {

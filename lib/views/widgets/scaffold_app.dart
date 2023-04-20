@@ -1,6 +1,5 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
-import 'package:eqlibrum/services/appointment_controller.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
