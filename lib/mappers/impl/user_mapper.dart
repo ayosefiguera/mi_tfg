@@ -1,6 +1,6 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/mappers/enity_mapper.dart';
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/models/user.dart';
 
 class UserMapper implements EntityMapper<UserDTO, User> {
   @override
@@ -8,6 +8,7 @@ class UserMapper implements EntityMapper<UserDTO, User> {
     UserDTO target = UserDTO();
     target.id = source.id;
     target.name = source.name;
+    target.email = source.email;
     target.surname = source.surname;
     target.picture = source.picture;
     target.summary = source.summary;

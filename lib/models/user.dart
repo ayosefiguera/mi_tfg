@@ -17,9 +17,9 @@ class User {
 
   User(
       {this.id,
-       this.email,
-       this.name,
-       this.surname,
+      this.email,
+      this.name,
+      this.surname,
       this.birthdate,
       this.address,
       this.creditCard,

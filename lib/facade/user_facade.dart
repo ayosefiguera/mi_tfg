@@ -1,6 +1,7 @@
 import 'package:eqlibrum/dto/user_dto.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
 
-abstract class UserFacade {
+abstract class UserFacade extends ChangeNotifier{
   // Validate login User.
   Future<String?> loginUser(UserDTO userDTO);
   // Delete idToke

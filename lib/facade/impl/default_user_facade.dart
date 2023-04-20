@@ -11,7 +11,6 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   DefaultUserFacade() {
     getUser();
   }
-
   final DefaultUserService defaultUserService = DefaultUserService();
 
   @override

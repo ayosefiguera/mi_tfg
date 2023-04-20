@@ -1,13 +1,13 @@
 import 'dart:collection';
 import 'dart:convert' show json;
-import 'package:eqlibrum/views/screens/screens.dart';
+import 'package:eqlibrum/models/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:eqlibrum/apis/api_key.dart' show FirebaseData;
 import 'package:eqlibrum/utils/utils.dart';
-import '../models/models.dart' show Appointment;
+ 
 
 class AppointmentController extends ChangeNotifier {
   final String _baseUrl = FirebaseData.url;
@@ -44,11 +44,11 @@ class AppointmentController extends ChangeNotifier {
 
         tempAppointment.id = key;
 
-        kAppointment.containsKey(tempAppointment.date_Key)
-            ? kAppointment.update(tempAppointment.date_Key,
+        kAppointment.containsKey(tempAppointment.date)
+            ? kAppointment.update(tempAppointment.date,
                 (value) => [...value, tempAppointment])
             : kAppointment.addAll({
-                tempAppointment.date_Key: [tempAppointment]
+                tempAppointment.date: [tempAppointment]
               });
       });
     } catch (e) {

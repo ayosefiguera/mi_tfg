@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' show json;
 
 /// Default implemtation to [PsychologistDao]
-class DefaultPsychologistDAO implements PsychologistDao {
+class DefaultPsychologistDAO implements PsychologistDAO {
   
   final String _baseUrl = FirebaseData.url;
   final storage = FlutterSecureStorage();

@@ -1,10 +1,11 @@
 import 'package:eqlibrum/daos/impl/default_user_dao.dart';
 import 'package:eqlibrum/daos/user_dao.dart';
-import 'package:eqlibrum/models/models.dart';
-import 'package:eqlibrum/services/services.dart';
+import 'package:eqlibrum/models/user.dart';
+import 'package:eqlibrum/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+///Default implementation of
 class DefaultUserService extends ChangeNotifier implements UserService {
   final UserDAO userDAO = DefaultUserDAO();
 
@@ -15,6 +16,11 @@ class DefaultUserService extends ChangeNotifier implements UserService {
   }
 
   @override
+  Future<String?> loginUser(final User user) async {
+    return await getUserDao().loginUser(user);
+  }
+  
+  @override
   Future<String> getIdtoken() async {
     return await getUserDao().getIdtoken();
   }
@@ -24,10 +30,6 @@ class DefaultUserService extends ChangeNotifier implements UserService {
     return await getUserDao().getUser();
   }
 
-  @override
-  Future<String?> loginUser(final User user) async {
-    return await getUserDao().loginUser(user);
-  }
 
   @override
   Future logout() async {

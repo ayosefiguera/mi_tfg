@@ -1,9 +1,8 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/facade/psychologist_facade.dart';
 import 'package:eqlibrum/mappers/impl/pyschologist_mapper.dart';
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/models/psychologist.dart';
 import 'package:eqlibrum/services/impl/default_pyschologist_service.dart';
-import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class DefaultPsychologistFacade extends ChangeNotifier

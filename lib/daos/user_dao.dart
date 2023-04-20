@@ -1,4 +1,4 @@
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/models/user.dart';
 
 /// An interface for user DAO including operations for retrieving 
 /// persistend user model objects.

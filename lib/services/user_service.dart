@@ -1,4 +1,4 @@
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/models/user.dart';
 
 /// Service for managing user
 ///
@@ -14,7 +14,7 @@ abstract class UserService {
   /// Check [email] and [password] to login
   ///
   /// Only return[message][Error] otherwise return [null].
-  Future<String?> loginUser(User User);
+  Future<String?> loginUser(User user);
 
   /// When user logout delete the idToken.
   Future logout();

@@ -1,3 +1,4 @@
+import 'package:eqlibrum/daos/impl/default_appointment_dao.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/themes/app_theme.dart';
@@ -5,17 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatelessWidget {
-
   const WelcomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final defaultUserFacade = Provider.of<DefaultUserFacade>(context, listen: false);
+    final defaultUserFacade =
+        Provider.of<DefaultUserFacade>(context, listen: false);
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: FutureBuilder(
         future: defaultUserFacade.getIdToken(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          
           if (!snapshot.hasData) {
             return const Text('wait');
           }

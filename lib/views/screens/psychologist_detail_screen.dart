@@ -1,8 +1,6 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
-import 'package:flutter/material.dart';
-import 'package:eqlibrum/models/models.dart';
 
 class PsychologistDetailScreen extends StatelessWidget {
   PsychologistDetailScreen({Key? key, required this.psychologist})

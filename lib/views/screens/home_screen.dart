@@ -1,26 +1,24 @@
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
+import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/utils/utils.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
-import 'package:flutter/material.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart' show Provider;
-
-import '../../services/services.dart' show AppointmentController;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appointments = Provider.of<AppointmentController>(context);
+    final appointmentFacade = Provider.of<DefaultAppointmentFacade>(context);
     return ScaffoldApp(
         index:1,
         child: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
                 const SizedBox(
@@ -38,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       style: ButtonStyle(
-                        padding: MaterialStateProperty.all(EdgeInsets.all(8)),
+                        padding: MaterialStateProperty.all(const EdgeInsets.all(8)),
                       ),
                       onPressed: () => Navigator.pushNamed(context, 'schelude'),
                       child: const Text(
@@ -48,10 +46,10 @@ class HomeScreen extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 12,
                 ),
-                appointments.isLoading
+                appointmentFacade.isLoading
                     ? const Center(
                         child: SizedBox(
                             width: 100,
@@ -61,8 +59,8 @@ class HomeScreen extends StatelessWidget {
                             )),
                       )
                     : _NextAppointment(
-                        appointment: appointments.getEventsForDay(kToday)),
-                SizedBox(
+                        appointment: appointmentFacade.getEventsForDay(kToday)),
+                const SizedBox(
                   height: 18,
                 ),
                 Row(
@@ -75,10 +73,10 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.indigo.shade900,
                           fontWeight: FontWeight.bold),
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.search))
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.search))
                   ],
                 ),
-                PsychologistTiles(),
+                const PsychologistTiles(),
               ],
             ),
           ),
@@ -97,7 +95,7 @@ class _NextAppointment extends StatelessWidget {
     Color statusColor = AppTheme.primary;
 
     return appointment.isEmpty
-        ? Container(child: Text("No appointment today"))
+        ? const Text("No appointment today")
         : Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -109,7 +107,7 @@ class _NextAppointment extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "Next Appointment. Day: ${appointment[0].date_Key.day} of ${appointment[0].date_Key.month}",
+                    "Next Appointment. Day: ${appointment[0].date.day} of ${appointment[0].date.month}",
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontSize: 14,
@@ -138,7 +136,7 @@ class _NextAppointment extends StatelessWidget {
                           width: 8,
                         ),
                         Text(
-                          "${appointment[0].date_Key.day}:${appointment[0].date_Key.minute}",
+                          "${appointment[0].date.day}:${appointment[0].date.minute}",
                           style: const TextStyle(color: Colors.black54),
                         ),
                         const SizedBox(
@@ -147,7 +145,7 @@ class _NextAppointment extends StatelessWidget {
                         Column(
                           children: [
                             Text(
-                              appointment[0].title,
+                              appointment[0].psychologistID,
                               style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w600),
                             ),

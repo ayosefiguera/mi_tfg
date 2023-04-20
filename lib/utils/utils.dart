@@ -1,9 +1,5 @@
-import 'dart:collection';
-import 'package:eqlibrum/models/models.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
-
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);

@@ -1,26 +1,23 @@
+import 'package:eqlibrum/facade/appointment_facade.dart';
+import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
+import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart' show Provider;
-
-import 'package:eqlibrum/services/services.dart' show AppointmentController;
-import 'package:eqlibrum/models/models.dart';
-
 import 'package:table_calendar/table_calendar.dart';
-
 import 'package:eqlibrum/utils/utils.dart';
-import '../widgets/botton_nav_container.dart';
 
 class ScheludeScreen extends StatelessWidget {
   const ScheludeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appointments = Provider.of<AppointmentController>(context);
+    final appointmentsFacade = Provider.of<DefaultAppointmentFacade>(context);
 
     return ScaffoldApp(
       index: 2,
-      child: appointments.isLoading
+      child: appointmentsFacade.isLoading
           ? const Center(
               child: SizedBox(
                   width: 100,
@@ -29,24 +26,24 @@ class ScheludeScreen extends StatelessWidget {
                     color: AppTheme.primary,
                   )),
             )
-          : TabletAppointment(appointments: appointments),
+          : TabletAppointment(appointmentsFacade: appointmentsFacade),
     );
   }
 }
 
 class TabletAppointment extends StatefulWidget {
-  TabletAppointment({super.key, required this.appointments});
-  AppointmentController appointments;
+  TabletAppointment({super.key, required this.appointmentsFacade});
+  AppointmentFacade appointmentsFacade;
 
   @override
   _TabletAppointmentState createState() =>
-      _TabletAppointmentState(appointments: appointments);
+      _TabletAppointmentState(appointmentsFacade: appointmentsFacade);
 }
 
 class _TabletAppointmentState extends State<TabletAppointment> {
-  AppointmentController appointments;
+  AppointmentFacade appointmentsFacade;
 
-  _TabletAppointmentState({required this.appointments});
+  _TabletAppointmentState({required this.appointmentsFacade});
 
   late ValueNotifier<List<Appointment>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -59,7 +56,7 @@ class _TabletAppointmentState extends State<TabletAppointment> {
     super.initState();
     _selectedDay = _focusedDay;
     _selectedEvents =
-        ValueNotifier(appointments.getEventsForDay(_selectedDay!));
+        ValueNotifier(appointmentsFacade.getEventsForDay(_selectedDay!));
   }
 
   @override
@@ -75,7 +72,7 @@ class _TabletAppointmentState extends State<TabletAppointment> {
         _focusedDay = focusedDay;
       });
 
-      _selectedEvents.value = appointments.getEventsForDay(seletedDay);
+      _selectedEvents.value = appointmentsFacade.getEventsForDay(seletedDay);
     }
   }
 
@@ -93,7 +90,7 @@ class _TabletAppointmentState extends State<TabletAppointment> {
             calendarFormat: _calendarFormat,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: const CalendarStyle(outsideDaysVisible: false),
-            eventLoader: appointments.getEventsForDay,
+            eventLoader: appointmentsFacade.getEventsForDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: _onDaySelected,
             onFormatChanged: (format) => {
@@ -161,7 +158,7 @@ class _AppointmentCard extends StatelessWidget {
               width: 8,
             ),
             Text(
-              "${appointment.date_Key.day}:${appointment.date_Key.minute}",
+              "${appointment.date.day}:${appointment.date.minute}",
               style: const TextStyle(color: Colors.black54),
             ),
             const SizedBox(
@@ -170,7 +167,7 @@ class _AppointmentCard extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  appointment.title,
+                  appointment.psychologistID,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w600),
                 ),

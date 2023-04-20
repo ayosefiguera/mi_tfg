@@ -1,6 +1,6 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/mappers/enity_mapper.dart';
-import 'package:eqlibrum/models/models.dart';
+import 'package:eqlibrum/models/psychologist.dart';
 
 class PsychologistMapper
     implements EntityMapper<PsychologistDTO, Psychologist> {
