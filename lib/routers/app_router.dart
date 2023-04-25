@@ -1,3 +1,4 @@
+import 'package:eqlibrum/views/screens/legal_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 
@@ -13,5 +14,8 @@ class AppRoutes {
     'schelude': (context) => ScheludeScreen(),
     'notify': (context) => const NotifyListScreen(),
     'profile': (context) => const SettingsScreen(),
+    'lega': (context) => const LegalScreen(
+          page: "lega",
+        ),
   };
 }
