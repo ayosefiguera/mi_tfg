@@ -10,7 +10,7 @@ class AppRoutes {
     'register': (context) => const RegisterScreen(),
     'home': (context) => const HomeScreen(),
     'search': (context) => const SearchPsychologistScreen(),
-    'schelude': (context) => const ScheludeScreen(),
+    'schelude': (context) => ScheludeScreen(),
     'notify': (context) => const NotifyListScreen(),
     'profile': (context) => const SettingsScreen(),
   };

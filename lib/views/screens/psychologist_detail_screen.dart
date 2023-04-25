@@ -1,12 +1,13 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
+import 'package:eqlibrum/views/screens/request_appointment_screen.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class PsychologistDetailScreen extends StatelessWidget {
-  PsychologistDetailScreen({Key? key, required this.psychologist})
+  const PsychologistDetailScreen({Key? key, required this.psychologist})
       : super(key: key);
 
-  PsychologistDTO psychologist;
+  final PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +16,16 @@ class PsychologistDetailScreen extends StatelessWidget {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Stack(
-                children: [_psychologistProfile(psychologist: psychologist)]),
+                children: [_PsychologistProfile(psychologist: psychologist)]),
           ),
         ));
   }
 }
 
-class _psychologistProfile extends StatelessWidget {
-  _psychologistProfile({super.key, required this.psychologist});
+class _PsychologistProfile extends StatelessWidget {
+  const _PsychologistProfile({required this.psychologist});
 
-  PsychologistDTO psychologist;
+  final PsychologistDTO psychologist;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,14 @@ class _psychologistProfile extends StatelessWidget {
           height: 18,
         ),
         ElevatedButton(
-            onPressed: () {}, child: const Text('Request for Appointment')),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => RequestAppointmentScreen(
+                          id: psychologist.id!)));
+            },
+            child: const Text('Request for Appointment')),
         const SizedBox(
           height: 150,
         )
@@ -55,7 +63,6 @@ class _psychologistProfile extends StatelessWidget {
 
 class _InfoProfile extends StatelessWidget {
   const _InfoProfile({
-    super.key,
     required this.psychologist,
   });
 
@@ -93,7 +100,7 @@ class _InfoProfile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RecommendationRatio(vote: psychologist.vote),
-              const _ComunicationMethodsEnableWidget(),
+              _ComunicationMethodsEnableWidget(),
             ],
           ),
           const SizedBox(
@@ -111,10 +118,6 @@ class _InfoProfile extends StatelessWidget {
 }
 
 class _ComunicationMethodsEnableWidget extends StatelessWidget {
-  const _ComunicationMethodsEnableWidget({
-    super.key,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -2,12 +2,19 @@ import 'dart:convert';
 
 class Appointment {
   Appointment(
-      {required this.psychologistID, required this.date, this.status, this.id});
+      {required this.psychologistID,
+      this.userID,
+      required this.date,
+      this.status,
+      this.id,
+      required this.avaliable});
 
   String? id;
   String psychologistID;
+  String? userID;
   DateTime date;
   bool? status;
+  bool? avaliable;
 
   factory Appointment.fromJson(String str) =>
       Appointment.fromMap(json.decode(str));
@@ -16,17 +23,21 @@ class Appointment {
 
   factory Appointment.fromMap(Map<String, dynamic> json) => Appointment(
       id: json["id"],
-      psychologistID: json["title"],
+      psychologistID: json["psychologistID"],
+      userID: json["userID"],
       date: DateTime.parse(json["date"]),
-      status: json["status"]);
+      status: json["status"],
+      avaliable: json["avaliable"]);
 
   Map<String, dynamic> toMap() => {
         "id": id,
         "psychologistID": psychologistID,
-        "date": date,
-        "status": status
+        "userID": userID,
+        "date": date.toString(),
+        "status": status,
+        "avaliable": avaliable ?? false
       };
 
   @override
-  String toString() => "$psychologistID ${date.hour}:${date.minute}";
+  String toString() => "$psychologistID $date";
 }

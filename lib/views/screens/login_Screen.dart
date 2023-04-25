@@ -46,9 +46,9 @@ class LoginScreen extends StatelessWidget {
 
 // SingInForm
 class _LoginForm extends StatelessWidget {
-  String email;
+  final String email;
 
-  _LoginForm(this.email);
+  const _LoginForm(this.email);
 
   @override
   Widget build(BuildContext context) {

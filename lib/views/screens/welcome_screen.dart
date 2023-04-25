@@ -1,4 +1,3 @@
-import 'package:eqlibrum/daos/impl/default_appointment_dao.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/themes/app_theme.dart';
@@ -29,15 +28,15 @@ class WelcomeScreen extends StatelessWidget {
             });
           }
 
-          return const registers();
+          return const Registers();
         },
       ),
     );
   }
 }
 
-class registers extends StatelessWidget {
-  const registers({
+class Registers extends StatelessWidget {
+  const Registers({
     super.key,
   });
 

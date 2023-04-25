@@ -29,8 +29,8 @@ class RegisterScreen extends StatelessWidget {
               bottom: 0,
               child: ChangeNotifierProvider(
                 create: (_) => LoginFormProvider(),
-                child: SingFormsContainer(
-                    title: 'New Account', child: const _RegisterForm()),
+                child: const SingFormsContainer(
+                    title: 'New Account', child: _RegisterForm()),
               ),
             )
           ],

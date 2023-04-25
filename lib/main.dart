@@ -22,7 +22,6 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => DefaultPsychologistFacade()),
-        ChangeNotifierProvider(create: (_) => DefaultAppointmentFacade()),
         ChangeNotifierProvider(create: (_) => DefaultUserFacade()),
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),
       ],

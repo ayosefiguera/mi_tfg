@@ -30,7 +30,6 @@ class DefaultUserService extends ChangeNotifier implements UserService {
     return await getUserDao().getUser();
   }
 
-
   @override
   Future logout() async {
     getUserDao().logout();

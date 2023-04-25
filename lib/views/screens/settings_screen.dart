@@ -1,6 +1,5 @@
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -12,82 +11,82 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Settings'),
+          title: const Text('Settings'),
         ),
         body: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Configuración de cuenta',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               ListView(
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'información personal',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    leading: Icon(Icons.person_2_outlined),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.person_2_outlined),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {},
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'Metodos de pagos y cobros',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    leading: Icon(Icons.credit_card_rounded),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.credit_card_rounded),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {},
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
-              Text(
+              const Text(
                 'Legal',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               ListView(
                 shrinkWrap: true,
                 children: [
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'Terminos y servicios',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    leading: Icon(Icons.balance),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.balance),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {},
                   ),
                   ListTile(
-                    title: Text(
+                    title: const Text(
                       'Politica de privacidad',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    leading: Icon(Icons.shield_outlined),
-                    trailing: Icon(Icons.arrow_forward_ios),
+                    leading: const Icon(Icons.shield_outlined),
+                    trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {},
                   ),
                 ],
               ),
               ListTile(
-                title: Text(
+                title: const Text(
                   'Cerrar Sesión',
                   style: TextStyle(color: Colors.grey),
                 ),
-                leading: Icon(Icons.exit_to_app_outlined),
-                trailing: Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.exit_to_app_outlined),
+                trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
                   defaultUserFacade.logout();
                   Navigator.pushReplacementNamed(context, 'welcome');

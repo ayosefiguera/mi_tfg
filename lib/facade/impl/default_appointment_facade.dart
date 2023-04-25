@@ -9,55 +9,68 @@ import 'package:eqlibrum/services/impl/defaul_appointment_service.dart';
 import 'package:eqlibrum/services/impl/default_user_service.dart';
 import 'package:eqlibrum/services/user_service.dart';
 import 'package:eqlibrum/utils/utils.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class DefaultAppointmentFacade extends ChangeNotifier
-    implements AppointmentFacade {
-  final storage = FlutterSecureStorage();
-
+class DefaultAppointmentFacade implements AppointmentFacade {
   final AppointmentService _appointmentService = DefaultAppointmentService();
   final UserService _userService = DefaultUserService();
 
   bool isLoading = false;
+  User user = User();
 
   final kAppointment = LinkedHashMap<DateTime, List<Appointment>>(
     equals: isSameDay,
     hashCode: getHashCode,
   );
-  User user = User();
-
-  DefaultAppointmentFacade() {
-    loadAppointment();
-  }
 
   @override
-  loadAppointment() async {
-    isLoading = true;
-    notifyListeners();
+  Future<bool> loadAppointment(String id) async {
+    if (id.isEmpty) {
+      user = await _userService.getUser();
+      id = user.id!;
+    }
 
-    user = await _userService.getUser();
+    if (kAppointment.isNotEmpty) {
+      return true;
+    }
+
+    isLoading = true;
+
     List<Appointment> appointments =
-        await _appointmentService.loadAppointment(user);
+        await _appointmentService.loadAppointment(id);
 
     try {
-      appointments.forEach((element) {
+      for (var element in appointments) {
         kAppointment.containsKey(element.date)
             ? kAppointment.update(element.date, (value) => [...value, element])
             : kAppointment.addAll({
                 element.date: [element]
               });
-      });
+      }
     } catch (e) {
       stderr.write(e);
+      return false;
     }
     isLoading = false;
-    notifyListeners();
+    return true;
   }
 
   @override
-  List<Appointment> getEventsForDay(DateTime day) {
+  List<Appointment> getEventsForDay(final DateTime day) {
     return kAppointment[day] ?? [];
+  }
+
+  @override
+  Future<bool> requestAppointment(final Appointment appointment) async {
+    user = await _userService.getUser();
+    appointment.avaliable = false;
+    appointment.userID = user.id;
+
+    await _appointmentService.updateAppointment(
+        appointment, appointment.userID!);
+    await _appointmentService.updateAppointment(
+        appointment, appointment.psychologistID);
+
+    return true;
   }
 }

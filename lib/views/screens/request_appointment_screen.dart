@@ -8,8 +8,9 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:eqlibrum/utils/utils.dart';
 import 'package:intl/intl.dart';
 
-class ScheludeScreen extends StatelessWidget {
-  ScheludeScreen({super.key});
+class RequestAppointmentScreen extends StatelessWidget {
+  RequestAppointmentScreen({super.key, required this.id});
+  final String id;
   final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
 
   @override
@@ -17,7 +18,7 @@ class ScheludeScreen extends StatelessWidget {
     return ScaffoldApp(
         index: 2,
         child: FutureBuilder<bool>(
-            future: appointmentFacade.loadAppointment(''),
+            future: appointmentFacade.loadAppointment(id),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -31,7 +32,7 @@ class ScheludeScreen extends StatelessWidget {
               } else {
                 if (snapshot.data == true) {
                   return _RequestAppointmentScreen(
-                      appointmentFacade: appointmentFacade);
+                      id: id, appointmentFacade: appointmentFacade);
                 } else {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
@@ -41,18 +42,21 @@ class ScheludeScreen extends StatelessWidget {
 }
 
 class _RequestAppointmentScreen extends StatefulWidget {
-  const _RequestAppointmentScreen({super.key, required this.appointmentFacade});
+  const _RequestAppointmentScreen(
+      {super.key, required this.id, required this.appointmentFacade});
+  final String id;
   final AppointmentFacade appointmentFacade;
 
   @override
   // ignore: no_logic_in_create_state
   _TabletAppointmentState createState() =>
-      _TabletAppointmentState(appointmentFacade: appointmentFacade);
+      _TabletAppointmentState(id: id, appointmentFacade: appointmentFacade);
 }
 
 class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
-  _TabletAppointmentState({required this.appointmentFacade});
+  _TabletAppointmentState({required this.id, required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
+  final String id;
   bool loading = true;
   late ValueNotifier<List<Appointment>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BottonNavContainer extends StatelessWidget {
-  int currentIndex;
+  final int currentIndex;
 
-  BottonNavContainer({
+  const BottonNavContainer({
     super.key,
     this.currentIndex = 1,
   });
@@ -12,7 +12,6 @@ class BottonNavContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
         currentIndex: currentIndex,
-        //TODO add uiProvider to navigate page.
         onTap: (int index) {
           switch (index) {
             case 0:

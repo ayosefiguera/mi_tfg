@@ -1,5 +1,4 @@
-import 'package:eqlibrum/views/widgets/botton_nav_container.dart';
-import 'package:flutter/material.dart';
+
 import 'package:eqlibrum/views/widgets/widgets.dart';
 
 class NotifyListScreen extends StatelessWidget {
@@ -8,9 +7,9 @@ class NotifyListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('notify'), actions: <Widget>[
+        appBar: AppBar(title: const Text('notify'), actions: <Widget>[
           //TODO Create Hero profile.
-          IconButton(onPressed: () {}, icon: Icon(Icons.person))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.person))
         ]),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -18,9 +17,7 @@ class NotifyListScreen extends StatelessWidget {
           },
           child: const Icon(Icons.phone),
         ),
-        bottomNavigationBar: BottonNavContainer(currentIndex: 3),
-        body: Container(
-          child: const Text('notify'),
-        ));
+        bottomNavigationBar: const BottonNavContainer(currentIndex: 3),
+        body: const Text('notify'));
   }
 }

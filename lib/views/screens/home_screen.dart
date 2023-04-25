@@ -4,14 +4,13 @@ import 'package:eqlibrum/utils/utils.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
-import 'package:provider/provider.dart' show Provider;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final appointmentFacade = Provider.of<DefaultAppointmentFacade>(context);
+    final  DefaultAppointmentFacade appointmentFacade = DefaultAppointmentFacade();
     return ScaffoldApp(
         index:1,
         child: SizedBox(
@@ -85,13 +84,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _NextAppointment extends StatelessWidget {
-  const _NextAppointment({super.key, required this.appointment});
+  const _NextAppointment({required this.appointment});
 
   final List<Appointment> appointment;
 
   @override
   Widget build(BuildContext context) {
-    //#Todo slider.
     Color statusColor = AppTheme.primary;
 
     return appointment.isEmpty
