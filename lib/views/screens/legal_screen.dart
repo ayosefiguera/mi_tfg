@@ -1,5 +1,9 @@
+import 'package:eqlibrum/facade/impl/defaul_legal_page_facade.dart';
+import 'package:eqlibrum/models/LegalPage.dart';
+import 'package:eqlibrum/services/impl/defaul_legal_pages_services.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class LegalScreen extends StatelessWidget {
   const LegalScreen({super.key, required this.page});
@@ -7,47 +11,71 @@ class LegalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final legalPageService = Provider.of<DefaultLegalPageFacade>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Settings',
+        appBar: AppBar(
+          title: const Text(
+            'Settings',
+          ),
         ),
-      ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        width: double.infinity,
-        height: double.infinity,
-        child: SingleChildScrollView(
-            child: Column(
-          children: [
-            Text(
-              "$page",
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primary,
-              ),
+        body: FutureBuilder<bool>(
+            future: legalPageService.getPage(page),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: CircularProgressIndicator(
+                        color: AppTheme.primary,
+                      )),
+                );
+              } else {
+                if (snapshot.data == true) {
+                  return PagesWidget(legalPage: legalPageService.currentPage);
+                } else {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+              }
+            }));
+  }
+}
+
+class PagesWidget extends StatelessWidget {
+  const PagesWidget({
+    super.key,
+    required this.legalPage,
+  });
+
+  final LegalPage legalPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      width: double.infinity,
+      height: double.infinity,
+      child: SingleChildScrollView(
+          child: Column(
+        children: [
+          Text(
+            legalPage.title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.primary,
             ),
-            Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-                child: const Text(
-                  """
-Lorem ipsum dolor sit amet consectetur adipiscing elit orci suscipit dui hac, ultrices laoreet quisque vehicula lacus nascetur dictum neque pharetra fusce, venenatis senectus augue dis maecenas primis sodales nunc lobortis etiam. Proin fames felis fusce pharetra primis elementum eros nibh cursus facilisi, dui tincidunt curae at laoreet sodales a dis netus. Ante proin consequat ridiculus et ornare in nec sed a, metus eros feugiat condimentum platea tempor facilisis aliquam viverra, sodales molestie eleifend imperdiet leo curae elementum blandit.
-
-Risus aenean felis eleifend natoque semper platea iaculis maecenas varius ridiculus, justo lacus sollicitudin fames cras senectus sem viverra luctus urna, torquent sed erat morbi aliquam curae dignissim ante bibendum. Potenti per sem quis massa pharetra sollicitudin accumsan, hendrerit facilisi mattis ullamcorper platea maecenas, elementum interdum dictum purus lacus netus. Semper pretium sem parturient maecenas fames blandit pellentesque tellus eu quam, mauris interdum quisque ligula donec lacus auctor mi primis, facilisi conubia fermentum habitasse ullamcorper aliquet risus tincidunt sociis.
-
-Lorem ipsum dolor sit amet consectetur adipiscing elit orci suscipit dui hac, ultrices laoreet quisque vehicula lacus nascetur dictum neque pharetra fusce, venenatis senectus augue dis maecenas primis sodales nunc lobortis etiam. Proin fames felis fusce pharetra primis elementum eros nibh cursus facilisi, dui tincidunt curae at laoreet sodales a dis netus. Ante proin consequat ridiculus et ornare in nec sed a, metus eros feugiat condimentum platea tempor facilisis aliquam viverra, sodales molestie eleifend imperdiet leo curae elementum blandit.
-
-Risus aenean felis eleifend natoque semper platea iaculis maecenas varius ridiculus, justo lacus sollicitudin fames cras senectus sem viverra luctus urna, torquent sed erat morbi aliquam curae dignissim ante bibendum. Potenti per sem quis massa pharetra sollicitudin accumsan, hendrerit facilisi mattis ullamcorper platea maecenas, elementum interdum dictum purus lacus netus. Semper pretium sem parturient maecenas fames blandit pellentesque tellus eu quam, mauris interdum quisque ligula donec lacus auctor mi primis, facilisi conubia fermentum habitasse ullamcorper aliquet risus tincidunt sociis.
-""",
-                  textAlign: TextAlign.justify,
-                  overflow: TextOverflow.visible,
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
-                ))
-          ],
-        )),
-      ),
+          ),
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              child: Text(
+                legalPage.content,
+                textAlign: TextAlign.justify,
+                overflow: TextOverflow.visible,
+                style: const TextStyle(fontSize: 16, color: Colors.black54),
+              ))
+        ],
+      )),
     );
   }
 }

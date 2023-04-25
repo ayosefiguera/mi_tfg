@@ -14,8 +14,5 @@ class AppRoutes {
     'schelude': (context) => ScheludeScreen(),
     'notify': (context) => const NotifyListScreen(),
     'profile': (context) => const SettingsScreen(),
-    'lega': (context) => const LegalScreen(
-          page: "lega",
-        ),
   };
 }

@@ -8,6 +8,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String LEGAL_PAGE = 'legal_terms';
+    const String PRIVACITY_PAGE = "privacity";
+
     final defaultUserFacade =
         Provider.of<DefaultUserFacade>(context, listen: false);
 
@@ -71,10 +74,9 @@ class SettingsScreen extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LegalScreen(
-                                page: 'terms',
+                          builder: (context) => LegalScreen(
+                                page: LEGAL_PAGE,
                               )));
-                      Navigator.pushReplacementNamed(context, 'lega');
                     },
                   ),
                   ListTile(
@@ -86,8 +88,8 @@ class SettingsScreen extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const LegalScreen(
-                                page: 'privacity',
+                          builder: (context) => LegalScreen(
+                                page: PRIVACITY_PAGE,
                               )));
                     },
                   ),
