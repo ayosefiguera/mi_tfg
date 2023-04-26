@@ -159,7 +159,7 @@ class _AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor =
-        appointment.avaliable! ? AppTheme.avaliable : AppTheme.disable;
+        appointment.status! ? AppTheme.avaliable : AppTheme.notAvaliable;
 
     String formattedDate = DateFormat('dd-MMMM kk:mm').format(appointment.date);
 

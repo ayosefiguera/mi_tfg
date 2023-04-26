@@ -96,7 +96,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
             focusedDay: _focusedDay,
             firstDay: kFirstDay,
             lastDay: kLastDay,
-            calendarFormat: CalendarFormat.week,
+            calendarFormat: _calendarFormat,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: const CalendarStyle(outsideDaysVisible: false),
             eventLoader: appointmentFacade.getEventsForDay,
@@ -155,9 +155,12 @@ class _AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor =
-        appointment.avaliable! ? AppTheme.avaliable : AppTheme.disable;
+        appointment.status! ? AppTheme.primary : AppTheme.notAvaliable;
 
-    String formattedDate = DateFormat('dd-MMMM kk:mm').format(appointment.date);
+    final String _FormattedMonth =
+        DateFormat('dd-MMMM').format(appointment.date);
+    final String _FormattedDay = DateFormat('kk:mm').format(appointment.date);
+    const TextStyle _StyleText = TextStyle(color: Colors.white70, fontSize: 18);
 
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -168,38 +171,40 @@ class _AppointmentCard extends StatelessWidget {
             border: Border.all(
                 color: statusColor, style: BorderStyle.solid, width: 2)),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(
-              Icons.event,
-              color: Colors.white,
-              size: 48,
+            Row(
+              children: [
+                const Icon(
+                  Icons.event,
+                  color: Colors.white,
+                  size: 48,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(_FormattedMonth, style: _StyleText),
+              ],
             ),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              formattedDate,
-              style: const TextStyle(color: Colors.black54),
-            ),
-            const SizedBox(
-              width: 18,
-            ),
-            (appointment.status! && appointment.avaliable!)
-                ? IconButton(
-                    onPressed: () {
-                      appointmentFacade.requestAppointment(appointment);
-                    },
-                    icon: const Icon(Icons.add),
-                    iconSize: 32,
-                    color: Colors.white,
-                  )
-                : IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.do_not_disturb_alt_outlined),
-                    iconSize: 32,
-                    color: Colors.white,
-                  )
+            Row(
+              children: [
+                const SizedBox(
+                  width: 18,
+                ),
+                const Icon(
+                  Icons.watch_later_outlined,
+                  color: Colors.white,
+                  size: 48,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  _FormattedDay,
+                  style: _StyleText,
+                ),
+              ],
+            )
           ],
         ));
   }

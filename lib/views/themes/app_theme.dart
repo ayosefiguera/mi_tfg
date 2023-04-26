@@ -6,8 +6,8 @@ class AppTheme {
   static const Color secundary = Color.fromARGB(255, 186, 124, 227);
   static const Color backgroundDark = Color.fromARGB(255, 54, 111, 138);
 
-  static const Color avaliable = Color.fromARGB(255, 125, 253, 193);
-  static const Color disable =  Color.fromARGB(135, 247, 127, 127);
+  static const Color avaliable = Colors.lightGreen;
+  static const Color notAvaliable = Colors.black38;
 
 // Creamos nuestra diseño desde una copia del modelo base.
   static final ThemeData baseTheme = ThemeData.light().copyWith(
@@ -18,15 +18,16 @@ class AppTheme {
           selectedItemColor: secundary),
 
       //floatinAtionbutton
-      floatingActionButtonTheme:
-          const FloatingActionButtonThemeData(backgroundColor: primary, elevation: 0),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: primary, elevation: 0),
 
       //Elevation Button
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
             backgroundColor: primary,
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
-            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            textStyle:
+                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             shape: const StadiumBorder(),
             elevation: 0),
       ),

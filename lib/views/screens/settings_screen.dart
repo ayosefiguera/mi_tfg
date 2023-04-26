@@ -74,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LegalScreen(
+                          builder: (context) => const LegalScreen(
                                 page: LEGAL_PAGE,
                               )));
                     },
@@ -88,7 +88,7 @@ class SettingsScreen extends StatelessWidget {
                     trailing: const Icon(Icons.arrow_forward_ios),
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LegalScreen(
+                          builder: (context) => const LegalScreen(
                                 page: PRIVACITY_PAGE,
                               )));
                     },
