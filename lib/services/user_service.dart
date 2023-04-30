@@ -9,12 +9,12 @@ abstract class UserService {
   /// [email] The email.
   /// [password] The password
   /// Only return [error]. otherwise return [null].
-  Future<String?> createUser(User newUSer);
+  Future<bool> createUser(User newUSer);
 
   /// Check [email] and [password] to login
   ///
   /// Only return[message][Error] otherwise return [null].
-  Future<String?> loginUser(User user);
+  Future<bool> loginUser(User user);
 
   /// When user logout delete the idToken.
   Future logout();
@@ -26,4 +26,14 @@ abstract class UserService {
   /// Find the idName into Secure Storage.
   /// Return [String] the idToken or empty string.
   Future<User> getUser();
+
+  /// Update User's account.
+  ///
+  /// Return [bool] return if account was update succefully.
+  Future<bool> updateUser(User user);
+
+  /// Delete User's account.
+  ///
+  /// Return [bool] return if account was deleted succefully.
+  Future<bool> deleteUser();
 }

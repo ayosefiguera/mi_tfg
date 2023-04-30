@@ -1,5 +1,6 @@
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/legal_screen.dart';
+import 'package:eqlibrum/views/screens/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Configuración de cuenta',
+                'Settings',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -34,12 +35,15 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   ListTile(
                     title: const Text(
-                      'información personal',
+                      'Account',
                       style: TextStyle(color: Colors.grey),
                     ),
                     leading: const Icon(Icons.person_2_outlined),
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AccountScreen()));
+                    },
                   ),
                   ListTile(
                     title: const Text(
@@ -112,7 +116,9 @@ class SettingsScreen extends StatelessWidget {
                 ),
                 leading: const Icon(Icons.person_off_outlined),
                 trailing: const Icon(Icons.arrow_forward_ios),
+                enabled: true,
                 onTap: () {
+                  defaultUserFacade.deleteUser();
                   defaultUserFacade.logout();
                   Navigator.pushReplacementNamed(context, 'welcome');
                 },
@@ -129,6 +135,7 @@ class SettingsScreen extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, 'welcome');
                 },
               ),
+
             ],
           ),
         ));

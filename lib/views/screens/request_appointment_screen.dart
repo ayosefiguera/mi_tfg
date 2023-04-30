@@ -32,7 +32,7 @@ class RequestAppointmentScreen extends StatelessWidget {
               } else {
                 if (snapshot.data == true) {
                   return _RequestAppointmentScreen(
-                      id: id, appointmentFacade: appointmentFacade);
+                      appointmentFacade: appointmentFacade);
                 } else {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
@@ -42,21 +42,18 @@ class RequestAppointmentScreen extends StatelessWidget {
 }
 
 class _RequestAppointmentScreen extends StatefulWidget {
-  const _RequestAppointmentScreen(
-      {super.key, required this.id, required this.appointmentFacade});
-  final String id;
+  const _RequestAppointmentScreen({super.key, required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
 
   @override
   // ignore: no_logic_in_create_state
-  _TabletAppointmentState createState() =>
-      _TabletAppointmentState(id: id, appointmentFacade: appointmentFacade);
+  _TabletAppointmentState createState() => _TabletAppointmentState();
 }
 
 class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
-  _TabletAppointmentState({required this.id, required this.appointmentFacade});
-  final AppointmentFacade appointmentFacade;
-  final String id;
+  _TabletAppointmentState();
+
+  //final String id;
   bool loading = true;
   late ValueNotifier<List<Appointment>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -69,7 +66,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
     super.initState();
     _selectedDay = _focusedDay;
     _selectedEvents =
-        ValueNotifier(appointmentFacade.getEventsForDay(_selectedDay!));
+        ValueNotifier(widget.appointmentFacade.getEventsForDay(_selectedDay!));
   }
 
   @override
@@ -85,7 +82,8 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
         _focusedDay = focusedDay;
       });
 
-      _selectedEvents.value = appointmentFacade.getEventsForDay(seletedDay);
+      _selectedEvents.value =
+          widget.appointmentFacade.getEventsForDay(seletedDay);
     }
   }
 
@@ -103,7 +101,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
             calendarFormat: CalendarFormat.week,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: const CalendarStyle(outsideDaysVisible: false),
-            eventLoader: appointmentFacade.getEventsForDay,
+            eventLoader: widget.appointmentFacade.getEventsForDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: (date, ele) {
               _onDaySelected(date, ele);
@@ -138,7 +136,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   return _AppointmentCard(
-                      appointmentFacade: appointmentFacade,
+                      appointmentFacade: widget.appointmentFacade,
                       appointment: value[index]);
                 },
               );

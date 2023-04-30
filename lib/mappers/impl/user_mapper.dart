@@ -11,7 +11,6 @@ class UserMapper implements EntityMapper<UserDTO, User> {
     target.email = source.email;
     target.surname = source.surname;
     target.picture = source.picture;
-    target.summary = source.summary;
     return target;
   }
 
@@ -24,6 +23,7 @@ class UserMapper implements EntityMapper<UserDTO, User> {
   @override
   User toEntity(UserDTO source) {
     User target = User(
+        id: source.id ?? '',
         name: source.name ?? '',
         email: source.email ?? '',
         surname: source.surname ?? '',

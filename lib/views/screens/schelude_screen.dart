@@ -47,12 +47,11 @@ class _RequestAppointmentScreen extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   _TabletAppointmentState createState() =>
-      _TabletAppointmentState(appointmentFacade: appointmentFacade);
+      _TabletAppointmentState();
 }
 
 class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
-  _TabletAppointmentState({required this.appointmentFacade});
-  final AppointmentFacade appointmentFacade;
+  _TabletAppointmentState();
   bool loading = true;
   late ValueNotifier<List<Appointment>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
@@ -65,7 +64,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
     super.initState();
     _selectedDay = _focusedDay;
     _selectedEvents =
-        ValueNotifier(appointmentFacade.getEventsForDay(_selectedDay!));
+        ValueNotifier(widget.appointmentFacade.getEventsForDay(_selectedDay!));
   }
 
   @override
@@ -81,7 +80,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
         _focusedDay = focusedDay;
       });
 
-      _selectedEvents.value = appointmentFacade.getEventsForDay(seletedDay);
+      _selectedEvents.value = widget.appointmentFacade.getEventsForDay(seletedDay);
     }
   }
 
@@ -99,7 +98,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
             calendarFormat: _calendarFormat,
             startingDayOfWeek: StartingDayOfWeek.monday,
             calendarStyle: const CalendarStyle(outsideDaysVisible: false),
-            eventLoader: appointmentFacade.getEventsForDay,
+            eventLoader: widget.appointmentFacade.getEventsForDay,
             selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
             onDaySelected: (date, ele) {
               _onDaySelected(date, ele);
@@ -134,7 +133,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   return _AppointmentCard(
-                      appointmentFacade: appointmentFacade,
+                      appointmentFacade: widget.appointmentFacade,
                       appointment: value[index]);
                 },
               );

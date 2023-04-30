@@ -60,7 +60,7 @@ class _LoginForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            loginForm.formKey == ''
+            userDTO.email == ''
                 ? TextFormField(
                     autocorrect: false,
                     keyboardType: TextInputType.emailAddress,
@@ -118,7 +118,7 @@ class _LoginForm extends StatelessWidget {
                   onPressed: loginForm.isLoading
                       ? null
                       : () async {
-                          FocusScope.of(context).unfocus(); //Disable keyboard
+                          FocusScope.of(context).unfocus();
 
                           final defaultUserFacade =
                               Provider.of<DefaultUserFacade>(context,
@@ -128,13 +128,14 @@ class _LoginForm extends StatelessWidget {
 
                           loginForm.isLoading = true;
 
-                          final String? errorMessage =
+                          final bool operation =
                               await defaultUserFacade.loginUser(userDTO);
 
-                          if (errorMessage == null) {
+                          if (operation) {
                             Navigator.pushReplacementNamed(context, 'home');
                           } else {
-                            NotificacionService.showSnackbar(errorMessage);
+                            NotificacionService.showSnackbar(
+                                'Error en el login');
                           }
 
                           loginForm.isLoading = false;

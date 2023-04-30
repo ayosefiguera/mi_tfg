@@ -11,17 +11,18 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   DefaultUserFacade() {
     getUser();
   }
+
   final DefaultUserService defaultUserService = DefaultUserService();
 
   @override
-  Future<String?> createUser(UserDTO newUserDTO) {
+  Future<bool> createUser(UserDTO newUserDTO) {
     return getUserService().createUser(mapper.toEntity(newUserDTO));
   }
 
   @override
-  Future<UserDTO> getUser() async {
+  Future<bool> getUser() async {
     userDTO = mapper.toDTO(await getUserService().getUser());
-    return userDTO;
+    return true;
   }
 
   @override
@@ -30,7 +31,8 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   }
 
   @override
-  Future<String?> loginUser(userDTO) {
+  Future<bool> loginUser(final userDTO) {
+    notifyListeners();
     return getUserService().loginUser(mapper.toEntity(userDTO));
   }
 
@@ -41,5 +43,15 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   @override
   Future<String> getIdToken() {
     return getUserService().getIdtoken();
+  }
+
+  @override
+  Future<bool> updateUser(final UserDTO userDTO) async {
+    return getUserService().updateUser(mapper.toEntity(userDTO));
+  }
+
+  @override
+  Future<bool> deleteUser() async {
+    return getUserService().deleteUser();
   }
 }

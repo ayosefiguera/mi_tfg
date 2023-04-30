@@ -7,34 +7,36 @@ import 'package:http/http.dart' as http;
 
 /// Default implementation to [UserDAO]
 class DefaultUserDAO implements UserDAO {
-  final String _AutBaseUrl = Auth.baseUrl;
+  static const USER_TOKEN = 'idToken';
+  final String _AuthBaseUrl = Auth.baseUrl;
   final String _FirebaseBaseUrl = FirebaseData.url;
   final String _key = Auth.key;
   final storage = new FlutterSecureStorage();
 
   @override
-  Future<String?> createUser(final User newUser) async {
+  Future<bool> createUser(final User newUser) async {
     const String encodeAuthPath = "/v1/accounts:signUp";
 
     final Map<String, dynamic> authData = {
       'email': newUser.email,
-      'password': newUser.email,
+      'password': newUser.pass,
       'returnSecureToken': true
     };
 
-    /// Create AuthControl Firebase
-    final urlAuth = Uri.https(_AutBaseUrl, encodeAuthPath, {'key': _key});
+    final urlAuth = Uri.https(_AuthBaseUrl, encodeAuthPath, {'key': _key});
     final resp = await http.post(urlAuth, body: json.encode(authData));
 
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-    if (decodeResp.containsKey('idToken')) {
+    if (decodeResp.containsKey(USER_TOKEN)) {
       User createdUser = await _createNewUser(newUser);
-      _locaStorageDataUser(createdUser, decodeResp['idToken']);
+      _newLocalStorageDataUser(createdUser, decodeResp[USER_TOKEN]);
     } else {
-      return decodeResp['error']['message'];
+      print(decodeResp['error']['message']);
+      return false;
     }
-    return '';
+
+    return true;
   }
 
   Future<User> _createNewUser(User newUser) async {
@@ -46,9 +48,9 @@ class DefaultUserDAO implements UserDAO {
     return newUser;
   }
 
-    _locaStorageDataUser(final User newUser, final String token) async {
+  _newLocalStorageDataUser(final User newUser, final String token) async {
     // Store userToken in secure storage.
-    await storage.write(key: 'userToken', value: token);
+    await storage.write(key: USER_TOKEN, value: token);
     await storage.write(key: 'userId', value: newUser.id ?? '');
     await storage.write(key: 'userName', value: newUser.name);
     await storage.write(key: 'userSurname', value: newUser.surname);
@@ -57,35 +59,39 @@ class DefaultUserDAO implements UserDAO {
   }
 
   @override
-  Future<String?> loginUser(final user) async {
+  Future<bool> loginUser(final user) async {
     const String encodePath = "/v1/accounts:signInWithPassword";
+
+    String userToke = await getIdtoken();
+
     final Map<String, dynamic> authData = {
       'email': user.email,
       'password': user.pass,
       'returnSecureToken': true
     };
 
-    final url = Uri.https(_AutBaseUrl, encodePath, {'key': _key});
+    final url = Uri.https(_AuthBaseUrl, encodePath, {'key': _key});
     final resp = await http.post(url, body: json.encode(authData));
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
-    if (decodeResp.containsKey('userToken')) {
-      await storage.write(key: 'userToken', value: decodeResp['userToken']);
-      return null;
+    if (decodeResp.containsKey(USER_TOKEN)) {
+      await storage.write(key: USER_TOKEN, value: decodeResp[USER_TOKEN]);
+      return true;
     } else {
-      return decodeResp['error']['message'];
+      return false;
     }
   }
 
   @override
   Future logout() async {
-    await storage.delete(key: 'userToken');
+    await storage.delete(key: USER_TOKEN);
     return;
   }
 
   @override
   Future<String> getIdtoken() async {
-    return await storage.read(key: 'userToken') ?? '';
+    String token = await storage.read(key: USER_TOKEN) ?? '';
+    return token;
   }
 
   @override
@@ -96,5 +102,85 @@ class DefaultUserDAO implements UserDAO {
     String email = await storage.read(key: 'userEmail') ?? '';
     User user = User(id: id, name: name, surname: surname, email: email);
     return user;
+  }
+
+  @override
+  Future<String?> deleteUser() async {
+    const String encodePath = "/v1/accounts:delete";
+
+    String userToke = await getIdtoken();
+    final Map<String, dynamic> authData = {
+      USER_TOKEN: userToke,
+      'returnSecureToken': true
+    };
+
+    final url = Uri.https(_AuthBaseUrl, encodePath, {'key': _key});
+    final response = await http.post(url, body: json.encode(authData));
+
+    if (response.statusCode != 200) {
+      final decodeResp = json.decode(response.body);
+      return decodeResp['error']['message'];
+    }
+
+    final String respDelete = await _deleteUserData() ?? '';
+
+    if (respDelete.isNotEmpty) {
+      return respDelete;
+    }
+    _removeLocalStorageUserData();
+    return '';
+  }
+
+  Future<String?> _deleteUserData() async {
+    User user = await getUser();
+
+    final urlDeleted =
+        Uri.https(_FirebaseBaseUrl, 'users/${user.id}.json', {'key': _key});
+    final response = await http.delete(urlDeleted, body: user.toJson());
+    final decodeData = json.decode(response.body);
+    print(decodeData);
+
+    if (response == null) {
+      return 'ERROR_DATA_NOT_FOUND';
+    }
+    return '';
+  }
+
+  void _removeLocalStorageUserData() async {
+    // Store userToken in secure storage.
+    await storage.delete(key: USER_TOKEN);
+    await storage.delete(key: 'userId');
+    await storage.delete(key: 'userName');
+    await storage.delete(key: 'userSurname');
+    await storage.delete(key: 'userEmail');
+    await storage.delete(key: 'userPicture');
+  }
+
+  void _UpdateLocalStorageDataUser(final User updateUser) async {
+    // Store userToken in secure storage.
+    await storage.write(key: 'userName', value: updateUser.name);
+    await storage.write(key: 'userSurname', value: updateUser.surname);
+    await storage.write(key: 'userEmail', value: updateUser.email);
+    await storage.write(key: 'userPicture', value: updateUser.picture ?? '');
+  }
+
+  @override
+  Future<String?> updateUser(User user) async {
+    String userToke = await getIdtoken();
+
+    final urlUpdate = Uri.https(
+        _FirebaseBaseUrl, 'users/${user.id}.json', {'auth': userToke});
+    final response = await http.put(urlUpdate, body: user.toJson());
+
+    if (response.statusCode != 200) {
+      return 'ERROR_TO_UPDATE_DATA';
+    }
+
+    final decodeData = json.decode(response.body);
+
+    User updateUser = User.fromMap(decodeData);
+    _UpdateLocalStorageDataUser(updateUser);
+
+    return '';
   }
 }

@@ -135,15 +135,15 @@ class _RegisterForm extends StatelessWidget {
 
                           loginForm.isLoading = true;
 
-                          final String? errorMessage =
+                          final bool operation =
                               await defaultUserFacade.createUser(userDTO);
 
-                          if (errorMessage == null) {
+                          if (operation) {
                             Navigator.pushReplacementNamed(context, 'home');
                           } else {
-                            stderr.writeln(errorMessage);
+                            stderr.writeln('Error to create login!!');
                           }
-
+                          
                           loginForm.isLoading = false;
                         },
                   child: Text(
