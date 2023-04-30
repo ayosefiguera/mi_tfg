@@ -24,19 +24,19 @@ class BottonNavContainer extends StatelessWidget {
               Navigator.pushNamed(context, 'schelude');
               break;
             case 3:
-              Navigator.pushNamed(context, 'notify');
+              Navigator.pushNamed(context, 'multimedia');
               break;
           }
         },
         type: BottomNavigationBarType.fixed, // needed for 4 or more icons
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'search'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined), label: 'home'),
+              icon: Icon(Icons.home_outlined), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month_outlined), label: 'schelude'),
+              icon: Icon(Icons.calendar_month_outlined), label: 'Calendar'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.mark_email_unread_outlined), label: 'notify'),
+              icon: Icon(Icons.newspaper_outlined), label: 'Multimedia'),
         ]);
   }
 }

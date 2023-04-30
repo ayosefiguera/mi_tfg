@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  //Text
+  static const styleTextTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: AppTheme.primary,
+  );
   // Valores estaticos de nuestra paleta de colores.
   static const Color primary = Color(0xff7cc2e3);
   static const Color secundary = Color.fromARGB(255, 186, 124, 227);

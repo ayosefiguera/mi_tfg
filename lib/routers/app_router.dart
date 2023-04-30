@@ -1,4 +1,3 @@
-import 'package:eqlibrum/views/screens/legal_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 
@@ -12,7 +11,10 @@ class AppRoutes {
     'home': (context) => const HomeScreen(),
     'search': (context) => const SearchPsychologistScreen(),
     'schelude': (context) => ScheludeScreen(),
-    'notify': (context) => const NotifyListScreen(),
+    'multimedia': (context) => const MultimediaContentScreen(),
     'profile': (context) => const SettingsScreen(),
+    'news': (context) => const MediaScreen(title: 'News'),
+    'course': (context) => const MediaScreen(title: 'Course'),
+    'podcast': (context) => const MediaScreen(title: 'Podcast'),
   };
 }

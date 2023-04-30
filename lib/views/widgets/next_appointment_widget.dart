@@ -1,11 +1,9 @@
-import 'dart:collection';
 import 'package:eqlibrum/utils/utils.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
 import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/utils/utils.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
-import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 
 class NextAppointment extends StatelessWidget {
@@ -47,7 +45,25 @@ class _NextAppointment extends StatelessWidget {
     Color statusColor = AppTheme.primary;
 
     return appointment.isEmpty
-        ? const Text("No appointment today")
+        ? Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: AppTheme.primary,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            child: const SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: Center(
+                  child: Text(
+                    'Not appointment today',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )))
         : Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),

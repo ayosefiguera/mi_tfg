@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
-import 'package:eqlibrum/facade/user_facade.dart';
 import 'package:eqlibrum/providers/login_form_provider.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AccountScreen extends StatelessWidget {

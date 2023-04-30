@@ -1,7 +1,8 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/views/screens/request_appointment_screen.dart';
-import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
+
 
 class PsychologistDetailScreen extends StatelessWidget {
   const PsychologistDetailScreen({Key? key, required this.psychologist})

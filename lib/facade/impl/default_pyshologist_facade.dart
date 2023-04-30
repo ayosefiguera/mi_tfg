@@ -3,7 +3,7 @@ import 'package:eqlibrum/facade/psychologist_facade.dart';
 import 'package:eqlibrum/mappers/impl/pyschologist_mapper.dart';
 import 'package:eqlibrum/models/psychologist.dart';
 import 'package:eqlibrum/services/impl/default_pyschologist_service.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class DefaultPsychologistFacade extends ChangeNotifier
     implements PsychologistFacade {

@@ -1,6 +1,6 @@
 import 'package:eqlibrum/views/widgets/next_appointment_widget.dart';
-import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,9 +43,20 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 12,
+                  height: 8,
                 ),
                 NextAppointment(),
+                const SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  "News, courses, and podcasts",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.indigo.shade900,
+                      fontWeight: FontWeight.bold),
+                ),
+                const BottonTable(),
                 const SizedBox(
                   height: 18,
                 ),
@@ -59,10 +70,11 @@ class HomeScreen extends StatelessWidget {
                           color: Colors.indigo.shade900,
                           fontWeight: FontWeight.bold),
                     ),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.search)),
                   ],
                 ),
-                const PsychologistTiles(),
+                PsychologistCardSwiper(),
               ],
             ),
           ),

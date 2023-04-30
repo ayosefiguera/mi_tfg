@@ -1,9 +1,9 @@
 import 'package:eqlibrum/facade/impl/defaul_legal_page_facade.dart';
 import 'package:eqlibrum/models/LegalPage.dart';
-import 'package:eqlibrum/services/impl/defaul_legal_pages_services.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+
 
 class LegalScreen extends StatelessWidget {
   const LegalScreen({super.key, required this.page});
@@ -51,6 +51,7 @@ class PagesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20),
       width: double.infinity,
@@ -60,11 +61,7 @@ class PagesWidget extends StatelessWidget {
         children: [
           Text(
             legalPage.title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: AppTheme.primary,
-            ),
+            style: AppTheme.styleTextTitle,
           ),
           Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),

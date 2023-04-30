@@ -1,5 +1,5 @@
-import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class SearchPsychologistScreen extends StatelessWidget {
   const SearchPsychologistScreen({super.key});

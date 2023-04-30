@@ -5,6 +5,7 @@ import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import '../themes/themes.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -143,7 +144,7 @@ class _RegisterForm extends StatelessWidget {
                           } else {
                             stderr.writeln('Error to create login!!');
                           }
-                          
+
                           loginForm.isLoading = false;
                         },
                   child: Text(

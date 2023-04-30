@@ -156,7 +156,7 @@ class DefaultUserDAO implements UserDAO {
     await storage.delete(key: 'userPicture');
   }
 
-  void _UpdateLocalStorageDataUser(final User updateUser) async {
+  void _updateLocalStorageDataUser(final User updateUser) async {
     // Store userToken in secure storage.
     await storage.write(key: 'userName', value: updateUser.name);
     await storage.write(key: 'userSurname', value: updateUser.surname);
@@ -179,7 +179,7 @@ class DefaultUserDAO implements UserDAO {
     final decodeData = json.decode(response.body);
 
     User updateUser = User.fromMap(decodeData);
-    _UpdateLocalStorageDataUser(updateUser);
+    _updateLocalStorageDataUser(updateUser);
 
     return '';
   }

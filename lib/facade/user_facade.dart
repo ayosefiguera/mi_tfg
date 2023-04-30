@@ -1,5 +1,5 @@
 import 'package:eqlibrum/dto/user_dto.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 abstract class UserFacade extends ChangeNotifier{
   // Validate login User.

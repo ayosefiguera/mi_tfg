@@ -2,7 +2,7 @@ import 'package:eqlibrum/facade/Legal_pages_facade.dart';
 import 'package:eqlibrum/models/LegalPage.dart';
 import 'package:eqlibrum/services/impl/defaul_legal_pages_services.dart';
 import 'package:eqlibrum/services/legal_pages_services.dart';
-import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class DefaultLegalPageFacade extends ChangeNotifier implements LegalPageFacade {
   LegalPagesServices _pagesServices = DefaultLegalPagesServices();

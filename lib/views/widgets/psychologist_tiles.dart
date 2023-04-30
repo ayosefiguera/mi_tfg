@@ -2,6 +2,7 @@ import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class PsychologistTiles extends StatelessWidget {
   const PsychologistTiles({super.key});
