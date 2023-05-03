@@ -1,3 +1,4 @@
+import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/themes/app_theme.dart';
@@ -8,12 +9,12 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final defaultUserFacade =
-        Provider.of<DefaultUserFacade>(context, listen: false);
+    final localRepositoryFacade =
+        Provider.of<DefaultLocalRepositoryFacade>(context, listen: false);
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: FutureBuilder(
-        future: defaultUserFacade.getIdToken(),
+        future: localRepositoryFacade.getIdtoken(),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (!snapshot.hasData) {
             return const Text('wait');
@@ -56,7 +57,7 @@ class Registers extends StatelessWidget {
               child: Image(image: AssetImage('assets/logo.png')),
             ),
             const SizedBox(
-              height: 200,
+              height: 150,
             ),
             Column(
               children: [
@@ -73,6 +74,18 @@ class Registers extends StatelessWidget {
                       Navigator.pushReplacementNamed(context, 'register');
                     },
                     child: const Text('Sing up')),
+                const SizedBox(
+                  height: 16,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, 'registerPsychologist');
+                    },
+                    child: const Text('Psichologist register')),
+                const SizedBox(
+                  height: 16,
+                ),
               ],
             )
           ],

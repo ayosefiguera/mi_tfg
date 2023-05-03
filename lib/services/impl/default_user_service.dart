@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 ///Default implementation of
-class DefaultUserService extends ChangeNotifier implements UserService {
+class DefaultUserService implements UserService {
   final UserDAO userDAO = DefaultUserDAO();
 
   @override
@@ -42,7 +42,6 @@ class DefaultUserService extends ChangeNotifier implements UserService {
   @override
   Future<bool> updateUser(User user) async {
     String? updateRepsonse = await getUserDao().updateUser(user);
-    print(updateRepsonse);
     return true;
   }
 

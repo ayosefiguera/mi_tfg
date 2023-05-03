@@ -1,3 +1,4 @@
+import 'package:eqlibrum/views/screens/register_psychologist_screen%20c.dart';
 import 'package:flutter/material.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 
@@ -8,6 +9,7 @@ class AppRoutes {
     'welcome': (context) => const WelcomeScreen(),
     'login': (context) => const LoginScreen(),
     'register': (context) => const RegisterScreen(),
+    'registerPsychologist': (context) => const RegisterPsychologistScreen(),
     'home': (context) => const HomeScreen(),
     'search': (context) => const SearchPsychologistScreen(),
     'schelude': (context) => ScheludeScreen(),

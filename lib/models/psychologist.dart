@@ -1,39 +1,51 @@
 import 'dart:convert';
 
-class Psychologist {
-  Psychologist(
-      {this.id,
-      required this.email,
-      required this.name,
-      required this.surname,
-      this.birthdate,
-      this.address,
-      this.creditCard,
-      required this.date_singup,
-      required this.pass,
-      this.picture,
-      this.summary,
-      this.bio,
-      this.vote});
+import 'package:eqlibrum/models/user.dart';
 
+class Psychologist extends User {
   String? id;
-  String email;
-  String name;
-  String surname;
+  String? email;
+  String? name;
+  String? surname;
   int? birthdate;
   String? address;
   String? creditCard;
-  String date_singup;
-  String pass;
+  int? timestamp;
+  String? pass;
   String? picture;
   String? summary;
   String? bio;
+  String? rol;
   int? vote;
+
+  Psychologist(
+      {this.id,
+      this.email,
+      this.name,
+      this.surname,
+      this.birthdate,
+      this.address,
+      this.creditCard,
+      this.timestamp,
+      this.pass,
+      this.picture,
+      this.summary,
+      this.bio,
+      this.rol,
+      this.vote})
+      : super(
+            id: id,
+            email: email,
+            surname: surname,
+            birthdate: birthdate,
+            address: address,
+            creditCard: creditCard,
+            timestamp: timestamp,
+            pass: pass,
+            picture: picture);
 
   factory Psychologist.fromJson(String str) =>
       Psychologist.fromMap(json.decode(str));
-
-  String toJson() => json.encode(toMap());
 
   factory Psychologist.fromMap(Map<String, dynamic> json) => Psychologist(
       id: json["id"],
@@ -43,13 +55,15 @@ class Psychologist {
       birthdate: json["age"],
       address: json["address"],
       creditCard: json["credit_card"],
-      date_singup: json["date_singup"],
+      timestamp: json["timestamp"],
       pass: json["pass"],
       picture: json["picture"],
       summary: json["summary"],
       bio: json["bio"],
+      rol: json["rol"],
       vote: json["vote"]);
 
+  @override
   Map<String, dynamic> toMap() => {
         "id": id,
         "email": email,
@@ -58,11 +72,12 @@ class Psychologist {
         "date": birthdate,
         "address": address,
         "credit_card": creditCard,
-        "date_singup": date_singup,
+        "timestamp": timestamp,
         "pass": pass,
         "picture": picture,
         "summary": summary,
         "bio": bio,
+        "rol":rol,
         "vote": vote
       };
 }

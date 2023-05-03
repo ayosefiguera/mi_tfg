@@ -1,13 +1,16 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:flutter/material.dart';
 
-abstract class UserFacade extends ChangeNotifier{
+abstract class UserFacade extends ChangeNotifier {
   // Validate login User.
   Future<bool> loginUser(UserDTO userDTO);
+
   // Delete idToke
-  logout();
+  void logout();
+
   //get User to work with data
-  getUser();
+  void getUser();
+
   // Create NewUser.
   Future<bool> createUser(UserDTO userDTO);
 
@@ -20,7 +23,8 @@ abstract class UserFacade extends ChangeNotifier{
   Future<bool> updateUser(UserDTO user);
 
   /// Delete User's account.
-  ///  
+  ///
   /// Return [bool] return if account was deleted succefully.
   Future<bool> deleteUser();
-}
+  
+  }

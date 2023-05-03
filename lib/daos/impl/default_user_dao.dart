@@ -85,7 +85,6 @@ class DefaultUserDAO implements UserDAO {
   @override
   Future logout() async {
     await storage.delete(key: USER_TOKEN);
-    return;
   }
 
   @override

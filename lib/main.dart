@@ -1,6 +1,8 @@
+import 'package:eqlibrum/daos/impl/default_local_repository.dart';
 import 'package:eqlibrum/daos/impl/default_pages_dao.dart';
 import 'package:eqlibrum/facade/impl/defaul_legal_page_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
+import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/providers/providers.dart';
@@ -28,6 +30,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DefaultUserFacade()),
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),
         ChangeNotifierProvider(create: (_) => DefaultLegalPageFacade()),
+        ChangeNotifierProvider(create: (_) => DefaultLocalRepositoryFacade()),
       ],
       child: const Eqlibrum(),
     );

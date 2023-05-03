@@ -10,10 +10,10 @@ class User {
   String? creditCard;
   String? pass;
   String? picture;
-  String? summary;
   int? timestamp;
+  String? rol;
+  String? summary;
   String? bio;
-  int? vote;
 
   User(
       {this.id,
@@ -24,30 +24,31 @@ class User {
       this.address,
       this.creditCard,
       this.timestamp,
-      this.pass,
-      this.picture,
-      this.summary,
       this.bio,
-      this.vote});
+      this.summary,
+      this.pass,
+      this.rol,
+      this.picture});
 
   factory User.fromJson(String str) => User.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory User.fromMap(Map<String, dynamic> json) => User(
-      id: json["id"],
-      email: json["email"],
-      name: json["name"],
-      surname: json["surname"],
-      birthdate: json["age"],
-      address: json["address"],
-      creditCard: json["credit_card"],
-      timestamp: json["date_singup"],
-      pass: json["pass"],
-      picture: json["picture"],
-      summary: json["summary"],
-      bio: json["bio"],
-      vote: json["vote"]);
+        id: json["id"],
+        email: json["email"],
+        name: json["name"],
+        surname: json["surname"],
+        birthdate: json["age"],
+        address: json["address"],
+        creditCard: json["credit_card"],
+        timestamp: json["date_singup"],
+        pass: json["pass"],
+        rol: json["rol"],
+        picture: json["picture"],
+        bio: json["bio"],
+        summary: json["summary"],
+      );
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -60,8 +61,8 @@ class User {
         "date_singup": timestamp,
         "pass": pass,
         "picture": picture,
-        "summary": summary,
+        "rol": rol,
         "bio": bio,
-        "vote": vote
+        "summary": summary,
       };
 }

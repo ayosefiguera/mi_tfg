@@ -1,4 +1,5 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
+import 'package:eqlibrum/models/psychologist.dart';
 import 'package:flutter/material.dart';
 
 // Facade for managing Psychologist
@@ -10,4 +11,8 @@ abstract class PsychologistFacade extends ChangeNotifier {
   ///
   /// return [List] the list of al psychologist.
   Future<List<PsychologistDTO>> getAllPsychologist();
+
+  // Create NewPsychologist.
+  Future<bool> createUser(PsychologistDTO psychologistDTO);
+
 }

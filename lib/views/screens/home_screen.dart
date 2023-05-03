@@ -60,24 +60,39 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 18,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Let's find your doctor",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.indigo.shade900,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.search)),
-                  ],
-                ),
-                PsychologistCardSwiper(),
+                swiper_container(),
               ],
             ),
           ),
         ));
+  }
+}
+
+class swiper_container extends StatelessWidget {
+  const swiper_container({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Let's find your doctor",
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.indigo.shade900,
+                  fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.search)),
+          ],
+        ),
+        const PsychologistCardSwiper(),
+      ],
+    );
   }
 }

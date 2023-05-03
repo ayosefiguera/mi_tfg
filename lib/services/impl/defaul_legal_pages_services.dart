@@ -4,7 +4,7 @@ import 'package:eqlibrum/models/LegalPage.dart';
 import 'package:eqlibrum/services/legal_pages_services.dart';
 import 'package:flutter/material.dart';
 
-class DefaultLegalPagesServices extends ChangeNotifier
+class DefaultLegalPagesServices
     implements LegalPagesServices {
   PagesDao _pagesDao = DefaultPagesDAO();
 

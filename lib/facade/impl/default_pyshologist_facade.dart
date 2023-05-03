@@ -1,4 +1,5 @@
 import 'package:eqlibrum/dto/psychologist_dto.dart';
+import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/psychologist_facade.dart';
 import 'package:eqlibrum/mappers/impl/pyschologist_mapper.dart';
 import 'package:eqlibrum/models/psychologist.dart';
@@ -36,5 +37,11 @@ class DefaultPsychologistFacade extends ChangeNotifier
 
   DefaultPsychologistService getPsychologistService() {
     return defaultPsychologistService;
+  }
+
+  @override
+  Future<bool> createUser(UserDTO psychologistDTO) {
+    return getPsychologistService()
+        .createPsychologist(mapper.toEntity(psychologistDTO));
   }
 }

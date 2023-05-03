@@ -1,16 +1,13 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/user_facade.dart';
 import 'package:eqlibrum/mappers/impl/user_mapper.dart';
+import 'package:eqlibrum/models/user.dart';
 import 'package:eqlibrum/services/impl/default_user_service.dart';
 import 'package:flutter/material.dart';
 
 class DefaultUserFacade extends ChangeNotifier implements UserFacade {
   UserDTO userDTO = UserDTO();
   UserMapper mapper = UserMapper();
-
-  DefaultUserFacade() {
-    getUser();
-  }
 
   final DefaultUserService defaultUserService = DefaultUserService();
 
