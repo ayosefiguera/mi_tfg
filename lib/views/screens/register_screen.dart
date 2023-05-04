@@ -1,5 +1,7 @@
+import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/providers/providers.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -8,8 +10,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
-
+  final String? rol;
+  RegisterScreen({Key? key, this.rol});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,8 +32,8 @@ class RegisterScreen extends StatelessWidget {
               bottom: 0,
               child: ChangeNotifierProvider(
                 create: (_) => LoginFormProvider(),
-                child: const SingFormsContainer(
-                    title: 'New Account', child: _RegisterForm()),
+                child: SingFormsContainer(
+                    title: 'New Account $rol', child: _RegisterForm(rol: rol)),
               ),
             )
           ],
@@ -43,7 +45,9 @@ class RegisterScreen extends StatelessWidget {
 
 // SingInForm
 class _RegisterForm extends StatelessWidget {
-  const _RegisterForm();
+  final String? rol;
+  _RegisterForm({Key? key, this.rol});
+
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
@@ -128,24 +132,39 @@ class _RegisterForm extends StatelessWidget {
                       : () async {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
-                          final defaultUserFacade =
-                              Provider.of<DefaultUserFacade>(context,
-                                  listen: false);
+                          if (rol == Constants.PSYCHOLOGIST) {
+                            final defaultUserFacade =
+                                Provider.of<DefaultUserFacade>(context,
+                                    listen: false);
+                            loginForm.isLoading = true;
 
-                          if (!loginForm.isValidForm()) return;
+                            final bool operation =
+                                await defaultUserFacade.createUser(userDTO);
 
-                          loginForm.isLoading = true;
+                            if (operation) {
+                              Navigator.pushReplacementNamed(context, 'home');
+                            } else {
+                              stderr.writeln('Error to create login!!');
+                            }
 
-                          final bool operation =
-                              await defaultUserFacade.createUser(userDTO);
-
-                          if (operation) {
-                            Navigator.pushReplacementNamed(context, 'home');
+                            loginForm.isLoading = false;
                           } else {
-                            stderr.writeln('Error to create login!!');
-                          }
+                            final defaultUserFacade =
+                                Provider.of<DefaultPsychologistFacade>(context,
+                                    listen: false);
+                            loginForm.isLoading = true;
 
-                          loginForm.isLoading = false;
+                            final bool operation =
+                                await defaultUserFacade.createUser(userDTO);
+
+                            if (operation) {
+                              Navigator.pushReplacementNamed(context, 'home');
+                            } else {
+                              stderr.writeln('Error to create login!!');
+                            }
+
+                            loginForm.isLoading = false;
+                          }
                         },
                   child: Text(
                     loginForm.isLoading ? ' Loading' : 'Sing up',

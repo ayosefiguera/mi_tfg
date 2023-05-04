@@ -1,3 +1,4 @@
+import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
@@ -79,10 +80,11 @@ class Registers extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, 'registerPsychologist');
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) =>
+                              RegisterScreen(rol: Constants.PSYCHOLOGIST)));
                     },
-                    child: const Text('Psichologist register')),
+                    child: const Text('Sing up as Psichologist')),
                 const SizedBox(
                   height: 16,
                 ),

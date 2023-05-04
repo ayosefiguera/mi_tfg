@@ -8,7 +8,7 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> appRoutes = {
     'welcome': (context) => const WelcomeScreen(),
     'login': (context) => const LoginScreen(),
-    'register': (context) => const RegisterScreen(),
+    'register': (context) => RegisterScreen(),
     'registerPsychologist': (context) => const RegisterPsychologistScreen(),
     'home': (context) => const HomeScreen(),
     'search': (context) => const SearchPsychologistScreen(),
