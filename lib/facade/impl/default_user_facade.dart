@@ -5,7 +5,6 @@ import 'package:eqlibrum/services/impl/default_user_service.dart';
 import 'package:flutter/material.dart';
 
 class DefaultUserFacade extends ChangeNotifier implements UserFacade {
-  UserDTO userDTO = UserDTO();
   UserMapper mapper = UserMapper();
 
   final DefaultUserService defaultUserService = DefaultUserService();
@@ -17,7 +16,6 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
 
   @override
   Future<bool> getUser() async {
-    userDTO = mapper.toDTO(await getUserService().getUser());
     return true;
   }
 

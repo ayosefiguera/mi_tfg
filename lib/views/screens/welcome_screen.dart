@@ -1,6 +1,5 @@
 import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
-import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/themes/app_theme.dart';
 import 'package:flutter/material.dart';

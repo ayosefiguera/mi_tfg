@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eqlibrum/dto/user_dto.dart';
+import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/providers/login_form_provider.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
@@ -12,13 +13,13 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultUserFacade =
-        Provider.of<DefaultUserFacade>(context, listen: false);
+        Provider.of<DefaultLocalRepositoryFacade>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Account"),
         ),
         body: FutureBuilder<bool>(
-            future: defaultUserFacade.getUser(),
+            future: defaultUserFacade.loadUser(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -31,7 +32,7 @@ class AccountScreen extends StatelessWidget {
                 );
               } else {
                 if (snapshot.data == true) {
-                  return AccountInfo(user: defaultUserFacade.userDTO);
+                  return AccountInfo(user: defaultUserFacade.currentUser);
                 } else {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }

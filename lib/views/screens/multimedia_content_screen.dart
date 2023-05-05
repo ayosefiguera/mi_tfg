@@ -1,4 +1,4 @@
-import 'package:eqlibrum/views/widgets/media_card_swiper.dart';
+import 'package:eqlibrum/views/widgets/media_swiper.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +36,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaCardSwiper(),
+                MediaSwiper(),
                 const SizedBox(
                   height: 8,
                 ),
@@ -47,7 +47,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaCardSwiper(),
+                MediaSwiper(),
                 const SizedBox(
                   height: 8,
                 ),
@@ -58,7 +58,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaCardSwiper(),
+                MediaSwiper(),
               ],
             ),
           ),

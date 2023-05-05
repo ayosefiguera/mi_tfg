@@ -11,6 +11,9 @@ class UserMapper implements EntityMapper<UserDTO, User> {
     target.email = source.email;
     target.surname = source.surname;
     target.picture = source.picture;
+    target.bio = source.bio;
+    target.summary = source.summary;
+        target.rol = source.rol;
     return target;
   }
 
@@ -28,6 +31,9 @@ class UserMapper implements EntityMapper<UserDTO, User> {
         email: source.email ?? '',
         surname: source.surname ?? '',
         pass: source.pass ?? '',
+        bio: source.bio,
+        summary: source.summary,
+        rol: source.rol,
         timestamp: DateTime.now().millisecondsSinceEpoch);
     return target;
   }

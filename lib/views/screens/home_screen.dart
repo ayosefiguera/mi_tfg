@@ -1,6 +1,10 @@
+import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/views/widgets/media_swiper.dart';
 import 'package:eqlibrum/views/widgets/next_appointment_widget.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -60,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 18,
                 ),
-                swiper_container(),
+                const swiper_container(),
               ],
             ),
           ),
@@ -75,24 +79,62 @@ class swiper_container extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final localRepositoryFacade =
+        Provider.of<DefaultLocalRepositoryFacade>(context, listen: false);
+    return FutureBuilder(
+      future: localRepositoryFacade.whatRol(),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        if (!snapshot.hasData) {
+          return const Text('wait');
+        }
+
+        if (snapshot.data == Constants.PSYCHOLOGIST) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Last news",
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.indigo.shade900,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'multimedia');
+                      },
+                      icon: const Icon(Icons.newspaper)),
+                ],
+              ),
+              const MediaSwiper(),
+            ],
+          );
+        }
+        return Column(
           children: [
-            Text(
-              "Let's find your doctor",
-              style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.indigo.shade900,
-                  fontWeight: FontWeight.bold),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Let's find your doctor",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.indigo.shade900,
+                      fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, 'search');
+                    },
+                    icon: const Icon(Icons.search)),
+              ],
             ),
-            IconButton(
-                onPressed: () {}, icon: const Icon(Icons.search)),
+            const PsychologistCardSwiper(),
           ],
-        ),
-        const PsychologistCardSwiper(),
-      ],
+        );
+      },
     );
   }
 }

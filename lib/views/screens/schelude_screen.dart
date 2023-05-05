@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
 import 'package:eqlibrum/models/appointment.dart';
@@ -46,8 +48,7 @@ class _RequestAppointmentScreen extends StatefulWidget {
 
   @override
   // ignore: no_logic_in_create_state
-  _TabletAppointmentState createState() =>
-      _TabletAppointmentState();
+  _TabletAppointmentState createState() => _TabletAppointmentState();
 }
 
 class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
@@ -80,7 +81,8 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
         _focusedDay = focusedDay;
       });
 
-      _selectedEvents.value = widget.appointmentFacade.getEventsForDay(seletedDay);
+      _selectedEvents.value =
+          widget.appointmentFacade.getEventsForDay(seletedDay);
     }
   }
 
@@ -138,7 +140,12 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
                 },
               );
             },
-          ))
+          )),
+          if (true)
+            ElevatedButton.icon(
+                onPressed: () => displayDialog(context, _focusedDay),
+                icon: Icon(Icons.add),
+                label: Text("New Appointment"))
         ],
       ),
     );
@@ -207,4 +214,73 @@ class _AppointmentCard extends StatelessWidget {
           ],
         ));
   }
+}
+
+void displayDialog(BuildContext context, DateTime focuseDay) {
+  final String _FormattedMonth = DateFormat('y-dd-MM').format(focuseDay);
+  String hour = "00";
+  String min = "00";
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        DateTime apointment;
+        return AlertDialog(
+          elevation: 5,
+          title: const Text('New Appointment'),
+          content: Column(mainAxisSize: MainAxisSize.min, children: [
+            Text('${_FormattedMonth}'),
+            const Divider(),
+            const Text('Set the time:'),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 20,
+                  child: TextFormField(
+                    initialValue: hour,
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    onChanged: (value) {
+                      hour = value;
+                    },
+                  ),
+                ),
+                const Text(":"),
+                SizedBox(
+                  width: 20,
+                  child: TextFormField(
+                    initialValue: min,
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    onChanged: (value) {
+                      min = value;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ]),
+          actions: [
+            TextButton(
+              onPressed: () => {
+                apointment = DateTime(focuseDay.year, focuseDay.month,
+                    focuseDay.day, int.parse(hour), int.parse(min)),
+              },
+              child: const Text(
+                'Create',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            TextButton(
+              onPressed: () => {Navigator.pop(context)},
+              child: const Text(
+                'Cancel',
+                style: TextStyle(fontSize: 18),
+              ),
+            )
+          ],
+        );
+      });
 }

@@ -1,4 +1,4 @@
-export 'package:eqlibrum/views/widgets/medica_card_widget.dart';
+export 'package:eqlibrum/views/widgets/media_card_widget.dart';
 
 export 'package:eqlibrum/views/widgets/sing_forms_container.dart';
 export 'package:eqlibrum/views/widgets/scaffold_app.dart';

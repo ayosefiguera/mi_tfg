@@ -4,8 +4,8 @@ import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart' show Provider;
 import 'package:flutter/material.dart';
 
-class MediaCardSwiper extends StatelessWidget {
-  const MediaCardSwiper({Key? key}) : super(key: key);
+class MediaSwiper extends StatelessWidget {
+  const MediaSwiper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
