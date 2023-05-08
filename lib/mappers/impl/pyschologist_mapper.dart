@@ -1,3 +1,4 @@
+import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/mappers/enity_mapper.dart';
@@ -7,7 +8,6 @@ class PsychologistMapper
     implements EntityMapper<PsychologistDTO, Psychologist> {
   static const DEFAUL_PICTURE =
       "https://cdn.pixabay.com/photo/2016/11/21/14/53/man-1845814_1280.jpg";
-  static const PSYCHOLOGIST = "psychologist";
   PsychologistDTO toDTO(Psychologist entity) {
     throw UnimplementedError();
   }
@@ -39,7 +39,7 @@ class PsychologistMapper
         email: source.email ?? '',
         surname: source.surname ?? '',
         pass: source.pass ?? '',
-        rol: PSYCHOLOGIST,
+        rol: Constants.PSYCHOLOGIST,
         timestamp: DateTime.now().millisecondsSinceEpoch);
     return target;
   }

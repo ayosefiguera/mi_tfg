@@ -1,3 +1,4 @@
+import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
 import 'package:eqlibrum/models/appointment.dart';
@@ -148,18 +149,23 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
   }
 }
 
-class _AppointmentCard extends StatelessWidget {
+class _AppointmentCard extends StatefulWidget {
   const _AppointmentCard(
       {required this.appointment, required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
   final Appointment appointment;
 
   @override
-  Widget build(BuildContext context) {
-    Color statusColor =
-        appointment.status! ? AppTheme.avaliable : AppTheme.notAvaliable;
+  State<_AppointmentCard> createState() => _AppointmentCardState();
+}
 
-    String formattedDate = DateFormat('dd-MMMM kk:mm').format(appointment.date);
+class _AppointmentCardState extends State<_AppointmentCard> {
+  @override
+  Widget build(BuildContext context) {
+    Color statusColor = AppTheme.appointmentStatus[widget.appointment.status]!;
+
+    String formattedDate =
+        DateFormat('dd-MMMM kk:mm').format(widget.appointment.date);
 
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -187,10 +193,12 @@ class _AppointmentCard extends StatelessWidget {
             const SizedBox(
               width: 18,
             ),
-            (appointment.status! && appointment.avaliable!)
+            (widget.appointment.status == Constants.OPEN)
                 ? IconButton(
                     onPressed: () {
-                      appointmentFacade.requestAppointment(appointment);
+                      widget.appointmentFacade
+                          .requestAppointment(widget.appointment);
+                      setState(() {});
                     },
                     icon: const Icon(Icons.add),
                     iconSize: 32,

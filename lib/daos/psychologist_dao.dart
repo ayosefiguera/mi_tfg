@@ -18,4 +18,8 @@ abstract class PsychologistDAO {
   /// Only return [error]. otherwise return [null].
   Future<Psychologist> createPsychologist(Psychologist psychologist);
 
+  /// Find Psychologist with a id given.
+  /// 
+  /// Only return [Psichologish] if found. otherwise return [null].
+  Future<Psychologist?> findPsychologistById(String id);
 }

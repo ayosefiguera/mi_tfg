@@ -39,4 +39,9 @@ abstract class UserDAO {
   /// Only return [error]. otherwise return [null].
   Future<String?> deleteUser();
 
+  /// Find User with a id given.
+  /// 
+  /// Only return [user] if found. otherwise return [null].
+  Future<User?> findUserById(String id);
+
 }

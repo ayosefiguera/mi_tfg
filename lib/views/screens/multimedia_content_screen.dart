@@ -36,7 +36,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaSwiper(),
+                const MediaSwiper(),
                 const SizedBox(
                   height: 8,
                 ),
@@ -47,7 +47,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaSwiper(),
+                const MediaSwiper(),
                 const SizedBox(
                   height: 8,
                 ),
@@ -58,7 +58,7 @@ class MultimediaContentScreen extends StatelessWidget {
                       color: Colors.indigo.shade900,
                       fontWeight: FontWeight.bold),
                 ),
-                MediaSwiper(),
+                const MediaSwiper(),
               ],
             ),
           ),

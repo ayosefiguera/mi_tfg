@@ -42,6 +42,9 @@ class Psychologist extends User {
             creditCard: creditCard,
             timestamp: timestamp,
             pass: pass,
+            summary: summary,
+            bio: bio,
+            rol: rol,
             picture: picture);
 
   factory Psychologist.fromJson(String str) =>

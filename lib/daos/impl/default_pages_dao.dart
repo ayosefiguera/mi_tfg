@@ -15,7 +15,6 @@ class DefaultPagesDAO implements PagesDao {
   Future<LegalPage> getPage(final String page) async {
     final url = Uri.https(_baseUrl, '/pages/$page.json',
         {'auth': await storage.read(key: 'idToken') ?? ''});
-    print(url);
     final response = await http.get(url);
     final Map<String, dynamic> pageMap = json.decode(response.body);
 

@@ -13,7 +13,7 @@ class UserMapper implements EntityMapper<UserDTO, User> {
     target.picture = source.picture;
     target.bio = source.bio;
     target.summary = source.summary;
-        target.rol = source.rol;
+    target.rol = source.rol;
     return target;
   }
 

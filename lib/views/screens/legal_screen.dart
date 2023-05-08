@@ -1,4 +1,4 @@
-import 'package:eqlibrum/facade/impl/defaul_legal_page_facade.dart';
+import 'package:eqlibrum/facade/impl/default_legal_page_facade.dart';
 import 'package:eqlibrum/models/LegalPage.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:provider/provider.dart';

@@ -8,49 +8,51 @@ import 'package:eqlibrum/services/psychologist_service.dart';
 
 /// Default implementation of [PsychologistService]
 class DefaultPsychologistService implements PsychologistService {
-
-  PsychologistDAO pychologistDao = DefaultPsychologistDAO();
-  LocalRepository localReppository = DefaultLocalRepository();
+  PsychologistDAO _pychologistDao = DefaultPsychologistDAO();
+  LocalRepository _localReppository = DefaultLocalRepository();
 
   @override
   Future<List<Psychologist>> getAllPsychologist() async {
     List<Psychologist> psychologists = [];
-    psychologists = await getPsycholoistDao().findAllPsychologist();
+    psychologists = await _getPsycholoistDao().findAllPsychologist();
     return psychologists;
   }
 
-
   @override
   Future<bool> createPsychologist(Psychologist newPsychologist) async {
-
     Psychologist createdPsychologist;
     try {
       createdPsychologist =
-          await getPsycholoistDao().createPsychologist(newPsychologist);
+          await _getPsycholoistDao().createPsychologist(newPsychologist);
     } catch (error) {
       NotificacionService.showSnackbar('$error');
       return false;
     }
 
-    getLocalRepository().newLocalStorageSpychologist(createdPsychologist);
+    _getLocalRepository().newLocalStorageSpychologist(createdPsychologist);
 
     return true;
   }
 
-  PsychologistDAO getPsycholoistDao() {
-    return pychologistDao;
+  @override
+  Future<Psychologist?> getPsychologistById(final String id) {
+    return _getPsycholoistDao().findPsychologistById(id);
   }
-
-  LocalRepository getLocalRepository() {
-    return localReppository;
+  
+  PsychologistDAO _getPsycholoistDao() {
+    return _pychologistDao;
   }
 
   setPsycholoistDao(PsychologistDAO psychologistDAO) {
-     pychologistDao = psychologistDAO;
+    _pychologistDao = psychologistDAO;
+  }
+
+  LocalRepository _getLocalRepository() {
+    return _localReppository;
   }
 
   setLocalRepository(LocalRepository localRepository) {
-    localReppository = localReppository;
+    _localReppository = localRepository;
   }
 
 }

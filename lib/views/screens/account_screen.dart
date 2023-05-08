@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:eqlibrum/Constanst.dart';
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
+import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/providers/login_form_provider.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
@@ -81,7 +83,9 @@ class _AccountInfoState extends State<AccountInfo> {
                 onPressed: () {
                   changeformMode();
                 },
-                child: Text('Update data'))
+                child: (!formMode)
+                    ? const Text('Update data')
+                    : const Text('Back'))
           ],
         ),
       ),
@@ -102,9 +106,10 @@ class _UpdateForm extends StatelessWidget {
     loginForm.userDTO = user;
 
     InputDecoration inputDecoration(String label, String hint) {
+      if (label.isEmpty) label = hint;
       return InputDecoration(
         prefixIconColor: AppTheme.primary,
-        prefixIcon: const Icon(Icons.person_2_outlined),
+        prefixIcon: Icon(Icons.edit_note_rounded),
         labelText: label,
         hintText: hint,
         focusColor: AppTheme.primary.withAlpha(80),
@@ -124,14 +129,32 @@ class _UpdateForm extends StatelessWidget {
               keyboardType: TextInputType.name,
               autocorrect: false,
               onChanged: (value) => loginForm.userDTO.name = value,
-              decoration: inputDecoration('${loginForm.userDTO.name}', 'name'),
+              decoration: inputDecoration(
+                loginForm.userDTO.name!,
+                'name',
+              ),
             ),
             TextFormField(
               keyboardType: TextInputType.text,
               autocorrect: false,
               onChanged: (value) => loginForm.userDTO.surname = value,
               decoration:
-                  inputDecoration('${loginForm.userDTO.surname}', 'surname'),
+                  inputDecoration(loginForm.userDTO.surname ?? '', 'surname'),
+            ),
+            TextFormField(
+              keyboardType: TextInputType.text,
+              autocorrect: false,
+              onChanged: (value) => loginForm.userDTO.summary = value,
+              decoration:
+                  inputDecoration(loginForm.userDTO.summary ?? '', 'summary'),
+            ),
+            TextFormField(
+              keyboardType: TextInputType.multiline,
+              minLines: 6,
+              maxLines: null,
+              autocorrect: false,
+              onChanged: (value) => loginForm.userDTO.bio = value,
+              decoration: inputDecoration(loginForm.userDTO.bio ?? '', 'bio'),
             ),
             const SizedBox(
               height: 8,
@@ -149,8 +172,30 @@ class _UpdateForm extends StatelessWidget {
                   onPressed: loginForm.isLoading
                       ? null
                       : () async {
-                          FocusScope.of(context).unfocus(); //Disable keyboard
+                          if (loginForm.userDTO.rol == Constants.PSYCHOLOGIST) {
+                          FocusScope.of(context).unfocus();
+                          final defaultUserFacade =
+                              Provider.of<DefaultPsychologistFacade>(context,
+                                  listen: false);
 
+                          if (!loginForm.isValidForm()) return;
+
+                          loginForm.isLoading = true;
+
+                          final bool operation = await defaultUserFacade
+                              .UpdateUser(loginForm.userDTO);
+
+                          if (operation) {
+                            Navigator.pushReplacementNamed(context, 'profile');
+                          } else {
+                            stderr.writeln('Error to create login!!');
+                          }
+
+                          loginForm.isLoading = false;
+
+                          } else {
+
+                          FocusScope.of(context).unfocus();
                           final defaultUserFacade =
                               Provider.of<DefaultUserFacade>(context,
                                   listen: false);
@@ -169,6 +214,7 @@ class _UpdateForm extends StatelessWidget {
                           }
 
                           loginForm.isLoading = false;
+                          }
                         },
                   child: Text(
                     loginForm.isLoading ? ' Loading' : 'Update',
@@ -197,20 +243,33 @@ class _DisplayData extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.symmetric(vertical: 40),
-          child: Hero(
-            tag: 1234,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: const FadeInImage(
-                width: 150,
-                height: 150,
-                placeholder: AssetImage('assets/no-image.jpg'),
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg'),
-              ),
-            ),
-          ),
+          child: Stack(children: [
+            picture(),
+            Positioned(
+                top: 60,
+                left: 20,
+                child: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    size: 40,
+                    color: Colors.white70,
+                  ),
+                )),
+            Positioned(
+                top: 60,
+                right: 20,
+                child: IconButton(
+                  onPressed: () {
+                    print("Cambiar foto");
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt_outlined,
+                    size: 40,
+                    color: Colors.white70,
+                  ),
+                ))
+          ]),
         ),
         LabelInfo(
           label: 'Name:',
@@ -229,6 +288,30 @@ class _DisplayData extends StatelessWidget {
           info: "${user.id}",
         ),
       ],
+    );
+  }
+}
+
+class picture extends StatelessWidget {
+  const picture({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Hero(
+      tag: 1234,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(50),
+        child: const FadeInImage(
+          width: 150,
+          height: 150,
+          placeholder: AssetImage('assets/no-image.jpg'),
+          fit: BoxFit.cover,
+          image: NetworkImage(
+              'https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg'),
+        ),
+      ),
     );
   }
 }

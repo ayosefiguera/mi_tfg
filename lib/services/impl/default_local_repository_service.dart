@@ -4,29 +4,28 @@ import 'package:eqlibrum/models/user.dart';
 import 'package:eqlibrum/services/local_repository_service.dart';
 
 class DefaultLocalRepositoryService implements LocalRepositoryService {
-
-  LocalRepository localRepository = DefaultLocalRepository();
+  LocalRepository _localRepository = DefaultLocalRepository();
 
   @override
-  Future<String> getIdtoken()async {
-    return getLocalRepository().findIdtoken();
+  Future<String> getIdtoken() async {
+    return _getLocalRepository().findIdtoken();
   }
 
   @override
-  Future<User> getUser()async{
-    return getLocalRepository().findUser();
+  Future<User> getUser() async {
+    return _getLocalRepository().findUser();
   }
 
   @override
   Future logout() async {
-    getLocalRepository().logout();
+    _getLocalRepository().logout();
   }
 
-  setLocalRepository(LocalRepository localRepository) {
-    localRepository = localRepository;
+  void setLocalRepository(LocalRepository localRepository) {
+    _localRepository = localRepository;
   }
 
-  LocalRepository getLocalRepository() {
-    return localRepository;
+  LocalRepository _getLocalRepository() {
+    return _localRepository;
   }
 }

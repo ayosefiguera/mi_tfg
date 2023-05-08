@@ -14,4 +14,8 @@ abstract class PsychologistService {
   /// Only return [error]. otherwise return [null].
   Future<bool> createPsychologist(Psychologist newPsychologist);
 
+  /// Find Psychologist with a id given.
+  /// 
+  /// Only return [Psichologish] if found. otherwise return [null].
+  Future<Psychologist?> getPsychologistById(String id);
 }

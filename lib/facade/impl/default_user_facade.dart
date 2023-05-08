@@ -2,16 +2,17 @@ import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/user_facade.dart';
 import 'package:eqlibrum/mappers/impl/user_mapper.dart';
 import 'package:eqlibrum/services/impl/default_user_service.dart';
+import 'package:eqlibrum/services/user_service.dart';
 import 'package:flutter/material.dart';
 
 class DefaultUserFacade extends ChangeNotifier implements UserFacade {
+  
   UserMapper mapper = UserMapper();
-
-  final DefaultUserService defaultUserService = DefaultUserService();
+  UserService _userService = DefaultUserService();
 
   @override
   Future<bool> createUser(UserDTO newUserDTO) {
-    return getUserService().createUser(mapper.toEntity(newUserDTO));
+    return _getUserService().createUser(mapper.toEntity(newUserDTO));
   }
 
   @override
@@ -21,31 +22,35 @@ class DefaultUserFacade extends ChangeNotifier implements UserFacade {
 
   @override
   logout() {
-    getUserService().logout();
+    _getUserService().logout();
   }
 
   @override
   Future<bool> loginUser(final userDTO) {
     notifyListeners();
-    return getUserService().loginUser(mapper.toEntity(userDTO));
-  }
-
-  DefaultUserService getUserService() {
-    return defaultUserService;
+    return _getUserService().loginUser(mapper.toEntity(userDTO));
   }
 
   @override
   Future<String> getIdToken() {
-    return getUserService().getIdtoken();
+    return _getUserService().getIdtoken();
   }
 
   @override
   Future<bool> updateUser(final UserDTO userDTO) async {
-    return getUserService().updateUser(mapper.toEntity(userDTO));
+    return _getUserService().updateUser(mapper.toEntity(userDTO));
   }
 
   @override
   Future<bool> deleteUser() async {
-    return getUserService().deleteUser();
+    return _getUserService().deleteUser();
+  }
+
+  UserService _getUserService() {
+    return _userService;
+  }
+
+  void setUserService(UserService userService) {
+    _userService = userService;
   }
 }

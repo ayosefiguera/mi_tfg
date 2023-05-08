@@ -43,7 +43,6 @@ class _NextAppointment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color statusColor = AppTheme.primary;
-
     return appointment.isEmpty
         ? Container(
             decoration: BoxDecoration(
@@ -75,7 +74,7 @@ class _NextAppointment extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: Text(
-                    "Next Appointment. Day: ${appointment[0].date.day} of ${appointment[0].date.month}",
+                    "Next Appointment. Day: ${appointment[0].date.day}",
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontSize: 14,

@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
   final String? rol;
-  RegisterScreen({Key? key, this.rol});
+  const RegisterScreen({super.key, this.rol});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class RegisterScreen extends StatelessWidget {
 // SingInForm
 class _RegisterForm extends StatelessWidget {
   final String? rol;
-  _RegisterForm({Key? key, this.rol});
+  const _RegisterForm({this.rol});
 
   @override
   Widget build(BuildContext context) {
@@ -133,11 +133,11 @@ class _RegisterForm extends StatelessWidget {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
                           if (rol == Constants.PSYCHOLOGIST) {
+                            print("ceando un psicologo");
                             final defaultUserFacade =
-                                Provider.of<DefaultUserFacade>(context,
+                                Provider.of<DefaultPsychologistFacade>(context,
                                     listen: false);
                             loginForm.isLoading = true;
-
                             final bool operation =
                                 await defaultUserFacade.createUser(userDTO);
 
@@ -149,11 +149,11 @@ class _RegisterForm extends StatelessWidget {
 
                             loginForm.isLoading = false;
                           } else {
+                            print("ceando un usuario");
                             final defaultUserFacade =
-                                Provider.of<DefaultPsychologistFacade>(context,
+                                Provider.of<DefaultUserFacade>(context,
                                     listen: false);
                             loginForm.isLoading = true;
-
                             final bool operation =
                                 await defaultUserFacade.createUser(userDTO);
 

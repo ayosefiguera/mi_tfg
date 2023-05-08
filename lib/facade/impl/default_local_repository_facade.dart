@@ -9,21 +9,22 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
     implements LocalRepositoryFacade {
   UserDTO currentUser = UserDTO();
 
-  LocalRepositoryService localRepositoryService =
+  LocalRepositoryService _localRepositoryService =
       DefaultLocalRepositoryService();
 
   DefaultLocalRepositoryFacade() {
     getUser();
   }
+
   @override
   Future<String> getIdtoken() async {
-    return getLocalRepository().getIdtoken();
+    return _getLocalRepository().getIdtoken();
   }
 
   @override
   Future<UserDTO> getUser() async {
     if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await getLocalRepository().getUser());
+      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
     return currentUser;
   }
@@ -32,7 +33,7 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
   Future<bool> loadUser() async {
 
     if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await getLocalRepository().getUser());
+      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
      
     return (currentUser.id != null)? true:false;
@@ -40,13 +41,13 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
 
   @override
   Future logout() async {
-    getLocalRepository().logout();
+    _getLocalRepository().logout();
   }
 
   @override
   Future<String?> getName() async {
     if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await getLocalRepository().getUser());
+      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
     return currentUser.name;
   }
@@ -58,10 +59,10 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
   }
 
   setLocalRepository(LocalRepositoryService localRepositoryService) {
-    localRepositoryService = localRepositoryService;
+    _localRepositoryService = localRepositoryService;
   }
 
-  LocalRepositoryService getLocalRepository() {
-    return localRepositoryService;
+  LocalRepositoryService _getLocalRepository() {
+    return _localRepositoryService;
   }
 }

@@ -1,8 +1,15 @@
 import 'dart:async';
 
+import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
+import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
+import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/facade/psychologist_facade.dart';
+import 'package:eqlibrum/facade/user_facade.dart';
 import 'package:eqlibrum/models/appointment.dart';
+import 'package:eqlibrum/models/psychologist.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
@@ -143,9 +150,11 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
           )),
           if (true)
             ElevatedButton.icon(
-                onPressed: () => displayDialog(context, _focusedDay),
-                icon: Icon(Icons.add),
-                label: Text("New Appointment"))
+                onPressed: () {
+                  displayDialog(context, _focusedDay);
+                },
+                icon: const Icon(Icons.add),
+                label: const Text("New Appointment"))
         ],
       ),
     );
@@ -160,76 +169,78 @@ class _AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color statusColor =
-        appointment.status! ? AppTheme.primary : AppTheme.notAvaliable;
+    Color statusColor = AppTheme.appointmentStatus[appointment.status]!;
 
-    final String _FormattedMonth =
+    final String formattedMonth =
         DateFormat('dd-MMMM').format(appointment.date);
-    final String _FormattedDay = DateFormat('kk:mm').format(appointment.date);
-    const TextStyle _StyleText = TextStyle(color: Colors.white70, fontSize: 18);
+    final String formattedDay = DateFormat('kk:mm').format(appointment.date);
+    const TextStyle styleText = TextStyle(color: Colors.white70, fontSize: 18);
 
-    return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: statusColor,
-            border: Border.all(
-                color: statusColor, style: BorderStyle.solid, width: 2)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.event,
-                  color: Colors.white,
-                  size: 48,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(_FormattedMonth, style: _StyleText),
-              ],
-            ),
-            Row(
-              children: [
-                const SizedBox(
-                  width: 18,
-                ),
-                const Icon(
-                  Icons.watch_later_outlined,
-                  color: Colors.white,
-                  size: 48,
-                ),
-                const SizedBox(
-                  width: 8,
-                ),
-                Text(
-                  _FormattedDay,
-                  style: _StyleText,
-                ),
-              ],
-            )
-          ],
-        ));
+    return GestureDetector(
+      onTap: () => appointmentInfo(context, appointment),
+      child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: statusColor,
+              border: Border.all(
+                  color: statusColor, style: BorderStyle.solid, width: 2)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                children: [
+                  const Icon(
+                    Icons.event,
+                    color: Colors.white,
+                    size: 48,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(formattedMonth, style: styleText),
+                ],
+              ),
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 18,
+                  ),
+                  const Icon(
+                    Icons.watch_later_outlined,
+                    color: Colors.white,
+                    size: 48,
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    formattedDay,
+                    style: styleText,
+                  ),
+                ],
+              )
+            ],
+          )),
+    );
   }
 }
 
-void displayDialog(BuildContext context, DateTime focuseDay) {
-  final String _FormattedMonth = DateFormat('y-dd-MM').format(focuseDay);
+displayDialog(BuildContext context, DateTime focuseDay) async {
+  final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
+  final String formattedMonth = DateFormat('y-dd-MM').format(focuseDay);
   String hour = "00";
   String min = "00";
   showDialog(
       barrierDismissible: false,
       context: context,
       builder: (context) {
-        DateTime apointment;
         return AlertDialog(
           elevation: 5,
           title: const Text('New Appointment'),
           content: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('${_FormattedMonth}'),
+            Text(formattedMonth),
             const Divider(),
             const Text('Set the time:'),
             const Divider(),
@@ -264,9 +275,11 @@ void displayDialog(BuildContext context, DateTime focuseDay) {
           ]),
           actions: [
             TextButton(
-              onPressed: () => {
-                apointment = DateTime(focuseDay.year, focuseDay.month,
-                    focuseDay.day, int.parse(hour), int.parse(min)),
+              onPressed: () async {
+                DateTime apointment = DateTime(focuseDay.year, focuseDay.month,
+                    focuseDay.day, int.parse(hour), int.parse(min));
+                await appointmentFacade.createAppointment(apointment);
+                Navigator.popAndPushNamed(context, 'schelude');
               },
               child: const Text(
                 'Create',
@@ -283,4 +296,96 @@ void displayDialog(BuildContext context, DateTime focuseDay) {
           ],
         );
       });
+}
+
+void appointmentInfo(BuildContext context, Appointment appointment) async {
+  final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
+  final PsychologistFacade psychologistFacade = DefaultPsychologistFacade();
+
+  showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          actions: [
+            TextButton(
+              onPressed: () => {Navigator.pop(context)},
+              child: const Text(
+                'Back',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                appointmentFacade.cancelAppointment(appointment);
+                Navigator.pop(context);
+              },
+              child: const Text(
+                'Cancel Appointment',
+                style: TextStyle(fontSize: 18, color: Colors.red),
+              ),
+            )
+          ],
+          elevation: 5,
+          title: const Text('Appointment Info'),
+          content: FutureBuilder(
+              future: psychologistFacade
+                  .getPsychologistName(appointment.psychologistID),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (!snapshot.hasData) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text('Loading...'),
+                      CircularProgressIndicator.adaptive(),
+                    ],
+                  );
+                }
+                if (snapshot.data != '') {
+                  return InfoAppointment(
+                      appointment: appointment,
+                      psychologistName: snapshot.data!);
+                }
+                return Text("error");
+              }),
+        );
+      });
+}
+
+class InfoAppointment extends StatelessWidget {
+  InfoAppointment(
+      {super.key, required this.appointment, required this.psychologistName});
+
+  final Appointment appointment;
+  final String psychologistName;
+
+  @override
+  Widget build(BuildContext context) {
+    final String formattedMonth =
+        DateFormat('y-dd-MM hh:mm').format(appointment.date);
+    var textStyle =
+        TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.bold);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          "Doctor:",
+          style: textStyle,
+        ),
+        Text(psychologistName),
+        const Divider(height: 30),
+        Text(
+          "Patient:",
+          style: textStyle,
+        ),
+        Text(appointment.userID ?? "Not asingn"),
+        const Divider(height: 30),
+        Text(
+          "Appointment Date:",
+          style: textStyle,
+        ),
+        Text(formattedMonth),
+      ],
+    );
+  }
 }

@@ -1,16 +1,26 @@
 import 'package:eqlibrum/models/appointment.dart';
+
 /// Service for managing appointment.
 ///
 ///[author] Ayose Figuera Alfonso
 ///[Link] ayo.afa@gmail.com
 abstract class AppointmentService {
-/// Get all existing appointment.
-  Future <List<Appointment>> loadAppointment(String id);
+  /// Get all existing appointment.
+  Future<List<Appointment>> loadAppointment(String id);
 
-/// Create new Appointment.
- Future<Appointment>createAppointment(Appointment appointment);
+  /// Create new Appointment.
+  Future<Appointment> requestAppointment(Appointment appointment);
 
-/// update a existing appointment.
- Future<bool> updateAppointment(Appointment appointment, String id);
+  /// Create new appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> createAppointment(Appointment appointment);
 
+  /// update a existing appointment.
+  /// Returns [bool] the operation was successful or not.
+
+  Future<bool> updateAppointment(Appointment appointment, String id);
+
+  /// Delete appointment.
+  /// Returns [bool] the operation was successful or not.
+   Future<bool> deleteAppointment(Appointment appointment, String id);
 }

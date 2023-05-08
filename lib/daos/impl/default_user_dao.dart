@@ -168,7 +168,7 @@ class DefaultUserDAO implements UserDAO {
     String userToke = await getIdtoken();
 
     final urlUpdate = Uri.https(
-        _FirebaseBaseUrl, 'users/${user.id}.json', {'auth': userToke});
+        _FirebaseBaseUrl, 'users/${user.id}.json',  {'key': _key});
     final response = await http.put(urlUpdate, body: user.toJson());
 
     if (response.statusCode != 200) {
@@ -181,5 +181,11 @@ class DefaultUserDAO implements UserDAO {
     _updateLocalStorageDataUser(updateUser);
 
     return '';
+  }
+  
+  @override
+  Future<User?> findUserById(final String id) {
+    // TODO: implement findUserById
+    throw UnimplementedError();
   }
 }

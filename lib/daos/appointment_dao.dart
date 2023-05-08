@@ -1,5 +1,4 @@
 import 'package:eqlibrum/models/appointment.dart';
-import 'package:eqlibrum/models/user.dart';
 
 /// An interfac for the appointment DAO including operations for retrieving
 /// persistend appointment model objects
@@ -12,11 +11,19 @@ abstract class AppointmentDAO {
   /// Returns [List<Appointment>] The list of Appointment.
   Future<List<Appointment>> loadAppointment(String id);
 
-  /// Create a new Appointment
+  /// User Request a existing Appointment
   /// Returns [bool] the operation was successful or not.
-  Future<Appointment> newAppointment(Appointment appointment);
+  Future<Appointment> requestAppointment(Appointment appointment);
 
-  /// Update appointment.
+  /// Create new appointment.
   /// Returns [bool] the operation was successful or not.
-   Future<bool> updateAppointment(Appointment appointment, String id);
+  Future<bool> createAppointment(Appointment appointment);
+
+  /// Update existing appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> updateAppointment(Appointment appointment, String id);
+
+  /// Delete appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> deleteAppointment(Appointment appointment, String id);
 }

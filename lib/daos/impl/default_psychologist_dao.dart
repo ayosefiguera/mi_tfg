@@ -12,18 +12,17 @@ class DefaultPsychologistDAO implements PsychologistDAO {
   final String _AuthBaseUrl = Auth.baseUrl;
   final String _FirebaseBaseUrl = FirebaseData.url;
   final String _key = Auth.key;
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   /// Find all psychologist by performin a ApiRest query.
   @override
   Future<List<Psychologist>> findAllPsychologist() async {
     final List<Psychologist> psychologists = [];
     try {
-      final url = Uri.https(_FirebaseBaseUrl, 'psychologist.json',
-          {'auth': await storage.read(key: 'idToken') ?? ''});
+      final url =
+          Uri.https(_FirebaseBaseUrl, 'psychologist.json', {'key': _key});
 
       final response = await http.get(url);
-      print(response.statusCode);
       final Map<String, dynamic> psychologistMap = json.decode(response.body);
 
       if (psychologistMap.length > 1) {
@@ -63,7 +62,6 @@ class DefaultPsychologistDAO implements PsychologistDAO {
           await http.post(urlRegister, body: newPsychologist.toJson());
       final decodeData = json.decode(response.body);
       newPsychologist.id = decodeData['name'];
-      
     } else {
       if (decodeResp.containsKey('error')) {
         throw Exception(decodeResp['error']['message']);
@@ -72,5 +70,18 @@ class DefaultPsychologistDAO implements PsychologistDAO {
     }
     await storage.write(key: USER_TOKEN, value: decodeResp[USER_TOKEN]);
     return newPsychologist;
+  }
+
+  @override
+  Future<Psychologist?> findPsychologistById(String id) async {
+    final List<Psychologist> psychologists = [];
+    final url =
+        Uri.https(_FirebaseBaseUrl, 'psychologist/$id.json', {'key': _key});
+
+    final response = await http.get(url);
+    final Map<String, dynamic> psychologistMap = json.decode(response.body);
+    Psychologist tempPsychologist = Psychologist.fromMap(psychologistMap);
+
+    return tempPsychologist;
   }
 }

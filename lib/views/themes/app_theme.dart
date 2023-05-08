@@ -1,3 +1,5 @@
+import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/models/appointment.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -7,13 +9,20 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     color: AppTheme.primary,
   );
-  // Valores estaticos de nuestra paleta de colores.
+  
   static const Color primary = Color(0xff7cc2e3);
-  static const Color secundary = Color.fromARGB(255, 186, 124, 227);
+  static const Color secundary = Color.fromARGB(255, 51, 173, 137);
   static const Color backgroundDark = Color.fromARGB(255, 54, 111, 138);
 
-  static const Color avaliable = Colors.lightGreen;
-  static const Color notAvaliable = Colors.black38;
+  static const Color open = Colors.lightGreen;
+  static const Color close = Colors.black38;
+  static const Color cancel = Colors.redAccent;
+
+  static const Map<String, Color> appointmentStatus = {
+    Constants.OPEN: open,
+    Constants.CANCEL: cancel,
+    Constants.CLOSE: close
+  };
 
 // Creamos nuestra diseño desde una copia del modelo base.
   static final ThemeData baseTheme = ThemeData.light().copyWith(

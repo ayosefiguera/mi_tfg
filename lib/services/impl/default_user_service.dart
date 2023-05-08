@@ -8,51 +8,55 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 ///Default implementation of
 class DefaultUserService implements UserService {
-  final UserDAO userDAO = DefaultUserDAO();
+  UserDAO _userDAO = DefaultUserDAO();
 
   @override
   Future<bool> createUser(User newUser) async {
-    return await getUserDao().createUser(newUser);
+    return await _getUserDao().createUser(newUser);
   }
 
   @override
   Future<bool> loginUser(final User user) async {
-    return await getUserDao().loginUser(user);
+    return await _getUserDao().loginUser(user);
   }
 
   @override
   Future<String> getIdtoken() async {
-    return await getUserDao().getIdtoken();
+    return await _getUserDao().getIdtoken();
   }
 
   @override
   Future<User> getUser() async {
-    return await getUserDao().getUser();
+    return await _getUserDao().getUser();
   }
 
   @override
   Future logout() async {
-    getUserDao().logout();
-  }
-
-  UserDAO getUserDao() {
-    return userDAO;
+    _getUserDao().logout();
   }
 
   @override
   Future<bool> updateUser(User user) async {
-    String? updateRepsonse = await getUserDao().updateUser(user);
+    String? updateRepsonse = await _getUserDao().updateUser(user);
     return true;
   }
 
   @override
   Future<bool> deleteUser() async {
-    String response = await getUserDao().deleteUser() ?? '';
+    String response = await _getUserDao().deleteUser() ?? '';
     if (response.isEmpty) {
       NotificacionService.showSnackbar("Delete Proccess Complete");
       return true;
     }
     NotificacionService.showSnackbar(response);
     return false;
+  }
+
+  UserDAO _getUserDao() {
+    return _userDAO;
+  }
+
+  void setUserDAO(UserDAO userDAO) {
+    _userDAO = userDAO;
   }
 }

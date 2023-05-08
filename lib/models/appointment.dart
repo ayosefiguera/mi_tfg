@@ -5,16 +5,14 @@ class Appointment {
       {required this.psychologistID,
       this.userID,
       required this.date,
-      this.status,
-      this.id,
-      required this.avaliable});
+      required this.status,
+      this.id});
 
   String? id;
   String psychologistID;
   String? userID;
   DateTime date;
-  bool? status;
-  bool? avaliable;
+  String? status;
 
   factory Appointment.fromJson(String str) =>
       Appointment.fromMap(json.decode(str));
@@ -26,8 +24,7 @@ class Appointment {
       psychologistID: json["psychologistID"],
       userID: json["userID"],
       date: DateTime.parse(json["date"]),
-      status: json["status"],
-      avaliable: json["avaliable"]);
+      status: json["status"]);
 
   Map<String, dynamic> toMap() => {
         "id": id,
@@ -35,7 +32,6 @@ class Appointment {
         "userID": userID,
         "date": date.toString(),
         "status": status,
-        "avaliable": avaliable ?? false
       };
 
   @override

@@ -5,7 +5,7 @@ import 'package:eqlibrum/models/appointment.dart';
 ///[author] Ayose Figuera Alfonso
 ///[Link] ayo.afa@gmail.com
 abstract class AppointmentFacade {
-  /// Load alll appointment.
+  /// Load alll appointment by id given.
   /// return [LinkedHashMap<DateTime, List<Appointment>>] the list og all existing categories.
 
   loadAppointment(String id);
@@ -16,4 +16,21 @@ abstract class AppointmentFacade {
   List<Appointment> getEventsForDay(DateTime day);
 
   Future<bool> requestAppointment(Appointment appointment);
+
+  /// Create new appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> createAppointment(DateTime dateAppointment);
+
+  /// update a existing appointment.
+  /// Returns [bool] the operation was successful or not.
+
+  Future<bool> updateAppointment(Appointment appointment, String id);
+
+  /// Delete appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> deleteAppointment(Appointment appointment, String id);
+
+  /// Delete appointment.
+  /// Returns [bool] the operation was successful or not.
+  Future<bool> cancelAppointment(Appointment appointment);
 }
