@@ -8,7 +8,7 @@ class MultimediaContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldApp(
-        index: 1,
+        index: 3,
         child: SizedBox(
           width: double.infinity,
           height: double.infinity,

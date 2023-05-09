@@ -1,15 +1,10 @@
 import 'dart:async';
 
-import 'package:eqlibrum/Constanst.dart';
-import 'package:eqlibrum/dto/psychologist_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
-import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/facade/psychologist_facade.dart';
-import 'package:eqlibrum/facade/user_facade.dart';
 import 'package:eqlibrum/models/appointment.dart';
-import 'package:eqlibrum/models/psychologist.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';

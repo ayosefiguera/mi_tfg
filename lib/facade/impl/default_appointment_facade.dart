@@ -130,7 +130,7 @@ class DefaultAppointmentFacade implements AppointmentFacade {
         currentUser.id == appointment.psychologistID) {
       appointment.status = Constants.CLOSE;
       isSucces &= await _getAppointmentService()
-          .updateAppointment(appointment, appointment.psychologistID!);
+          .updateAppointment(appointment, appointment.psychologistID);
     }
 
     isSucces &= await _getAppointmentService()
@@ -159,11 +159,5 @@ class DefaultAppointmentFacade implements AppointmentFacade {
 
   LocalRepositoryService _getLocalRepositoryService() {
     return _localRepositoryService;
-  }
-
-  @override
-  Future<bool> reloadAppoinment() {
-    // TODO: implement reloadAppoinment
-    throw UnimplementedError();
   }
 }
