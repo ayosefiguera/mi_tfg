@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 class DefaultLocalRepositoryFacade extends ChangeNotifier
     implements LocalRepositoryFacade {
-  UserDTO currentUser = UserDTO();
+  UserDTO _currentUser = UserDTO();
 
   LocalRepositoryService _localRepositoryService =
       DefaultLocalRepositoryService();
@@ -23,20 +23,19 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
 
   @override
   Future<UserDTO> getUser() async {
-    if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
+    if (_currentUser.id == null) {
+      _currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
-    return currentUser;
+    return _currentUser;
   }
 
   @override
   Future<bool> loadUser() async {
-
-    if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
+    if (_currentUser.id == null) {
+      _currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
-     
-    return (currentUser.id != null)? true:false;
+
+    return (_currentUser.id != null) ? true : false;
   }
 
   @override
@@ -46,16 +45,20 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
 
   @override
   Future<String?> getName() async {
-    if (currentUser.id == null) {
-      currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
+    if (_currentUser.id == null) {
+      _currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
-    return currentUser.name;
+    return _currentUser.name;
   }
 
   @override
   Future<String> whatRol() async {
-    currentUser = await getUser();
-    return currentUser.rol ?? '';
+    _currentUser = await getUser();
+    return _currentUser.rol ?? '';
+  }
+
+  UserDTO getCurrentUser() {
+    return _currentUser;
   }
 
   setLocalRepository(LocalRepositoryService localRepositoryService) {

@@ -74,7 +74,7 @@ class DefaultPsychologistDAO implements PsychologistDAO {
 
   @override
   Future<Psychologist?> findPsychologistById(String id) async {
-    final List<Psychologist> psychologists = [];
+    
     final url =
         Uri.https(_FirebaseBaseUrl, 'psychologist/$id.json', {'key': _key});
 

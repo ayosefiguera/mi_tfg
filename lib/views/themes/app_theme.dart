@@ -62,3 +62,10 @@ class AppTheme {
             elevation: 0),
       ));
 }
+/*
+  static const Color secundary = Color(0xff7cc2e3);
+  static const Color primary = Color.fromARGB(255, 139, 104, 235);
+  static const Color primaryligth = Color.fromARGB(255, 180, 212, 226);
+  static const Color gray = Color.fromARGB(255, 145, 161, 168);
+  static const Color primaryDark = Color.fromARGB(255, 22, 90, 119);
+  static const Color backgroundDark = Color.fromARGB(255, 65, 53, 97);*/

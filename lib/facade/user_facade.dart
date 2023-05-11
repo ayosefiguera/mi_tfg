@@ -26,5 +26,4 @@ abstract class UserFacade extends ChangeNotifier {
   ///
   /// Return [bool] return if account was deleted succefully.
   Future<bool> deleteUser();
-  
   }

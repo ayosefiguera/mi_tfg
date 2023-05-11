@@ -133,7 +133,6 @@ class _RegisterForm extends StatelessWidget {
                           FocusScope.of(context).unfocus(); //Disable keyboard
 
                           if (rol == Constants.PSYCHOLOGIST) {
-                            print("ceando un psicologo");
                             final defaultUserFacade =
                                 Provider.of<DefaultPsychologistFacade>(context,
                                     listen: false);

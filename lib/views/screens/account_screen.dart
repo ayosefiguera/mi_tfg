@@ -5,6 +5,7 @@ import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/facade/local_repository_facade.dart';
 import 'package:eqlibrum/providers/login_form_provider.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +15,14 @@ class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final defaultUserFacade =
+    final LocalRepositoryFacade localRepository =
         Provider.of<DefaultLocalRepositoryFacade>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Account"),
         ),
         body: FutureBuilder<bool>(
-            future: defaultUserFacade.loadUser(),
+            future: localRepository.loadUser(),
             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -34,7 +35,7 @@ class AccountScreen extends StatelessWidget {
                 );
               } else {
                 if (snapshot.data == true) {
-                  return AccountInfo(user: defaultUserFacade.currentUser);
+                  return AccountInfo(user: localRepository.getCurrentUser());
                 } else {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
@@ -96,7 +97,6 @@ class _AccountInfoState extends State<AccountInfo> {
 class _UpdateForm extends StatelessWidget {
   final UserDTO user;
   const _UpdateForm({
-    super.key,
     required this.user,
   });
 
@@ -109,7 +109,7 @@ class _UpdateForm extends StatelessWidget {
       if (label.isEmpty) label = hint;
       return InputDecoration(
         prefixIconColor: AppTheme.primary,
-        prefixIcon: Icon(Icons.edit_note_rounded),
+        prefixIcon: const Icon(Icons.edit_note_rounded),
         labelText: label,
         hintText: hint,
         focusColor: AppTheme.primary.withAlpha(80),
@@ -173,47 +173,48 @@ class _UpdateForm extends StatelessWidget {
                       ? null
                       : () async {
                           if (loginForm.userDTO.rol == Constants.PSYCHOLOGIST) {
-                          FocusScope.of(context).unfocus();
-                          final defaultUserFacade =
-                              Provider.of<DefaultPsychologistFacade>(context,
-                                  listen: false);
+                            FocusScope.of(context).unfocus();
+                            final defaultUserFacade =
+                                Provider.of<DefaultPsychologistFacade>(context,
+                                    listen: false);
 
-                          if (!loginForm.isValidForm()) return;
+                            if (!loginForm.isValidForm()) return;
 
-                          loginForm.isLoading = true;
+                            loginForm.isLoading = true;
 
-                          final bool operation = await defaultUserFacade
-                              .UpdateUser(loginForm.userDTO);
+                            final bool operation =
+                                await defaultUserFacade.UpdateUser(
+                                    loginForm.userDTO);
 
-                          if (operation) {
-                            Navigator.pushReplacementNamed(context, 'profile');
+                            if (operation) {
+                              Navigator.pushReplacementNamed(
+                                  context, 'profile');
+                            } else {
+                              stderr.writeln('Error to create login!!');
+                            }
+
+                            loginForm.isLoading = false;
                           } else {
-                            stderr.writeln('Error to create login!!');
-                          }
+                            FocusScope.of(context).unfocus();
+                            final defaultUserFacade =
+                                Provider.of<DefaultUserFacade>(context,
+                                    listen: false);
 
-                          loginForm.isLoading = false;
+                            if (!loginForm.isValidForm()) return;
 
-                          } else {
+                            loginForm.isLoading = true;
 
-                          FocusScope.of(context).unfocus();
-                          final defaultUserFacade =
-                              Provider.of<DefaultUserFacade>(context,
-                                  listen: false);
+                            final bool operation = await defaultUserFacade
+                                .updateUser(loginForm.userDTO);
 
-                          if (!loginForm.isValidForm()) return;
+                            if (operation) {
+                              Navigator.pushReplacementNamed(
+                                  context, 'profile');
+                            } else {
+                              stderr.writeln('Error to create login!!');
+                            }
 
-                          loginForm.isLoading = true;
-
-                          final bool operation = await defaultUserFacade
-                              .updateUser(loginForm.userDTO);
-
-                          if (operation) {
-                            Navigator.pushReplacementNamed(context, 'profile');
-                          } else {
-                            stderr.writeln('Error to create login!!');
-                          }
-
-                          loginForm.isLoading = false;
+                            loginForm.isLoading = false;
                           }
                         },
                   child: Text(
@@ -244,7 +245,7 @@ class _DisplayData extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 40),
           child: Stack(children: [
-            picture(),
+            const Picture(),
             Positioned(
                 top: 60,
                 left: 20,
@@ -292,8 +293,8 @@ class _DisplayData extends StatelessWidget {
   }
 }
 
-class picture extends StatelessWidget {
-  const picture({
+class Picture extends StatelessWidget {
+  const Picture({
     super.key,
   });
 

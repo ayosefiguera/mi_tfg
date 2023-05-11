@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 18,
                 ),
-                const swiper_container(),
+                const SwiperContainer(),
               ],
             ),
           ),
@@ -72,8 +72,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class swiper_container extends StatelessWidget {
-  const swiper_container({
+class SwiperContainer extends StatelessWidget {
+  const SwiperContainer({
     super.key,
   });
 

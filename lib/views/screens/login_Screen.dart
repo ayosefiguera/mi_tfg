@@ -1,6 +1,7 @@
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/facade/local_repository_facade.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +16,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaulUserFacade = Provider.of<DefaultLocalRepositoryFacade>(context);
-    UserDTO userDto = defaulUserFacade.currentUser;
+    final LocalRepositoryFacade localRepository = Provider.of<DefaultLocalRepositoryFacade>(context);
+    UserDTO userDto = localRepository.getCurrentUser();
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
       body: SizedBox(

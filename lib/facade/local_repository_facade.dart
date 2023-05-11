@@ -24,4 +24,7 @@ abstract class LocalRepositoryFacade {
   /// Check is user is load.
   /// Return [bool] the idToken or empty string.
   Future<bool> loadUser();
+
+  /// Get the currentUser storage in menber variable..
+  UserDTO getCurrentUser();
 }
