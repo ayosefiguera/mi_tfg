@@ -41,15 +41,13 @@ class DefaultAppointmentDAO implements AppointmentDAO {
         baseUrl, 'appointments/${appointment.userID}.json', {'key': _key});
     final response = await http.post(url, body: appointment.toJson());
     final decodeData = json.decode(response.body);
-
     appointment.id = decodeData['name'];
-
     return appointment;
   }
 
   ///
   @override
-  Future<bool> updateAppointment(final appointment, final id) async {
+  Future<bool> updateAppointment(final Appointment appointment, final String id) async {
     final url = Uri.https(
         baseUrl, 'appointments/$id/${appointment.id}.json', {'key': _key});
     final response = await http.put(url, body: appointment.toJson());
@@ -57,9 +55,9 @@ class DefaultAppointmentDAO implements AppointmentDAO {
   }
 
   @override
-  Future<bool> createAppointment(Appointment appointment) async {
+  Future<bool> createAppointment(final Appointment appointment, final String id) async {
     final url = Uri.https(baseUrl,
-        'appointments/${appointment.psychologistID}.json', {'key': _key});
+        'appointments/${id}.json', {'key': _key});
     final response = await http.post(url, body: appointment.toJson());
     final decodeData = json.decode(response.body);
 

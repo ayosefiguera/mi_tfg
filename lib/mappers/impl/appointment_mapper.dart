@@ -39,7 +39,7 @@ class AppointmentMapper {
         psychologistID: source.psychologistID!,
         status: source.status,
         date: source.date!,
-        userID: source.id);
+        userID: source.userID);
     return target;
   }
 
@@ -56,14 +56,14 @@ class AppointmentMapper {
 
   Future<String> getPatientName(String? id) async {
     String name = "unasigned";
-    /*if (id != null) {
+    if (id != null) {
       UserDTO currentUser = localRepository.getCurrentUser();
       if (id == currentUser.id) {
         name = "${currentUser.name} ${currentUser.surname}";
-      } else {
-        name = await userFacade.getUserNameById(id);
-      }
-    }*/
+      } else {}
+      name = await userFacade.getUserNameById(id!);
+    }
+
     return name;
   }
 }

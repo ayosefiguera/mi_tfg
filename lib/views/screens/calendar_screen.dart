@@ -1,22 +1,28 @@
+import 'package:eqlibrum/constanst.dart';
 import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
+import 'package:eqlibrum/facade/local_repository_facade.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/appointment_card_widget.dart';
-import 'package:eqlibrum/views/widgets/appointmet_dialog_widget.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eqlibrum/utils/utils.dart';
+import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
+import 'package:eqlibrum/views/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class CalendarScreen extends StatelessWidget {
   CalendarScreen({super.key});
   final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
-
   @override
   Widget build(BuildContext context) {
+    final LocalRepositoryFacade localRepository =
+        Provider.of<DefaultLocalRepositoryFacade>(context);
+    String userRol = localRepository.getCurrentUser().rol!;
     return ScaffoldApp(
         index: 2,
         child: FutureBuilder<bool>(
@@ -34,7 +40,9 @@ class CalendarScreen extends StatelessWidget {
               } else {
                 if (snapshot.data == true) {
                   return _RequestAppointmentScreen(
-                      appointmentFacade: appointmentFacade);
+                    appointmentFacade: appointmentFacade,
+                    userRol: userRol,
+                  );
                 } else {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
@@ -44,9 +52,12 @@ class CalendarScreen extends StatelessWidget {
 }
 
 class _RequestAppointmentScreen extends StatefulWidget {
-  const _RequestAppointmentScreen({required this.appointmentFacade});
+  const _RequestAppointmentScreen({
+    required this.appointmentFacade,
+    required this.userRol,
+  });
   final AppointmentFacade appointmentFacade;
-
+  final String userRol;
   @override
   // ignore: no_logic_in_create_state
   _TabletAppointmentState createState() => _TabletAppointmentState();
@@ -135,13 +146,12 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
-                  return AppointmentCardWidget(
-                      appointment: value[index]);
+                  return AppointmentCardWidget(appointment: value[index]);
                 },
               );
             },
           )),
-          if (true)
+          if (widget.userRol == Constants.PSYCHOLOGIST)
             ElevatedButton.icon(
                 onPressed: () {
                   _reateDialog(context, _focusedDay);
@@ -205,7 +215,7 @@ _reateDialog(BuildContext context, DateTime focuseDay) async {
               onPressed: () async {
                 DateTime apointment = DateTime(focuseDay.year, focuseDay.month,
                     focuseDay.day, int.parse(hour), int.parse(min));
-                await appointmentFacade.createAppointment(apointment);
+                await appointmentFacade.createNewAppointment(apointment);
                 // ignore: use_build_context_synchronously
                 Navigator.popAndPushNamed(context, 'calendar');
               },

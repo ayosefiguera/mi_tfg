@@ -17,7 +17,7 @@ abstract class AppointmentDAO {
 
   /// Create new appointment.
   /// Returns [bool] the operation was successful or not.
-  Future<bool> createAppointment(Appointment appointment);
+  Future<bool> createAppointment(Appointment appointment, String id);
 
   /// Update existing appointment.
   /// Returns [bool] the operation was successful or not.

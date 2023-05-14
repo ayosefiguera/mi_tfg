@@ -1,4 +1,3 @@
-import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/local_repository_facade.dart';
 import 'package:eqlibrum/routers/app_router.dart';
@@ -16,13 +15,12 @@ class ScaffoldApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final LocalRepositoryFacade localRepository =
         Provider.of<DefaultLocalRepositoryFacade>(context);
-    UserDTO userDTO = localRepository.getCurrentUser();
     return Scaffold(
       appBar: AppBar(
           elevation: 2,
           title: localRepository.getLoadingStatus()
               ? const Text('Welcome')
-              : Text('Welcome, ${userDTO.name}'),
+              : Text('Welcome, ${localRepository.getCurrentUser().name}'),
           actions: <Widget>[
             IconButton(
                 onPressed: () {

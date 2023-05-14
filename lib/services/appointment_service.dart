@@ -13,7 +13,7 @@ abstract class AppointmentService {
 
   /// Create new appointment.
   /// Returns [bool] the operation was successful or not.
-  Future<bool> createAppointment(Appointment appointment);
+  Future<bool> createAppointment(Appointment appointment, String id);
 
   /// update a existing appointment.
   /// Returns [bool] the operation was successful or not.

@@ -71,16 +71,17 @@ class DefaultAppointmentFacade implements AppointmentFacade {
     user = await _getLocalRepositoryService().getUser();
     appointment.status = Constants.CLOSE;
     appointment.userID = user.id;
+    print(user.id);
 
     await _getAppointmentService()
-        .updateAppointment(mapper.toEntity(appointment), appointment.userID!);
+        .createAppointment(mapper.toEntity(appointment), appointment.userID!);
     await _getAppointmentService().updateAppointment(
         mapper.toEntity(appointment), appointment.psychologistID!);
     return true;
   }
 
   @override
-  Future<bool> createAppointment(final DateTime dateTimeAppointment) async {
+  Future<bool> createNewAppointment(final DateTime dateTimeAppointment) async {
     bool createValidation = false;
     user = await _getLocalRepositoryService().getUser();
     if (user.rol == Constants.PSYCHOLOGIST) {
@@ -88,8 +89,8 @@ class DefaultAppointmentFacade implements AppointmentFacade {
           psychologistID: user.id!,
           date: dateTimeAppointment,
           status: Constants.OPEN);
-      createValidation =
-          await _getAppointmentService().createAppointment(appointment);
+      createValidation = await _getAppointmentService()
+          .createAppointment(appointment, user.id!);
     } else {
       NotificacionService.showSnackbar(
           "The user is unable to open new appointments");

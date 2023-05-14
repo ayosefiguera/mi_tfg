@@ -19,7 +19,7 @@ abstract class AppointmentFacade {
 
   /// Create new appointment.
   /// Returns [bool] the operation was successful or not.
-  Future<bool> createAppointment(DateTime dateAppointment);
+  Future<bool> createNewAppointment(DateTime dateAppointment);
 
   /// update a existing appointment.
   /// Returns [bool] the operation was successful or not.

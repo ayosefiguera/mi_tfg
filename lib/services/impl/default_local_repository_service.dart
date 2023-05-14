@@ -8,12 +8,12 @@ class DefaultLocalRepositoryService implements LocalRepositoryService {
 
   @override
   Future<String> getIdtoken() async {
-    return _getLocalRepository().findIdtoken();
+    return _getLocalRepository().findLocalIdtoken();
   }
 
   @override
   Future<User> getUser() async {
-    return _getLocalRepository().findUser();
+    return _getLocalRepository().findLocalUser();
   }
 
   @override

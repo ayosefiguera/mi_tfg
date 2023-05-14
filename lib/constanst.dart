@@ -2,6 +2,9 @@ class Constants {
   // ignore: constant_identifier_names
   static const String PSYCHOLOGIST = "psychologist";
   // ignore: constant_identifier_names
+
+  static const String USER = "user";
+  // ignore: constant_identifier_names
   static const String USER_TOKEN = 'idToken';
 
   ///models

@@ -8,27 +8,30 @@ class DefaultAppointmentService implements AppointmentService {
   AppointmentDAO _appointmentDAO = DefaultAppointmentDAO();
 
   @override
-  Future<List<Appointment>> loadAppointment(String id) async {
+  Future<List<Appointment>> loadAppointment(final String id) async {
     return await _getAppointmentDao().loadAppointment(id);
   }
 
   @override
-  Future<Appointment> requestAppointment(final appointment) {
+  Future<Appointment> requestAppointment(final Appointment appointment) {
     return _getAppointmentDao().requestAppointment(appointment);
   }
 
   @override
-  Future<bool> createAppointment(Appointment appointment) async {
-    return _getAppointmentDao().createAppointment(appointment);
+  Future<bool> createAppointment(
+      final Appointment appointment, final String id) async {
+    return _getAppointmentDao().createAppointment(appointment, id);
   }
 
   @override
-  Future<bool> updateAppointment(final appointment, final id) {
+  Future<bool> updateAppointment(
+      final Appointment appointment, final String id) {
     return _getAppointmentDao().updateAppointment(appointment, id);
   }
 
   @override
-     Future<bool> deleteAppointment(final Appointment appointment, final String id){
+  Future<bool> deleteAppointment(
+      final Appointment appointment, final String id) {
     return _getAppointmentDao().deleteAppointment(appointment, id);
   }
 

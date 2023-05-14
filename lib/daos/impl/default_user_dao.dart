@@ -17,7 +17,7 @@ class DefaultUserDAO implements UserDAO {
   final storage = const FlutterSecureStorage();
 
   @override
-  Future<bool> createUser(final User newUser) async {
+  Future<String> createCredentialAuth(final User newUser) async {
     const String encodeAuthPath = "/v1/accounts:signUp";
 
     final Map<String, dynamic> authData = {
@@ -28,36 +28,27 @@ class DefaultUserDAO implements UserDAO {
 
     final urlAuth = Uri.https(_AuthBaseUrl, encodeAuthPath, {'key': _key});
     final resp = await http.post(urlAuth, body: json.encode(authData));
-
     final Map<String, dynamic> decodeResp = json.decode(resp.body);
 
     if (decodeResp.containsKey(USER_TOKEN)) {
-      User createdUser = await _createNewUser(newUser);
-      _newLocalStorageDataUser(createdUser, decodeResp[USER_TOKEN]);
+      return decodeResp[USER_TOKEN];
     } else {
-      return false;
+      throw Exception(decodeResp['error']['message']);
     }
-
-    return true;
   }
 
-  Future<User> _createNewUser(User newUser) async {
+  @override
+  Future<User> createNewUser(final User newUser) async {
     final urlRegister =
         Uri.https(_FirebaseBaseUrl, 'users.json', {'key': _key});
     final response = await http.post(urlRegister, body: newUser.toJson());
     final decodeData = json.decode(response.body);
-    newUser.id = decodeData['name'];
-    return newUser;
-  }
-
-  _newLocalStorageDataUser(final User newUser, final String token) async {
-    // Store userToken in secure storage.
-    await storage.write(key: USER_TOKEN, value: token);
-    await storage.write(key: 'userId', value: newUser.id ?? '');
-    await storage.write(key: 'userName', value: newUser.name);
-    await storage.write(key: 'userSurname', value: newUser.surname);
-    await storage.write(key: 'userEmail', value: newUser.email);
-    await storage.write(key: 'userPicture', value: newUser.picture ?? '');
+    if (response.statusCode == 200) {
+      newUser.id = decodeData['name'];
+      return newUser;
+    } else {
+      throw throw Exception(decodeData['error']['message']);
+    }
   }
 
   @override
@@ -83,33 +74,10 @@ class DefaultUserDAO implements UserDAO {
   }
 
   @override
-  Future logout() async {
-    await storage.delete(key: USER_TOKEN);
-  }
-
-  @override
-  Future<String> getIdtoken() async {
-    String token = await storage.read(key: USER_TOKEN) ?? '';
-    return token;
-  }
-
-  @override
-  Future<User> getUser() async {
-    String id = await storage.read(key: 'userId') ?? '';
-    String name = await storage.read(key: 'userName') ?? '';
-    String surname = await storage.read(key: 'userSurname') ?? '';
-    String email = await storage.read(key: 'userEmail') ?? '';
-    User user = User(id: id, name: name, surname: surname, email: email);
-    return user;
-  }
-
-  @override
-  Future<String?> deleteUser() async {
+  Future<bool> deleteAuthUser(final String userToken) async {
     const String encodePath = "/v1/accounts:delete";
-
-    String userToke = await getIdtoken();
     final Map<String, dynamic> authData = {
-      USER_TOKEN: userToke,
+      USER_TOKEN: userToken,
       'returnSecureToken': true
     };
 
@@ -118,77 +86,50 @@ class DefaultUserDAO implements UserDAO {
 
     if (response.statusCode != 200) {
       final decodeResp = json.decode(response.body);
-      return decodeResp['error']['message'];
+      throw decodeResp['error']['message'];
     }
 
-    final String respDelete = await _deleteUserData() ?? '';
-
-    if (respDelete.isNotEmpty) {
-      return respDelete;
-    }
-    _removeLocalStorageUserData();
-    return '';
+    return true;
   }
 
-  Future<String?> _deleteUserData() async {
-    User user = await getUser();
-
+  @override
+  Future<bool> deleteUserData(final User user) async {
     final urlDeleted =
         Uri.https(_FirebaseBaseUrl, 'users/${user.id}.json', {'key': _key});
     final response = await http.delete(urlDeleted, body: user.toJson());
 
     if (response.statusCode != 200) {
-      return 'ERROR_DATA_NOT_FOUND';
+      throw Exception("Erro data not found");
     }
-    return '';
-  }
 
-  void _removeLocalStorageUserData() async {
-    // Store userToken in secure storage.
-    await storage.delete(key: USER_TOKEN);
-    await storage.delete(key: 'userId');
-    await storage.delete(key: 'userName');
-    await storage.delete(key: 'userSurname');
-    await storage.delete(key: 'userEmail');
-    await storage.delete(key: 'userPicture');
-  }
-
-  void _updateLocalStorageDataUser(final User updateUser) async {
-    // Store userToken in secure storage.
-    await storage.write(key: 'userName', value: updateUser.name);
-    await storage.write(key: 'userSurname', value: updateUser.surname);
-    await storage.write(key: 'userEmail', value: updateUser.email);
-    await storage.write(key: 'userPicture', value: updateUser.picture ?? '');
+    return true;
   }
 
   @override
-  Future<String?> updateUser(User user) async {
-
+  Future<User> updateUser(User user) async {
     final urlUpdate =
         Uri.https(_FirebaseBaseUrl, 'users/${user.id}.json', {'key': _key});
     final response = await http.put(urlUpdate, body: user.toJson());
-
     if (response.statusCode != 200) {
-      return 'ERROR_TO_UPDATE_DATA';
+      throw Exception("Error User not found!!");
     }
-
     final decodeData = json.decode(response.body);
-
     User updateUser = User.fromMap(decodeData);
-    _updateLocalStorageDataUser(updateUser);
-
-    return '';
+    return updateUser;
   }
 
   @override
   Future<User?> findUserById(final String id) async {
     final url = Uri.https(_FirebaseBaseUrl, 'users/$id.json', {'key': _key});
     final response = await http.get(url);
-    if (response.statusCode != 200) {
-      final Map<String, dynamic> userMap = json.decode(response.body);
-      User tempUser = User.fromMap(userMap);
-      return tempUser;
+    try {
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> userMap = json.decode(response.body);
+        User tempUser = User.fromMap(userMap);
+        return tempUser;
+      }
+    } catch (e) {
+      return null;
     }
-    return null;
   }
 }
