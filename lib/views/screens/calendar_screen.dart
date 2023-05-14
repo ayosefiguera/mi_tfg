@@ -2,6 +2,8 @@ import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
+import 'package:eqlibrum/views/widgets/appointment_card_widget.dart';
+import 'package:eqlibrum/views/widgets/appointmet_dialog_widget.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -133,8 +135,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
               return ListView.builder(
                 itemCount: value.length,
                 itemBuilder: (context, index) {
-                  return _AppointmentCard(
-                      appointmentFacade: widget.appointmentFacade,
+                  return AppointmentCardWidget(
                       appointment: value[index]);
                 },
               );
@@ -143,7 +144,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
           if (true)
             ElevatedButton.icon(
                 onPressed: () {
-                  displayDialog(context, _focusedDay);
+                  _reateDialog(context, _focusedDay);
                 },
                 icon: const Icon(Icons.add),
                 label: const Text("New Appointment"))
@@ -153,73 +154,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
   }
 }
 
-class _AppointmentCard extends StatelessWidget {
-  const _AppointmentCard(
-      {required this.appointment, required this.appointmentFacade});
-  final AppointmentFacade appointmentFacade;
-  final AppointmentDTO appointment;
-
-  @override
-  Widget build(BuildContext context) {
-    Color statusColor = AppTheme.appointmentStatus[appointment.status]!;
-
-    final String formattedMonth =
-        DateFormat('dd-MMMM').format(appointment.date!);
-    final String formattedDay = DateFormat('kk:mm').format(appointment.date!);
-    const TextStyle styleText = TextStyle(color: Colors.white70, fontSize: 18);
-
-    return GestureDetector(
-      onTap: () => appointmentInfo(context, appointment),
-      child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: statusColor,
-              border: Border.all(
-                  color: statusColor, style: BorderStyle.solid, width: 2)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(
-                children: [
-                  const Icon(
-                    Icons.event,
-                    color: Colors.white,
-                    size: 48,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(formattedMonth, style: styleText),
-                ],
-              ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 18,
-                  ),
-                  const Icon(
-                    Icons.watch_later_outlined,
-                    color: Colors.white,
-                    size: 48,
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    formattedDay,
-                    style: styleText,
-                  ),
-                ],
-              )
-            ],
-          )),
-    );
-  }
-}
-
-displayDialog(BuildContext context, DateTime focuseDay) async {
+_reateDialog(BuildContext context, DateTime focuseDay) async {
   final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
   final String formattedMonth = DateFormat('y-dd-MM').format(focuseDay);
   String hour = "00";
@@ -289,74 +224,4 @@ displayDialog(BuildContext context, DateTime focuseDay) async {
           ],
         );
       });
-}
-
-void appointmentInfo(BuildContext context, AppointmentDTO appointment) async {
-  final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
-
-  showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          actions: [
-            TextButton(
-              onPressed: () => {Navigator.pop(context)},
-              child: const Text(
-                'Back',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-            TextButton(
-              onPressed: () async {
-                appointmentFacade.cancelAppointment(appointment);
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel Appointment',
-                style: TextStyle(fontSize: 18, color: Colors.red),
-              ),
-            )
-          ],
-          elevation: 5,
-          title: const Text('Appointment Info'),
-          content: InfoAppointment(appointment: appointment),
-        );
-      });
-}
-
-class InfoAppointment extends StatelessWidget {
-  const InfoAppointment({super.key, required this.appointment});
-
-  final AppointmentDTO appointment;
-
-  @override
-  Widget build(BuildContext context) {
-    final String formattedMonth =
-        DateFormat('y-dd-MM hh:mm').format(appointment.date!);
-    var textStyle =
-        TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.bold);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          "Doctor:",
-          style: textStyle,
-        ),
-        Text(appointment.psychologistFullName!),
-        const Divider(height: 30),
-        Text(
-          "Patient:",
-          style: textStyle,
-        ),
-        Text(appointment.userFullName!),
-        const Divider(height: 30),
-        Text(
-          "Appointment Date:",
-          style: textStyle,
-        ),
-        Text(formattedMonth),
-      ],
-    );
-  }
 }

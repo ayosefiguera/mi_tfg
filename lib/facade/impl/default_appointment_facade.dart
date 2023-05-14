@@ -31,7 +31,7 @@ class DefaultAppointmentFacade implements AppointmentFacade {
 
   @override
   Future<bool> loadAppointment(String id) async {
-    if (id.isEmpty) {
+    if (id == '') {
       user = await _getLocalRepositoryService().getUser();
       id = user.id!;
     }
@@ -162,5 +162,15 @@ class DefaultAppointmentFacade implements AppointmentFacade {
 
   LocalRepositoryService _getLocalRepositoryService() {
     return _localRepositoryService;
+  }
+
+  @override
+  List<AppointmentDTO> getAppointmentList() {
+    List<AppointmentDTO> appointments = [];
+    kAppointment.forEach((key, value) {
+      appointments.addAll(value);
+    });
+    appointments.sort((a, b) => a.date!.day - b.date!.day);
+    return appointments;
   }
 }

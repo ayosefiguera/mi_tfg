@@ -33,4 +33,8 @@ abstract class AppointmentFacade {
   /// Delete appointment.
   /// Returns [bool] the operation was successful or not.
   Future<bool> cancelAppointment(AppointmentDTO appointment);
+
+  /// Get appointment list.
+  /// Returns [bool] the operation was successful or not.
+  List<AppointmentDTO> getAppointmentList();
 }

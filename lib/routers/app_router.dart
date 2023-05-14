@@ -29,6 +29,6 @@ class AppRoutes {
     news: (context) => const MediaScreen(title: 'News'),
     course: (context) => const MediaScreen(title: 'Course'),
     podcast: (context) => const MediaScreen(title: 'Podcast'),
-    appointmetslist: (context) => const AppointmentListScreen(),
+    appointmetslist: (context) => AppointmentListScreen(),
   };
 }

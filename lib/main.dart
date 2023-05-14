@@ -6,6 +6,7 @@ import 'package:eqlibrum/providers/providers.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
 
+// ignore: depend_on_referenced_packages
 import 'package:intl/date_symbol_data_local.dart' show initializeDateFormatting;
 import 'package:provider/provider.dart';
 

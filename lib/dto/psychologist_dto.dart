@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:eqlibrum/dto/user_dto.dart';
 
 class PsychologistDTO extends UserDTO {
