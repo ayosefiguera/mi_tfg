@@ -1,5 +1,4 @@
 import 'package:eqlibrum/models/psychologist.dart';
-import 'package:eqlibrum/models/user.dart';
 
 /// An interfac for the psychologist DAO including operations for retrieving
 /// persistend Pyschologist model objects

@@ -1,4 +1,4 @@
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
 import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
@@ -140,7 +140,8 @@ class _RegisterForm extends StatelessWidget {
                             final bool operation =
                                 await defaultUserFacade.createUser(userDTO);
 
-                            if (operation) {
+                            if (operation){
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacementNamed(context, 'home');
                             } else {
                               stderr.writeln('Error to create login!!');
@@ -148,7 +149,6 @@ class _RegisterForm extends StatelessWidget {
 
                             loginForm.isLoading = false;
                           } else {
-                            print("ceando un usuario");
                             final defaultUserFacade =
                                 Provider.of<DefaultUserFacade>(context,
                                     listen: false);
@@ -157,6 +157,7 @@ class _RegisterForm extends StatelessWidget {
                                 await defaultUserFacade.createUser(userDTO);
 
                             if (operation) {
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacementNamed(context, 'home');
                             } else {
                               stderr.writeln('Error to create login!!');

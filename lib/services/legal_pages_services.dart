@@ -1,4 +1,4 @@
-import 'package:eqlibrum/models/LegalPage.dart';
+import 'package:eqlibrum/models/legal_page.dart';
 
 abstract class LegalPagesServices {
   /// Get a Pages from persistenace data

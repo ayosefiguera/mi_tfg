@@ -1,17 +1,18 @@
 class AppointmentDTO {
   AppointmentDTO(
-      {required this.psychologistID,
-      required this.date,
-      this.status,
-      this.id,
-      required this.avaliable});
+      {this.id,
+      this.psychologistID,
+      this.psychologistFullName,
+      this.userID,
+      this.userFullName,
+      this.date,
+      this.status,});
 
   String? id;
-  String psychologistID;
-  DateTime date;
-  bool? status;
-  bool avaliable;
-
-  @override
-  String toString() => "$psychologistID ${date.hour}:${date.minute}";
+  String? psychologistID;
+  String? psychologistFullName;
+  String? userID;
+  String? userFullName;
+  DateTime? date;
+  String? status;
 }

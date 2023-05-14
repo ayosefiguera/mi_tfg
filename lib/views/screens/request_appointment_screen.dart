@@ -1,12 +1,13 @@
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
-import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eqlibrum/utils/utils.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class RequestAppointmentScreen extends StatelessWidget {
@@ -43,7 +44,7 @@ class RequestAppointmentScreen extends StatelessWidget {
 }
 
 class _RequestAppointmentScreen extends StatefulWidget {
-  const _RequestAppointmentScreen({super.key, required this.appointmentFacade});
+  const _RequestAppointmentScreen({required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
 
   @override
@@ -56,7 +57,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
 
   //final String id;
   bool loading = true;
-  late ValueNotifier<List<Appointment>> _selectedEvents;
+  late ValueNotifier<List<AppointmentDTO>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   DateTime _focusedDay = kToday;
@@ -95,7 +96,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
       width: double.infinity,
       child: Column(
         children: [
-          TableCalendar<Appointment>(
+          TableCalendar<AppointmentDTO>(
             focusedDay: _focusedDay,
             firstDay: kFirstDay,
             lastDay: kLastDay,
@@ -130,7 +131,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
             height: 12,
           ),
           Expanded(
-              child: ValueListenableBuilder<List<Appointment>>(
+              child: ValueListenableBuilder<List<AppointmentDTO>>(
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
               return ListView.builder(
@@ -153,7 +154,7 @@ class _AppointmentCard extends StatefulWidget {
   const _AppointmentCard(
       {required this.appointment, required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
-  final Appointment appointment;
+  final AppointmentDTO appointment;
 
   @override
   State<_AppointmentCard> createState() => _AppointmentCardState();
@@ -165,7 +166,7 @@ class _AppointmentCardState extends State<_AppointmentCard> {
     Color statusColor = AppTheme.appointmentStatus[widget.appointment.status]!;
 
     String formattedDate =
-        DateFormat('dd-MMMM kk:mm').format(widget.appointment.date);
+        DateFormat('dd-MMMM kk:mm').format(widget.appointment.date!);
 
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),

@@ -1,4 +1,5 @@
 import 'package:eqlibrum/facade/impl/default_user_facade.dart';
+import 'package:eqlibrum/routers/app_router.dart';
 import 'package:eqlibrum/views/screens/legal_screen.dart';
 import 'package:eqlibrum/views/screens/account_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: constant_identifier_names
     const String LEGAL_PAGE = 'legal_terms';
+    // ignore: constant_identifier_names
     const String PRIVACITY_PAGE = "privacity";
 
     final defaultUserFacade =
@@ -120,7 +123,7 @@ class SettingsScreen extends StatelessWidget {
                 onTap: () {
                   defaultUserFacade.deleteUser();
                   defaultUserFacade.logout();
-                  Navigator.pushReplacementNamed(context, 'welcome');
+                  Navigator.pushReplacementNamed(context, AppRoutes.welcome);
                 },
               ),
               ListTile(
@@ -132,7 +135,7 @@ class SettingsScreen extends StatelessWidget {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () {
                   defaultUserFacade.logout();
-                  Navigator.pushReplacementNamed(context, 'welcome');
+                  Navigator.pushReplacementNamed(context, AppRoutes.welcome);
                 },
               ),
 

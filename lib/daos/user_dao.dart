@@ -43,5 +43,4 @@ abstract class UserDAO {
   /// 
   /// Only return [user] if found. otherwise return [null].
   Future<User?> findUserById(String id);
-
 }

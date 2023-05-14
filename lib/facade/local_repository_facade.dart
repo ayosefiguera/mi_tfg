@@ -1,5 +1,4 @@
 import 'package:eqlibrum/dto/user_dto.dart';
-import 'package:eqlibrum/models/user.dart';
 
 /// Local repository for managing user
 ///
@@ -19,7 +18,7 @@ abstract class LocalRepositoryFacade {
 
   /// Get the rol from Secure Storage.
   /// Return [String] the idToken or empty string.
-  Future<String> whatRol();
+  Future<String> getRol();
 
   /// Check is user is load.
   /// Return [bool] the idToken or empty string.
@@ -27,4 +26,10 @@ abstract class LocalRepositoryFacade {
 
   /// Get the currentUser storage in menber variable..
   UserDTO getCurrentUser();
+
+  /// change the state loading.
+  void changeloadingtStatus(bool state) ;
+
+  /// Get the state loading.
+  bool getLoadingStatus();
 }

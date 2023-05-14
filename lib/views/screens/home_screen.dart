@@ -1,4 +1,5 @@
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
+import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/media_swiper.dart';
 import 'package:eqlibrum/views/widgets/next_appointment_widget.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
@@ -26,23 +27,19 @@ class HomeScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       "Upconming appointments",
                       style: TextStyle(
                           fontSize: 16,
-                          color: Colors.indigo.shade900,
+                          color: AppTheme.primaryDark,
                           fontWeight: FontWeight.bold),
                     ),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        padding:
-                            MaterialStateProperty.all(const EdgeInsets.all(8)),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.search,
+                        color: AppTheme.secundary,
                       ),
-                      onPressed: () => Navigator.pushNamed(context, 'schelude'),
-                      child: const Text(
-                        'See all',
-                        style: TextStyle(fontWeight: FontWeight.w400),
-                      ),
+                      onPressed: () => Navigator.pushNamed(context, 'calendar'),
                     )
                   ],
                 ),
@@ -53,11 +50,11 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: 40,
                 ),
-                Text(
+                const Text(
                   "News, courses, and podcasts",
                   style: TextStyle(
                       fontSize: 18,
-                      color: Colors.indigo.shade900,
+                      color: AppTheme.primaryDark,
                       fontWeight: FontWeight.bold),
                 ),
                 const BottonTable(),
@@ -82,30 +79,32 @@ class SwiperContainer extends StatelessWidget {
     final localRepositoryFacade =
         Provider.of<DefaultLocalRepositoryFacade>(context, listen: false);
     return FutureBuilder(
-      future: localRepositoryFacade.whatRol(),
+      future: localRepositoryFacade.getRol(),
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (!snapshot.hasData) {
           return const Text('wait');
         }
-
         if (snapshot.data == Constants.PSYCHOLOGIST) {
           return Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     "Last news",
                     style: TextStyle(
                         fontSize: 18,
-                        color: Colors.indigo.shade900,
+                        color: AppTheme.primaryDark,
                         fontWeight: FontWeight.bold),
                   ),
                   IconButton(
                       onPressed: () {
                         Navigator.pushReplacementNamed(context, 'multimedia');
                       },
-                      icon: const Icon(Icons.newspaper)),
+                      icon: const Icon(
+                        Icons.newspaper,
+                        color: AppTheme.secundary,
+                      )),
                 ],
               ),
               const MediaSwiper(),
@@ -117,18 +116,21 @@ class SwiperContainer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Let's find your doctor",
                   style: TextStyle(
                       fontSize: 18,
-                      color: Colors.indigo.shade900,
+                      color: AppTheme.primaryDark,
                       fontWeight: FontWeight.bold),
                 ),
                 IconButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, 'search');
                     },
-                    icon: const Icon(Icons.search)),
+                    icon: const Icon(
+                      Icons.search,
+                      color: AppTheme.primaryDark,
+                    )),
               ],
             ),
             const PsychologistCardSwiper(),

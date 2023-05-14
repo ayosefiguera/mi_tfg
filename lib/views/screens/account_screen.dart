@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
 import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
 import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
@@ -46,7 +46,7 @@ class AccountScreen extends StatelessWidget {
 
 class AccountInfo extends StatefulWidget {
   final bool formMode = false;
-  AccountInfo({super.key, required this.user});
+  const AccountInfo({super.key, required this.user});
   final UserDTO user;
 
   @override
@@ -182,11 +182,11 @@ class _UpdateForm extends StatelessWidget {
 
                             loginForm.isLoading = true;
 
-                            final bool operation =
-                                await defaultUserFacade.UpdateUser(
-                                    loginForm.userDTO);
+                            final bool operation = await defaultUserFacade
+                                .updateUser(loginForm.userDTO);
 
                             if (operation) {
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacementNamed(
                                   context, 'profile');
                             } else {
@@ -208,6 +208,7 @@ class _UpdateForm extends StatelessWidget {
                                 .updateUser(loginForm.userDTO);
 
                             if (operation) {
+                              // ignore: use_build_context_synchronously
                               Navigator.pushReplacementNamed(
                                   context, 'profile');
                             } else {
@@ -232,7 +233,6 @@ class _UpdateForm extends StatelessWidget {
 
 class _DisplayData extends StatelessWidget {
   const _DisplayData({
-    super.key,
     required this.user,
   });
 
@@ -261,9 +261,7 @@ class _DisplayData extends StatelessWidget {
                 top: 60,
                 right: 20,
                 child: IconButton(
-                  onPressed: () {
-                    print("Cambiar foto");
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.camera_alt_outlined,
                     size: 40,

@@ -6,7 +6,7 @@ class BottonTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       child: Table(
         children: const [
           TableRow(children: [
@@ -34,7 +34,6 @@ class BottonTable extends StatelessWidget {
 
 class _BottonItem extends StatelessWidget {
   const _BottonItem({
-    super.key,
     required this.name,
     required this.icon,
     required this.background,

@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 class DefaultLocalRepositoryFacade extends ChangeNotifier
     implements LocalRepositoryFacade {
   UserDTO _currentUser = UserDTO();
+  bool _isLoading = false;
 
   LocalRepositoryService _localRepositoryService =
       DefaultLocalRepositoryService();
 
   DefaultLocalRepositoryFacade() {
+    changeloadingtStatus(true);
     getUser();
+    changeloadingtStatus(false);
   }
 
   @override
@@ -34,7 +37,6 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
     if (_currentUser.id == null) {
       _currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
     }
-
     return (_currentUser.id != null) ? true : false;
   }
 
@@ -43,7 +45,6 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
     _getLocalRepository().logout();
   }
 
-  @override
   Future<String?> getName() async {
     if (_currentUser.id == null) {
       _currentUser = UserMapper().toDTO(await _getLocalRepository().getUser());
@@ -52,11 +53,12 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
   }
 
   @override
-  Future<String> whatRol() async {
+  Future<String> getRol() async {
     _currentUser = await getUser();
     return _currentUser.rol ?? '';
   }
 
+  @override
   UserDTO getCurrentUser() {
     return _currentUser;
   }
@@ -67,5 +69,16 @@ class DefaultLocalRepositoryFacade extends ChangeNotifier
 
   LocalRepositoryService _getLocalRepository() {
     return _localRepositoryService;
+  }
+
+  @override
+  void changeloadingtStatus(final bool state) {
+    _isLoading = state;
+    notifyListeners();
+  }
+
+  @override
+  bool getLoadingStatus() {
+    return _isLoading;
   }
 }

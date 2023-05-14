@@ -7,11 +7,14 @@ import 'package:http/http.dart' as http;
 
 /// Default implementation to [UserDAO]
 class DefaultUserDAO implements UserDAO {
+  // ignore: constant_identifier_names
   static const USER_TOKEN = 'idToken';
+  // ignore: non_constant_identifier_names
   final String _AuthBaseUrl = Auth.baseUrl;
+  // ignore: non_constant_identifier_names
   final String _FirebaseBaseUrl = FirebaseData.url;
   final String _key = Auth.key;
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   @override
   Future<bool> createUser(final User newUser) async {
@@ -32,7 +35,6 @@ class DefaultUserDAO implements UserDAO {
       User createdUser = await _createNewUser(newUser);
       _newLocalStorageDataUser(createdUser, decodeResp[USER_TOKEN]);
     } else {
-      print(decodeResp['error']['message']);
       return false;
     }
 
@@ -61,8 +63,6 @@ class DefaultUserDAO implements UserDAO {
   @override
   Future<bool> loginUser(final user) async {
     const String encodePath = "/v1/accounts:signInWithPassword";
-
-    String userToke = await getIdtoken();
 
     final Map<String, dynamic> authData = {
       'email': user.email,
@@ -136,10 +136,8 @@ class DefaultUserDAO implements UserDAO {
     final urlDeleted =
         Uri.https(_FirebaseBaseUrl, 'users/${user.id}.json', {'key': _key});
     final response = await http.delete(urlDeleted, body: user.toJson());
-    final decodeData = json.decode(response.body);
-    print(decodeData);
 
-    if (response == null) {
+    if (response.statusCode != 200) {
       return 'ERROR_DATA_NOT_FOUND';
     }
     return '';
@@ -165,10 +163,9 @@ class DefaultUserDAO implements UserDAO {
 
   @override
   Future<String?> updateUser(User user) async {
-    String userToke = await getIdtoken();
 
-    final urlUpdate = Uri.https(
-        _FirebaseBaseUrl, 'users/${user.id}.json',  {'key': _key});
+    final urlUpdate =
+        Uri.https(_FirebaseBaseUrl, 'users/${user.id}.json', {'key': _key});
     final response = await http.put(urlUpdate, body: user.toJson());
 
     if (response.statusCode != 200) {
@@ -182,10 +179,16 @@ class DefaultUserDAO implements UserDAO {
 
     return '';
   }
-  
+
   @override
-  Future<User?> findUserById(final String id) {
-    // TODO: implement findUserById
-    throw UnimplementedError();
+  Future<User?> findUserById(final String id) async {
+    final url = Uri.https(_FirebaseBaseUrl, 'users/$id.json', {'key': _key});
+    final response = await http.get(url);
+    if (response.statusCode != 200) {
+      final Map<String, dynamic> userMap = json.decode(response.body);
+      User tempUser = User.fromMap(userMap);
+      return tempUser;
+    }
+    return null;
   }
 }

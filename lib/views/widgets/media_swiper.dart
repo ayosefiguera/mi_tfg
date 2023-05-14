@@ -1,7 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
-import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
 import 'package:eqlibrum/views/widgets/widgets.dart';
-import 'package:provider/provider.dart' show Provider;
 import 'package:flutter/material.dart';
 
 class MediaSwiper extends StatelessWidget {
@@ -9,9 +7,6 @@ class MediaSwiper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final defaultPsychologistFacade =
-        Provider.of<DefaultPsychologistFacade>(context);
-    final psychologists = defaultPsychologistFacade.psychologistsDTO;
     final size = MediaQuery.of(context).size;
 
     return Container(

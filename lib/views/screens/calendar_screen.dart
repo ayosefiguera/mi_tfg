@@ -1,19 +1,16 @@
-import 'dart:async';
-
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
-import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
-import 'package:eqlibrum/facade/psychologist_facade.dart';
-import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:eqlibrum/views/widgets/scaffold_app.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:eqlibrum/utils/utils.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-class ScheludeScreen extends StatelessWidget {
-  ScheludeScreen({super.key});
+class CalendarScreen extends StatelessWidget {
+  CalendarScreen({super.key});
   final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
 
   @override
@@ -45,7 +42,7 @@ class ScheludeScreen extends StatelessWidget {
 }
 
 class _RequestAppointmentScreen extends StatefulWidget {
-  const _RequestAppointmentScreen({super.key, required this.appointmentFacade});
+  const _RequestAppointmentScreen({required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
 
   @override
@@ -56,7 +53,7 @@ class _RequestAppointmentScreen extends StatefulWidget {
 class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
   _TabletAppointmentState();
   bool loading = true;
-  late ValueNotifier<List<Appointment>> _selectedEvents;
+  late ValueNotifier<List<AppointmentDTO>> _selectedEvents;
   CalendarFormat _calendarFormat = CalendarFormat.month;
 
   DateTime _focusedDay = kToday;
@@ -95,7 +92,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
       width: double.infinity,
       child: Column(
         children: [
-          TableCalendar<Appointment>(
+          TableCalendar<AppointmentDTO>(
             focusedDay: _focusedDay,
             firstDay: kFirstDay,
             lastDay: kLastDay,
@@ -130,7 +127,7 @@ class _TabletAppointmentState extends State<_RequestAppointmentScreen> {
             height: 12,
           ),
           Expanded(
-              child: ValueListenableBuilder<List<Appointment>>(
+              child: ValueListenableBuilder<List<AppointmentDTO>>(
             valueListenable: _selectedEvents,
             builder: (context, value, _) {
               return ListView.builder(
@@ -160,15 +157,15 @@ class _AppointmentCard extends StatelessWidget {
   const _AppointmentCard(
       {required this.appointment, required this.appointmentFacade});
   final AppointmentFacade appointmentFacade;
-  final Appointment appointment;
+  final AppointmentDTO appointment;
 
   @override
   Widget build(BuildContext context) {
     Color statusColor = AppTheme.appointmentStatus[appointment.status]!;
 
     final String formattedMonth =
-        DateFormat('dd-MMMM').format(appointment.date);
-    final String formattedDay = DateFormat('kk:mm').format(appointment.date);
+        DateFormat('dd-MMMM').format(appointment.date!);
+    final String formattedDay = DateFormat('kk:mm').format(appointment.date!);
     const TextStyle styleText = TextStyle(color: Colors.white70, fontSize: 18);
 
     return GestureDetector(
@@ -274,7 +271,8 @@ displayDialog(BuildContext context, DateTime focuseDay) async {
                 DateTime apointment = DateTime(focuseDay.year, focuseDay.month,
                     focuseDay.day, int.parse(hour), int.parse(min));
                 await appointmentFacade.createAppointment(apointment);
-                Navigator.popAndPushNamed(context, 'schelude');
+                // ignore: use_build_context_synchronously
+                Navigator.popAndPushNamed(context, 'calendar');
               },
               child: const Text(
                 'Create',
@@ -293,9 +291,8 @@ displayDialog(BuildContext context, DateTime focuseDay) async {
       });
 }
 
-void appointmentInfo(BuildContext context, Appointment appointment) async {
+void appointmentInfo(BuildContext context, AppointmentDTO appointment) async {
   final AppointmentFacade appointmentFacade = DefaultAppointmentFacade();
-  final PsychologistFacade psychologistFacade = DefaultPsychologistFacade();
 
   showDialog(
       barrierDismissible: false,
@@ -323,41 +320,20 @@ void appointmentInfo(BuildContext context, Appointment appointment) async {
           ],
           elevation: 5,
           title: const Text('Appointment Info'),
-          content: FutureBuilder(
-              future: psychologistFacade
-                  .getPsychologistName(appointment.psychologistID),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                if (!snapshot.hasData) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text('Loading...'),
-                      CircularProgressIndicator.adaptive(),
-                    ],
-                  );
-                }
-                if (snapshot.data != '') {
-                  return InfoAppointment(
-                      appointment: appointment,
-                      psychologistName: snapshot.data!);
-                }
-                return Text("error");
-              }),
+          content: InfoAppointment(appointment: appointment),
         );
       });
 }
 
 class InfoAppointment extends StatelessWidget {
-  InfoAppointment(
-      {super.key, required this.appointment, required this.psychologistName});
+  const InfoAppointment({super.key, required this.appointment});
 
-  final Appointment appointment;
-  final String psychologistName;
+  final AppointmentDTO appointment;
 
   @override
   Widget build(BuildContext context) {
     final String formattedMonth =
-        DateFormat('y-dd-MM hh:mm').format(appointment.date);
+        DateFormat('y-dd-MM hh:mm').format(appointment.date!);
     var textStyle =
         TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.bold);
     return Column(
@@ -367,13 +343,13 @@ class InfoAppointment extends StatelessWidget {
           "Doctor:",
           style: textStyle,
         ),
-        Text(psychologistName),
+        Text(appointment.psychologistFullName!),
         const Divider(height: 30),
         Text(
           "Patient:",
           style: textStyle,
         ),
-        Text(appointment.userID ?? "Not asingn"),
+        Text(appointment.userFullName!),
         const Divider(height: 30),
         Text(
           "Appointment Date:",

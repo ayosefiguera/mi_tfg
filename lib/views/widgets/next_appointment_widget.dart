@@ -1,12 +1,11 @@
-import 'package:eqlibrum/facade/impl/default_pyshologist_facade.dart';
-import 'package:eqlibrum/facade/psychologist_facade.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/utils/utils.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
 import 'package:eqlibrum/facade/impl/default_appointment_facade.dart';
-import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/views/screens/meet_screen.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:card_swiper/card_swiper.dart';
 
@@ -44,7 +43,7 @@ class _NextAppointment extends StatelessWidget {
   const _NextAppointment(
       {required this.appointmentFacade, required this.appointment});
 
-  final List<Appointment> appointment;
+  final List<AppointmentDTO> appointment;
   final AppointmentFacade appointmentFacade;
 
   @override
@@ -88,8 +87,7 @@ class _CardAppointment extends StatelessWidget {
     required this.appointment,
   });
 
-  final Appointment appointment;
-  final PsychologistFacade psychologistFacade = DefaultPsychologistFacade();
+  final AppointmentDTO appointment;
   final DateTime now = DateTime.now();
 
   @override
@@ -98,8 +96,8 @@ class _CardAppointment extends StatelessWidget {
     const textStyle =
         TextStyle(color: AppTheme.primaryDark, fontWeight: FontWeight.bold);
     final String formattedMonth =
-        DateFormat('y-dd-MM hh:mm').format(appointment.date);
-    if (now.isBefore(appointment.date)) {
+        DateFormat('y-dd-MM hh:mm').format(appointment.date!);
+    if (now.isBefore(appointment.date!)) {
       isOn = true;
     }
     return Container(
@@ -113,7 +111,7 @@ class _CardAppointment extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 2,
-            offset: const Offset(0, 2), // changes position of shadow
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -129,104 +127,101 @@ class _CardAppointment extends StatelessWidget {
               ),
               textAlign: TextAlign.left,
             ),
-            FutureBuilder(
-                future: psychologistFacade
-                    .getPsychologistName(appointment.psychologistID),
-                builder:
-                    (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text('Loading...'),
-                        CircularProgressIndicator.adaptive(),
-                      ],
-                    );
-                  }
-                  if (snapshot.data != '') {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            color: Colors.white,
-                            height: 60,
-                            width: 60,
-                            child: const Icon(
-                              Icons.calendar_month,
-                              color: AppTheme.secundary,
-                              size: 40,
-                            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    color: Colors.white,
+                    height: 60,
+                    width: 60,
+                    child: const Icon(
+                      Icons.calendar_month,
+                      color: AppTheme.secundary,
+                      size: 40,
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Date",
+                            style: textStyle,
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    "Date",
-                                    style: textStyle,
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text(formattedMonth),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    "Dr/a:",
-                                    style: textStyle,
-                                  ),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  Text("${snapshot.data}"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            color: Colors.white,
-                            height: 60,
-                            width: 60,
-                            child: IconButton(
-                              onPressed: () {
-                                if (isOn) {
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (context) => MeetingScreen(
-                                              appointment: appointment)));
-                                }
-                              },
-                              icon: (isOn)
-                                  ? const Icon(
-                                      Icons.phone,
-                                      color: AppTheme.open,
-                                    )
-                                  : const Icon(
-                                      Icons.phone,
-                                      color: AppTheme.close,
-                                    ),
-                            ),
+                          const SizedBox(
+                            width: 20,
                           ),
-                        )
-                      ],
-                    );
-                  }
-                  return const Text("error");
-                })
+                          Text(formattedMonth),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Dr/a:",
+                            style: textStyle,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text("${appointment.psychologistFullName}"),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            "Patient:",
+                            style: textStyle,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          Text(appointment.userFullName ?? "no asignet"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Container(
+                    color: Colors.white,
+                    height: 60,
+                    width: 60,
+                    child: IconButton(
+                      onPressed: () {
+                        if (isOn) {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MeetingScreen(appointment: appointment)));
+                        }
+                      },
+                      icon: (isOn)
+                          ? const Icon(
+                              Icons.phone,
+                              color: AppTheme.open,
+                            )
+                          : const Icon(
+                              Icons.phone,
+                              color: AppTheme.close,
+                            ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

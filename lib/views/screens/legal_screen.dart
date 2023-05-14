@@ -1,5 +1,5 @@
 import 'package:eqlibrum/facade/impl/default_legal_page_facade.dart';
-import 'package:eqlibrum/models/LegalPage.dart';
+import 'package:eqlibrum/models/legal_page.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';

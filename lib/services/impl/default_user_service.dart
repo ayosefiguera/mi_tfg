@@ -3,8 +3,6 @@ import 'package:eqlibrum/daos/user_dao.dart';
 import 'package:eqlibrum/models/user.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:eqlibrum/services/user_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 ///Default implementation of
 class DefaultUserService implements UserService {
@@ -18,6 +16,11 @@ class DefaultUserService implements UserService {
   @override
   Future<bool> loginUser(final User user) async {
     return await _getUserDao().loginUser(user);
+  }
+
+  @override
+  Future<User?> getUserById(String id) async {
+    return await _getUserDao().findUserById(id) ;
   }
 
   @override
@@ -59,4 +62,6 @@ class DefaultUserService implements UserService {
   void setUserDAO(UserDAO userDAO) {
     _userDAO = userDAO;
   }
+  
+
 }

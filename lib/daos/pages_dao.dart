@@ -1,5 +1,5 @@
 
-import 'package:eqlibrum/models/LegalPage.dart';
+import 'package:eqlibrum/models/legal_page.dart';
 
 /// An interface for Pages DAO including operations for retrieving 
 /// persistend pages model objects.

@@ -11,6 +11,9 @@ abstract class UserFacade extends ChangeNotifier {
   //get User to work with data
   void getUser();
 
+  //get User Name by given  id
+  Future<String> getUserNameById(String id);
+
   // Create NewUser.
   Future<bool> createUser(UserDTO userDTO);
 

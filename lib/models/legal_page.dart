@@ -6,8 +6,7 @@ class LegalPage {
   String title;
   String content;
 
-  factory LegalPage.fromJson(String str) =>
-      LegalPage.fromMap(json.decode(str));
+  factory LegalPage.fromJson(String str) => LegalPage.fromMap(json.decode(str));
 
   factory LegalPage.fromMap(Map<String, dynamic> json) => LegalPage(
         title: json["title"],

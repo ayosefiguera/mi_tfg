@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:eqlibrum/models/appointment.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/providers/meet_config_provider.dart';
 import 'package:eqlibrum/views/themes/themes.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:omni_jitsi_meet/jitsi_meet.dart';
 
 class MeetingScreen extends StatelessWidget {
-  final Appointment appointment;
+  final AppointmentDTO appointment;
   const MeetingScreen({super.key, required this.appointment});
 
   @override
@@ -37,14 +35,14 @@ class MeetingScreen extends StatelessWidget {
 }
 
 class JitsiMeet extends StatefulWidget {
-  JitsiMeet({super.key, required this.meetConfigProvider});
+  const JitsiMeet({super.key, required this.meetConfigProvider});
 
   final MeetConfigProvider meetConfigProvider;
   @override
-  _MeetingState createState() => _MeetingState();
+  MeetingState createState() => MeetingState();
 }
 
-class _MeetingState extends State<JitsiMeet> {
+class MeetingState extends State<JitsiMeet> {
   bool? isAudioOnly = false;
   bool? isVideoMuted = false;
   late MeetConfigProvider meetConfigProvider;

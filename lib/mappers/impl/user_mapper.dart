@@ -2,7 +2,7 @@ import 'package:eqlibrum/dto/user_dto.dart';
 import 'package:eqlibrum/mappers/enity_mapper.dart';
 import 'package:eqlibrum/models/user.dart';
 
-class UserMapper implements EntityMapper<UserDTO, User> {
+class UserMapper implements EntityMapper<UserDTO, User>{
   @override
   UserDTO toDTO(User source) {
     UserDTO target = UserDTO();
@@ -19,7 +19,6 @@ class UserMapper implements EntityMapper<UserDTO, User> {
 
   @override
   List<UserDTO> toDTOList(List<User> entityList) {
-    // TODO: implement toDTOList
     throw UnimplementedError();
   }
 
@@ -38,9 +37,4 @@ class UserMapper implements EntityMapper<UserDTO, User> {
     return target;
   }
 
-  @override
-  User updateEntity(UserDTO dto, User baseEntity) {
-    // TODO: implement updateEntity
-    throw UnimplementedError();
-  }
 }

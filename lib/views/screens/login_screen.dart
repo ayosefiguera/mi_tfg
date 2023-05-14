@@ -16,7 +16,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LocalRepositoryFacade localRepository = Provider.of<DefaultLocalRepositoryFacade>(context);
+    final LocalRepositoryFacade localRepository =
+        Provider.of<DefaultLocalRepositoryFacade>(context);
     UserDTO userDto = localRepository.getCurrentUser();
     return Scaffold(
       backgroundColor: AppTheme.backgroundDark,
@@ -135,6 +136,7 @@ class _LoginForm extends StatelessWidget {
                               await defaultUserFacade.loginUser(userDTO);
 
                           if (operation) {
+                            // ignore: use_build_context_synchronously
                             Navigator.pushReplacementNamed(context, 'home');
                           } else {
                             NotificacionService.showSnackbar(

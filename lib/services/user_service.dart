@@ -16,6 +16,9 @@ abstract class UserService {
   /// Only return[message][Error] otherwise return [null].
   Future<bool> loginUser(User user);
 
+  //get User Name by given  id
+  Future<User?> getUserById(String id);
+
   /// When user logout delete the idToken.
   Future logout();
 

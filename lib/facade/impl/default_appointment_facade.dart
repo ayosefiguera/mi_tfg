@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:eqlibrum/Constanst.dart';
-import 'package:eqlibrum/daos/user_dao.dart';
+import 'package:eqlibrum/constanst.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/facade/appointment_facade.dart';
+import 'package:eqlibrum/mappers/impl/appointment_mapper.dart';
 import 'package:eqlibrum/models/appointment.dart';
 import 'package:eqlibrum/models/user.dart';
 import 'package:eqlibrum/services/appointment_service.dart';
@@ -19,11 +20,11 @@ class DefaultAppointmentFacade implements AppointmentFacade {
   AppointmentService _appointmentService = DefaultAppointmentService();
   LocalRepositoryService _localRepositoryService =
       DefaultLocalRepositoryService();
+  AppointmentMapper mapper = AppointmentMapper();
 
-  bool isLoading = false;
   User user = User();
 
-  final kAppointment = LinkedHashMap<DateTime, List<Appointment>>(
+  final kAppointment = LinkedHashMap<DateTime, List<AppointmentDTO>>(
     equals: isSameDay,
     hashCode: getHashCode,
   );
@@ -39,42 +40,42 @@ class DefaultAppointmentFacade implements AppointmentFacade {
       return true;
     }
 
-    isLoading = true;
-
-    List<Appointment> appointments =
+    List<Appointment> tempAppointments =
         await _getAppointmentService().loadAppointment(id);
+
+    List<AppointmentDTO> appointments =
+        await mapper.toDTOList(tempAppointments);
 
     try {
       for (var element in appointments) {
         kAppointment.containsKey(element.date)
-            ? kAppointment.update(element.date, (value) => [...value, element])
+            ? kAppointment.update(element.date!, (value) => [...value, element])
             : kAppointment.addAll({
-                element.date: [element]
+                element.date!: [element]
               });
       }
     } catch (e) {
       stderr.write(e);
       return false;
     }
-    isLoading = false;
     return true;
   }
 
   @override
-  List<Appointment> getEventsForDay(final DateTime day) {
+  List<AppointmentDTO> getEventsForDay(final DateTime day) {
     return kAppointment[day] ?? [];
   }
 
   @override
-  Future<bool> requestAppointment(final Appointment appointment) async {
+  Future<bool> requestAppointment(final AppointmentDTO appointment) async {
     user = await _getLocalRepositoryService().getUser();
     appointment.status = Constants.CLOSE;
     appointment.userID = user.id;
 
     await _getAppointmentService()
-        .updateAppointment(appointment, appointment.userID!);
-    await _getAppointmentService()
-        .updateAppointment(appointment, appointment.psychologistID);
+        .updateAppointment(mapper.toEntity(appointment), appointment.userID!);
+    await _getAppointmentService().updateAppointment(
+        mapper.toEntity(appointment), appointment.psychologistID!);
     return true;
   }
 
@@ -98,17 +99,19 @@ class DefaultAppointmentFacade implements AppointmentFacade {
 
   @override
   Future<bool> deleteAppointment(
-      final Appointment appointment, final String id) {
-    return _getAppointmentService().deleteAppointment(appointment, id);
+      final AppointmentDTO appointment, final String id) {
+    return _getAppointmentService()
+        .deleteAppointment(mapper.toEntity(appointment), id);
   }
 
   @override
-  Future<bool> updateAppointment(final Appointment appointment, String id) {
-    return _getAppointmentService().updateAppointment(appointment, id);
+  Future<bool> updateAppointment(final AppointmentDTO appointment, String id) {
+    return _getAppointmentService()
+        .updateAppointment(mapper.toEntity(appointment), id);
   }
 
   @override
-  Future<bool> cancelAppointment(final Appointment appointment) async {
+  Future<bool> cancelAppointment(final AppointmentDTO appointment) async {
     User currentUser = await _getLocalRepositoryService().getUser();
     bool isSucces = false;
 
@@ -123,18 +126,18 @@ class DefaultAppointmentFacade implements AppointmentFacade {
         currentUser.id == appointment.psychologistID) {
       appointment.status = Constants.CANCEL;
       isSucces &= await _getAppointmentService()
-          .updateAppointment(appointment, appointment.userID!);
+          .updateAppointment(mapper.toEntity(appointment), appointment.userID!);
     }
 
     if (appointment.userID == null &&
         currentUser.id == appointment.psychologistID) {
       appointment.status = Constants.CLOSE;
-      isSucces &= await _getAppointmentService()
-          .updateAppointment(appointment, appointment.psychologistID);
+      isSucces &= await _getAppointmentService().updateAppointment(
+          mapper.toEntity(appointment), appointment.psychologistID!);
     }
 
-    isSucces &= await _getAppointmentService()
-        .updateAppointment(appointment, appointment.psychologistID);
+    isSucces &= await _getAppointmentService().updateAppointment(
+        mapper.toEntity(appointment), appointment.psychologistID!);
     if (isSucces) {
       NotificacionService.showSnackbar("The date has been cancelled");
     } else {

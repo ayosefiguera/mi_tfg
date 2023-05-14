@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
 import 'package:eqlibrum/apis/api_key.dart';
 import 'package:eqlibrum/daos/appointment_dao.dart';
 import 'package:eqlibrum/models/appointment.dart';
@@ -51,9 +51,8 @@ class DefaultAppointmentDAO implements AppointmentDAO {
   @override
   Future<bool> updateAppointment(final appointment, final id) async {
     final url = Uri.https(
-        baseUrl, 'appointments/${id}/${appointment.id}.json', {'key': _key});
+        baseUrl, 'appointments/$id/${appointment.id}.json', {'key': _key});
     final response = await http.put(url, body: appointment.toJson());
-    final decodeData = json.decode(response.body);
     return response.statusCode == 200;
   }
 

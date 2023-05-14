@@ -1,5 +1,5 @@
 import 'package:eqlibrum/daos/pages_dao.dart';
-import 'package:eqlibrum/models/LegalPage.dart';
+import 'package:eqlibrum/models/legal_page.dart';
 import 'package:eqlibrum/apis/api_key.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -8,7 +8,7 @@ import 'dart:convert' show json;
 /// Default implemtation to [PsychologistDao]
 class DefaultPagesDAO implements PagesDao {
   final String _baseUrl = FirebaseData.url;
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
 
   /// Find all psychologist by performin a ApiRest query.
   @override

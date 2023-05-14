@@ -8,8 +8,11 @@ import 'dart:convert' show json;
 
 /// Default implemtation to [PsychologistDao]
 class DefaultPsychologistDAO implements PsychologistDAO {
+  // ignore: constant_identifier_names
   static const USER_TOKEN = 'idToken';
+  // ignore: non_constant_identifier_names
   final String _AuthBaseUrl = Auth.baseUrl;
+  // ignore: non_constant_identifier_names
   final String _FirebaseBaseUrl = FirebaseData.url;
   final String _key = Auth.key;
   final storage = const FlutterSecureStorage();
@@ -74,10 +77,8 @@ class DefaultPsychologistDAO implements PsychologistDAO {
 
   @override
   Future<Psychologist?> findPsychologistById(String id) async {
-    
     final url =
         Uri.https(_FirebaseBaseUrl, 'psychologist/$id.json', {'key': _key});
-
     final response = await http.get(url);
     final Map<String, dynamic> psychologistMap = json.decode(response.body);
     Psychologist tempPsychologist = Psychologist.fromMap(psychologistMap);

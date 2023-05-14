@@ -51,7 +51,7 @@ class DefaultPsychologistFacade extends ChangeNotifier
   }
 
   @override
-  Future<bool> UpdateUser(UserDTO psychologistDTO) {
+  Future<bool> updateUser(UserDTO psychologistDTO) {
     // TODO: implement UpdateUser
     throw UnimplementedError();
   }

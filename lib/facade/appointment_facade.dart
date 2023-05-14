@@ -1,4 +1,4 @@
-import 'package:eqlibrum/models/appointment.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 
 // Facade for managing appointment
 ///
@@ -13,9 +13,9 @@ abstract class AppointmentFacade {
   /// Get appointment with a
   ///
   /// return [List] the list of al psychologist.
-  List<Appointment> getEventsForDay(DateTime day);
+  List<AppointmentDTO> getEventsForDay(DateTime day);
 
-  Future<bool> requestAppointment(Appointment appointment);
+  Future<bool> requestAppointment(AppointmentDTO appointment);
 
   /// Create new appointment.
   /// Returns [bool] the operation was successful or not.
@@ -24,13 +24,13 @@ abstract class AppointmentFacade {
   /// update a existing appointment.
   /// Returns [bool] the operation was successful or not.
 
-  Future<bool> updateAppointment(Appointment appointment, String id);
+  Future<bool> updateAppointment(AppointmentDTO appointment, String id);
 
   /// Delete appointment.
   /// Returns [bool] the operation was successful or not.
-  Future<bool> deleteAppointment(Appointment appointment, String id);
+  Future<bool> deleteAppointment(AppointmentDTO appointment, String id);
 
   /// Delete appointment.
   /// Returns [bool] the operation was successful or not.
-  Future<bool> cancelAppointment(Appointment appointment);
+  Future<bool> cancelAppointment(AppointmentDTO appointment);
 }

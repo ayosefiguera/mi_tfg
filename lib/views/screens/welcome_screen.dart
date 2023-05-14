@@ -1,5 +1,6 @@
-import 'package:eqlibrum/Constanst.dart';
+import 'package:eqlibrum/constanst.dart';
 import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
+import 'package:eqlibrum/routers/app_router.dart';
 import 'package:eqlibrum/views/screens/screens.dart';
 import 'package:eqlibrum/views/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class Registers extends StatelessWidget {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'login');
+                      Navigator.pushReplacementNamed(context, AppRoutes.login);
                     },
                     child: const Text('Sing in')),
                 const SizedBox(
@@ -71,7 +72,7 @@ class Registers extends StatelessWidget {
                 ),
                 OutlinedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'register');
+                      Navigator.pushReplacementNamed(context, AppRoutes.register);
                     },
                     child: const Text('Sing up')),
                 const SizedBox(
@@ -81,7 +82,7 @@ class Registers extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) =>
-                              RegisterScreen(rol: Constants.PSYCHOLOGIST)));
+                              const RegisterScreen(rol: Constants.PSYCHOLOGIST)));
                     },
                     child: const Text('Sing up as Psichologist')),
                 const SizedBox(

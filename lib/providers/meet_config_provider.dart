@@ -1,11 +1,10 @@
-import 'package:eqlibrum/daos/local_repository.dart';
-import 'package:eqlibrum/facade/impl/default_local_repository_facade.dart';
-import 'package:eqlibrum/models/appointment.dart';
+import 'package:eqlibrum/dto/appointment_dto.dart';
 import 'package:eqlibrum/models/user.dart';
 import 'package:eqlibrum/services/impl/default_local_repository_service.dart';
 import 'package:eqlibrum/services/local_repository_service.dart';
 import 'package:eqlibrum/services/notificacion_service.dart';
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:omni_jitsi_meet/jitsi_meet.dart';
 import 'dart:io';
@@ -26,7 +25,7 @@ class MeetConfigProvider {
   LocalRepositoryService localRepository = DefaultLocalRepositoryService();
 
   User userData = User();
-  final Appointment appointment;
+  final AppointmentDTO appointment;
   MeetConfigProvider({required this.appointment}) {
     loadConfig();
   }
@@ -34,7 +33,7 @@ class MeetConfigProvider {
     try {
       userData = await localRepository.getUser();
       final String formatteDay =
-          DateFormat('y-dd-MM-hh-mm').format(appointment.date);
+          DateFormat('y-dd-MM-hh-mm').format(appointment.date!);
       roomText = "${appointment.id}-$formatteDay";
       serverUrl = "${appointment.id}-$formatteDay";
       subjectText = "Appointment-$formatteDay";

@@ -5,8 +5,10 @@ import 'package:eqlibrum/models/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DefaultLocalRepository implements LocalRepository {
-  final storage = new FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
+  // ignore: constant_identifier_names
   static const PSYCHOLOGIST = "psychologist";
+  // ignore: constant_identifier_names
   static const USER_TOKEN = 'idToken';
 
 

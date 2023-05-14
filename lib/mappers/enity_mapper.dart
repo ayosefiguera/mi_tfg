@@ -7,8 +7,6 @@ abstract class EntityMapper<D, E> {
 
     E toEntity(D dto);
 
-    E updateEntity(D dto, E baseEntity);
-
     D toDTO(E entity);
 
     List<D> toDTOList(List<E> entityList);
