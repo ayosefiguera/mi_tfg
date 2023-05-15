@@ -37,7 +37,6 @@ class Psychologist extends User {
             id: id,
             email: email,
             surname: surname,
-            birthdate: birthdate,
             address: address,
             creditCard: creditCard,
             timestamp: timestamp,
@@ -80,7 +79,7 @@ class Psychologist extends User {
         "picture": picture,
         "summary": summary,
         "bio": bio,
-        "rol":rol,
+        "rol": rol,
         "vote": vote
       };
 }

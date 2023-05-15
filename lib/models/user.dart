@@ -5,7 +5,6 @@ class User {
   String? email;
   String? name;
   String? surname;
-  int? birthdate;
   String? address;
   String? creditCard;
   String? pass;
@@ -20,7 +19,6 @@ class User {
       this.email,
       this.name,
       this.surname,
-      this.birthdate,
       this.address,
       this.creditCard,
       this.timestamp,
@@ -39,7 +37,6 @@ class User {
         email: json["email"],
         name: json["name"],
         surname: json["surname"],
-        birthdate: json["age"],
         address: json["address"],
         creditCard: json["credit_card"],
         timestamp: json["date_singup"],
@@ -55,7 +52,6 @@ class User {
         "email": email,
         "name": name,
         "surname": surname,
-        "date": birthdate,
         "address": address,
         "credit_card": creditCard,
         "date_singup": timestamp,

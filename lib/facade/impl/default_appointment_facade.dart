@@ -24,7 +24,7 @@ class DefaultAppointmentFacade implements AppointmentFacade {
 
   User user = User();
 
-  final kAppointment = LinkedHashMap<DateTime, List<AppointmentDTO>>(
+  var kAppointment = LinkedHashMap<DateTime, List<AppointmentDTO>>(
     equals: isSameDay,
     hashCode: getHashCode,
   );
@@ -69,20 +69,24 @@ class DefaultAppointmentFacade implements AppointmentFacade {
   @override
   Future<bool> requestAppointment(final AppointmentDTO appointment) async {
     user = await _getLocalRepositoryService().getUser();
+    bool createValidation = false;
+
+    if (appointment.date!.isBefore(DateTime.now())) {
     appointment.status = Constants.CLOSE;
     appointment.userID = user.id;
-    print(user.id);
-
     await _getAppointmentService()
         .createAppointment(mapper.toEntity(appointment), appointment.userID!);
     await _getAppointmentService().updateAppointment(
         mapper.toEntity(appointment), appointment.psychologistID!);
-    return true;
+    }
+    return createValidation;
   }
 
   @override
   Future<bool> createNewAppointment(final DateTime dateTimeAppointment) async {
+    
     bool createValidation = false;
+    if(dateTimeAppointment.isAfter(DateTime.now())){
     user = await _getLocalRepositoryService().getUser();
     if (user.rol == Constants.PSYCHOLOGIST) {
       Appointment appointment = Appointment(
@@ -94,6 +98,7 @@ class DefaultAppointmentFacade implements AppointmentFacade {
     } else {
       NotificacionService.showSnackbar(
           "The user is unable to open new appointments");
+    }
     }
     return createValidation;
   }

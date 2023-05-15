@@ -5,12 +5,6 @@ abstract class UserFacade extends ChangeNotifier {
   // Validate login User.
   Future<bool> loginUser(UserDTO userDTO);
 
-  // Delete idToke
-  void logout();
-
-  //get User to work with data
-  void getUser();
-
   //get User Name by given  id
   Future<String> getUserNameById(String id);
 

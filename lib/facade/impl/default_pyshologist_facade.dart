@@ -20,7 +20,6 @@ class DefaultPsychologistFacade extends ChangeNotifier
   List<PsychologistDTO> psychologistsDTO = [];
 
   bool isLoading = false;
-  bool isSaving = false;
 
   @override
   Future<List<PsychologistDTO>> getAllPsychologist() async {
