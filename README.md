@@ -47,26 +47,46 @@ Visual Studio Code proporciona muchas facilidades para desarrollar en  flutter, 
 2.- Añadir carpeta apis en */lib* con los siguiente archivos y datos.
 
 * auth.dart
-    ```    class Auth {
-    static const String baseUrl = 'identitytoolkit.googleapis.com';
-    static const String key = '[API_KEY AUTHENTICATION]';
-    }```
+
+``` 
+class Auth {
+
+static const String baseUrl = 'identitytoolkit.googleapis.com';
+
+static const String key = '[API_KEY AUTHENTICATION]';
+
+}
+```
 
 * cloudinary_api.dart
+
 ```
 class CloudinaryData {
-  static const String name = '[name]';
-  static const String apiKey = '[api]';
-  static const String apiSecret = '[api_secret]';
-  static const String uploadPreset = '[upload_preset]';
-}```
+
+static const String name = '[name]';
+
+static const String apiKey = '[api]';
+
+static const String apiSecret = '[api_secret]';
+
+static const String uploadPreset = '[upload_preset]';
+
+}
+```
+
 
 * api_key.dart
+
 ``` class FirebaseData {
 
-  static const String url =
-      'eqlibrum-896a3-default-rtdb.europe-west1.firebasedatabase.app';
-}```
+  
+
+static const String url =
+
+'eqlibrum-896a3-default-rtdb.europe-west1.firebasedatabase.app';
+
+}
+```
 
 3.- Lanzar la aplicación con el emulador Android.
 
