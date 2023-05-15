@@ -53,12 +53,13 @@ Visual Studio Code proporciona muchas facilidades para desarrollar en  flutter, 
     }```
 
 * cloudinary_api.dart
+```
 class CloudinaryData {
   static const String name = '[name]';
   static const String apiKey = '[api]';
   static const String apiSecret = '[api_secret]';
   static const String uploadPreset = '[upload_preset]';
-}
+}```
 
 * api_key.dart
 ``` class FirebaseData {
